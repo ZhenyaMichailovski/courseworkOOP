@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using RepairCompanyManagement.WebUI.App_Start;
+using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
@@ -12,6 +13,7 @@ namespace RepairCompanyManagement.WebUI
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            AutofacConfig.Run();
         }
     }
 }
