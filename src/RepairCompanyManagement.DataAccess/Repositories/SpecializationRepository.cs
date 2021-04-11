@@ -17,8 +17,8 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public int Create(Specialization item)
         {
-            string sqlExpression = $"INSERT INTO Specialization (Id, Name, Description)" +
-                " VALUES (@id, @name, @description); SELECT SCOPE_IDENTITY()";
+            string sqlExpression = $"INSERT INTO Specialization (Name, Description)" +
+                " VALUES (@name, @description); SELECT SCOPE_IDENTITY()";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -27,7 +27,6 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                 {
                     command.Parameters.AddRange(new SqlParameter[]
                     {
-                        new SqlParameter("@id", item.Id),
                         new SqlParameter("@name", item.Name),
                         new SqlParameter("@description", item.Description),
                     });
@@ -108,7 +107,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public void Update(Specialization item)
         {
-            string sqlExpression = "UPDATE Specialization SET Id=@id, Name=@name, Description=@description" +
+            string sqlExpression = "UPDATE Specialization SET Name=@name, Description=@description" +
                 " FROM Specialization" +
                 " WHERE Id = @id";
 
