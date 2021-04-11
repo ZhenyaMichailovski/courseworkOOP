@@ -1,13 +1,19 @@
-﻿<!DOCTYPE html>
+﻿@model RepairCompanyManagement.WebUI.Models.ErrorViewModel
+
+<!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Error</title>
 </head>
 <body>
-    <hgroup>
-        <h1>Error.</h1>
-        <h2>An error occurred while processing your request.</h2>
-    </hgroup>
+    <div role="alert" class="alert alert-danger">
+        <h1><strong>Error!</strong></h1>
+        <h4 id="errorMessage">@Model.ErrorMessage</h4>
+    </div>
+    </br>
+    <div>
+        @Html.ActionLink("Return", Model.RedirectionActionName, Model.RedirectionControllerName, Model.RedirectionRouteValues, htmlAttributes: new { @class = "btn btn-outline-secondary" })
+    </div>
 </body>
 </html>
