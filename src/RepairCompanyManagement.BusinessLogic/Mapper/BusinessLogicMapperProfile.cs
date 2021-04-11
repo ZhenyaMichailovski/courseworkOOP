@@ -4,7 +4,7 @@ using RepairCompanyManagement.DataAccess.Entities;
 
 namespace RepairCompanyManagement.BusinessLogic.Mapper
 {
-    class BusinessLogicMapperProfile : Profile
+    public class BusinessLogicMapperProfile : Profile
     {
         public BusinessLogicMapperProfile()
         {
