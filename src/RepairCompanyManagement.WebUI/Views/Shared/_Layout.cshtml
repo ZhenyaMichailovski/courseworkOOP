@@ -11,26 +11,26 @@
     //var isUser = User.IsInRole("User");
 }
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                @Html.ActionLink(appName, "Index", "Home", null, new { @class = "navbar-brand" })
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse">
-                    @Html.Partial("_AnonymousUser")
-                    <!--if (!User.Identity.IsAuthenticated)
-                    {
-                        Html.Partial("_AnonymousUser");
-                    }
-                    else if (isUser)
-                    {
-                        Html.Partial("_User");
-                    }-->
-                </div>
-        </nav>
-    </header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">
+            @Html.ActionLink("My App", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- LEFT & RIGHT HEADER NAV BUTTONS HERE -->
+            <!--if (!User.Identity.IsAuthenticated)
+            {
+                Html.Partial("_AnonymousUser");
+            }
+            else if (isUser)
+            {
+                Html.Partial("_User");
+            }-->
+            @Html.Partial("_AnonymousUser")
+        </div>
+    </nav>
+    
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
