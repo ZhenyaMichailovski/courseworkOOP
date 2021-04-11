@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepairCompanyManagement.Dat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepairCompanyManagement.BusinessLogic", "src\RepairCompanyManagement.BusinessLogic\RepairCompanyManagement.BusinessLogic.csproj", "{CD480113-0083-4397-BC69-2035F632EFCA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepairCompanyManagement.WebUI", "src\RepairCompanyManagement.WebUI\RepairCompanyManagement.WebUI.csproj", "{B47DFD7B-18C9-49EC-ABBF-C74E6E2D8C1F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CD480113-0083-4397-BC69-2035F632EFCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD480113-0083-4397-BC69-2035F632EFCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD480113-0083-4397-BC69-2035F632EFCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B47DFD7B-18C9-49EC-ABBF-C74E6E2D8C1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B47DFD7B-18C9-49EC-ABBF-C74E6E2D8C1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B47DFD7B-18C9-49EC-ABBF-C74E6E2D8C1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B47DFD7B-18C9-49EC-ABBF-C74E6E2D8C1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
