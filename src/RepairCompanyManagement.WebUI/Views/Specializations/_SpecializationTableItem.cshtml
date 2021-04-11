@@ -1,0 +1,6 @@
+﻿@model RepairCompanyManagement.WebUI.Models.SpecializationViewModel
+
+<td>@Model.Name</td>
+<td>@Model.Description</td>
+<td> @Html.ActionLink("Update", "Update", "Specializations", new { id = Model.Id, }, new { @class = "btn btn-outline-primary" })</td>
+<td> @Html.ActionLink("Delete", "Delete", "Specializations", new { id = Model.Id, }, new { @class = "btn btn-outline-danger" })</td>
