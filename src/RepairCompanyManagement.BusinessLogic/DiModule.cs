@@ -3,7 +3,7 @@ using RepairCompanyManagement.BusinessLogic.Services;
 
 namespace RepairCompanyManagement.BusinessLogic
 {
-    class DiModule : Module
+    public class DiModule : Module
     {
         private readonly string _connectionString;
 
