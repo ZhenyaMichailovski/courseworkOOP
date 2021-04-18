@@ -16,7 +16,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
         }
         public int Create(JobPosition item)
         {
-            string sqlExpression = $"INSERT INTO JobPosistionController (Title, Purpose)" +
+            string sqlExpression = $"INSERT INTO JobPositionController (Title, Purpose)" +
                 " VALUES (@title, @purpose); SELECT SCOPE_IDENTITY()";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -36,7 +36,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
         }
         public void Delete(int id)
         {
-            string sqlExpression = "DELETE FROM JobPosistionController WHERE Id=@id";
+            string sqlExpression = "DELETE FROM JobPositionController WHERE Id=@id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -54,7 +54,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
         public IEnumerable<JobPosition> GetAll()
         {
             string sqlExpression = "SELECT Id, Title, Purpose FROM JobPositionController";
-            List<JobPosition> jobPisitionControllers = new List<JobPosition>();
+            List<JobPosition> jobPositionControllers = new List<JobPosition>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -65,7 +65,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                     {
                         while (reader.Read())
                         {
-                            jobPisitionControllers.Add(new JobPosition()
+                            jobPositionControllers.Add(new JobPosition()
                             {
                                 Id = Convert.ToInt32(reader["Id"], null),
                                 Title = reader["Title"].ToString(),
@@ -76,12 +76,12 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                 }
             }
 
-            return jobPisitionControllers;
+            return jobPositionControllers;
         }
         
         public JobPosition GetById(int id)
         {
-            string sqlExpression = "SELECT Id, Title, Purpose FROM JobPisitionController" +
+            string sqlExpression = "SELECT Id, Title, Purpose FROM JobPositionController" +
                 " WHERE Id = @id";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -105,8 +105,8 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public void Update(JobPosition item)
         {
-            string sqlExpression = "UPDATE JobPisitionController SET Title=@title, Purpose=@purpose" +
-                " FROM JobPisitionController" +
+            string sqlExpression = "UPDATE JobPositionController SET Title=@title, Purpose=@purpose" +
+                " FROM JobPositionController" +
                 " WHERE Id = @id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -120,6 +120,8 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                             new SqlParameter("@title", item.Title),
                             new SqlParameter("@purpose", item.Purpose)
                         });
+
+                    command.ExecuteNonQuery();
                 }
             }
         }

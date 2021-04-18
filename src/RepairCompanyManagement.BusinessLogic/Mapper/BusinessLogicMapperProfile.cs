@@ -13,7 +13,7 @@ namespace RepairCompanyManagement.BusinessLogic.Mapper
 
             CreateMap<Specialization, SpecializationDto>().ReverseMap();
 
-            //CreateJobPosition<JobPisition, JobPositionDto>().ReverseMap();
+            CreateMap<JobPosition, JobPositionDto>().ReverseMap();
         }
     }
 }
