@@ -24,5 +24,7 @@ namespace RepairCompanyManagement.BusinessLogic.Exceptions
             : base(serializationInfo, streamingContext)
         {
         }
+
+        
     }
 }

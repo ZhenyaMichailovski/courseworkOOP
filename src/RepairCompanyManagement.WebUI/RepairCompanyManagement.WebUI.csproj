@@ -152,12 +152,14 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JobPositionController.cs" />
     <Compile Include="Controllers\SpecializationsController.cs" />
     <Compile Include="Filters\ExceptionFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ErrorViewModel.cs" />
+    <Compile Include="Models\JobPositionViewModel.cs" />
     <Compile Include="Models\SpecializationViewModel.cs" />
     <Compile Include="Mapper\WebUIMapperProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -307,6 +309,11 @@
     <Content Include="Views\Specializations\Update.cshtml" />
     <Content Include="Views\Shared\_ReturnToSpecializations.cshtml" />
     <Content Include="Views\Specializations\Delete.cshtml" />
+    <Content Include="Views\JobPositions\Index.cshtml" />
+    <Content Include="Views\JobPositions\_JobPositionTableItem.cshtml" />
+    <Content Include="Views\JobPositions\Create.cshtml" />
+    <Content Include="Views\JobPositions\Delete.cshtml" />
+    <Content Include="Views\JobPositions\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

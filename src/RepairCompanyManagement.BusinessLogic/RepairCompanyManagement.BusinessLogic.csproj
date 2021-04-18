@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="DiModule.cs" />
+    <Compile Include="Dtos\JobPositionDto.cs" />
     <Compile Include="Dtos\SpecializationDto.cs" />
     <Compile Include="Exceptions\BusinessLogicException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />

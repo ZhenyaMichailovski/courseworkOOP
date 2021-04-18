@@ -12,6 +12,8 @@ namespace RepairCompanyManagement.BusinessLogic.Mapper
             // between DTOs and simple entities
 
             CreateMap<Specialization, SpecializationDto>().ReverseMap();
+
+            //CreateJobPosition<JobPisition, JobPositionDto>().ReverseMap();
         }
     }
 }

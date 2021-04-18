@@ -1,0 +1,14 @@
+﻿@model RepairCompanyManagement.WebUI.Models.JobPositionViewModel
+@{ ViewBag.Title = "Delete job position " + Model.Title; }
+
+<h3>Are you sure you want to <strong>delete this specialization</strong>?</h3>
+
+<div class="alert alert-secondary" role="alert">
+    <p><strong>@Html.LabelFor(e => e.Title): </strong>@Model.Title</p>
+    <p><strong>@Html.LabelFor(e => e.Purpose): </strong>@Model.Purpose</p>
+</div>
+<div>
+    @Html.ActionLink("Delete", "ConfirmDelete", "JobPositions", new { id = Model.Id, }, new { @class = "btn btn-outline-danger" })
+</div>
+<br />
+@Html.Partial("_ReturnToJobPositions")

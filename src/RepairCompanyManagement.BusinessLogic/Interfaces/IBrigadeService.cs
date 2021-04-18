@@ -40,14 +40,16 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
         //void DeleteEmployee(int id);
 
 
-        //int CreateJobPosition(JobPositionDto item);
+        int CreateJobPosition(JobPositionDto item);
 
-        //JobPositionDto GetJobPositionById(int id);
+        JobPositionDto GetJobPositionById(int id);
 
-        //IReadOnlyCollection<JobPositionDto> GetAllJobPositions();
+        IReadOnlyCollection<JobPositionDto> GetAllJobPositions();
 
-        //void UpdateJobPosition(JobPositionDto item);
+        void UpdateJobPosition(JobPositionDto item);
 
-        //void DeleteJobPosition(int id);
+        void DeleteJobPosition(int id);
+
+        void ValidateJobPosition(JobPositionDto item);
     }
 }

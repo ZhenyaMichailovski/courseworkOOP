@@ -14,13 +14,14 @@ namespace RepairCompanyManagement.BusinessLogic.Services
         private readonly IRepository<Specialization> _specializationRepository;
         // private readonly IRepository<Brigade> _brigadeRepository;
         // private readonly IRepository<Employee> _employeeRepository;
-        // private readonly IRepository<JobPosition> _jobPositionRepository;
+        private readonly IRepository<JobPosition> _jobPositionRepository;
 
         private readonly IMapper _mapper;
 
-        public BrigadeService(IRepository<Specialization> specializationRepository, IMapper mapper)
+        public BrigadeService(IRepository<Specialization> specializationRepository, IRepository<JobPosition> jobPositionRepository, IMapper mapper)
         {
-            _specializationRepository = specializationRepository;
+            _specializationRepository = specializationRepository; 
+            _jobPositionRepository = jobPositionRepository;
             _mapper = mapper;
         }
 
@@ -68,6 +69,62 @@ namespace RepairCompanyManagement.BusinessLogic.Services
         {
             if (string.IsNullOrEmpty(item.Name))
                 throw new ValidationException(Constants.EmptySpecializationNameMessage);
+            if (item.Description is null)
+                item.Description = "";
         }
+
+        ///////////////////////////////
+
+        
+
+        public int CreateJobPosition(JobPositionDto item)
+        {
+            ValidateJobPosition(item);
+
+            return _jobPositionRepository.Create(_mapper.Map<JobPosition>(item));
+        }
+
+        public void DeleteJobPosition(int id)
+        {
+            if (_jobPositionRepository.GetById(id) is null)
+                throw new BusinessLogicException(Constants.JobPositionNotFoundMessage);
+
+            _jobPositionRepository.Delete(id);
+        }
+
+        public IReadOnlyCollection<JobPositionDto> GetAllJobPositions()
+        {
+            return _mapper.Map<IEnumerable<JobPositionDto>>(_jobPositionRepository.GetAll())
+                .ToList().AsReadOnly();
+        }
+
+        public JobPositionDto GetJobPositionById(int id)
+        {
+            var response = _jobPositionRepository.GetById(id);
+
+            if (response is null)
+            {
+                throw new BusinessLogicException(Constants.JobPositionNotFoundMessage);
+            }
+
+            return _mapper.Map<JobPositionDto>(response);
+        }
+
+        public void UpdateJobPosition(JobPositionDto item)
+        {
+            //ValidateSpecialization(item);
+            ValidateJobPosition(item);
+
+            _jobPositionRepository.Update(_mapper.Map<JobPosition>(item));
+        }
+
+        public void ValidateJobPosition(JobPositionDto item)
+        {
+            if (string.IsNullOrEmpty(item.Title))
+                throw new ValidationException(Constants.EmptyJobPositionTitleMessage);
+            if (item.Purpose is null)
+                item.Purpose = "";
+        }
+
     }
 }

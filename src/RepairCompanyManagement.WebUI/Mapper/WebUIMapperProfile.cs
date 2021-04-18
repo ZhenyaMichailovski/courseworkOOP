@@ -9,6 +9,7 @@ namespace RepairCompanyManagement.WebUI.Mapper
         public WebUIMapperProfile()
         {
             CreateMap<SpecializationDto, SpecializationViewModel>().ReverseMap();
+            //CreateMap<JobPositionDto, JobPositionViewModel>().ReverseMap();
         }
     }
 }

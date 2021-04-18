@@ -20,6 +20,10 @@ namespace RepairCompanyManagement.DataAccess
             builder.RegisterType<SpecializationRepository>()
                 .WithParameter("connectionString", _connectionString)
                 .AsImplementedInterfaces().InstancePerLifetimeScope();
+
+            builder.RegisterType<JobPositionRepository>()
+                .WithParameter("connectionString", _connectionString)
+                .AsImplementedInterfaces().InstancePerLifetimeScope();
         }
     }
 }

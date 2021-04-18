@@ -1,0 +1,30 @@
+﻿@model IReadOnlyCollection<RepairCompanyManagement.WebUI.Models.JobPositionViewModel>
+@{ ViewBag.Title = "JobPositions";
+                var anySpecializations = Model != null && Model.Any(); }
+
+<h2>Specializations</h2>
+<hr />
+@Html.ActionLink("Create new...", "Create", "JobPositions", null, new { @class = "btn btn-primary" })
+<hr />
+<table class="table">
+    <tr>
+        <th>Title</th>
+        <th>Purpose</th>
+        <th></th>
+        <th></th>
+    </tr>
+    @if (anySpecializations)
+    {
+        foreach (var item in Model)
+        {
+<tr>
+    @Html.Partial("_JobPositionTableItem", item)
+</tr> }
+            }
+            else
+            {
+<tr>
+    <td colspan="4" class="text-center">No jobPositions</td>
+</tr>}
+</table>
+<br>
