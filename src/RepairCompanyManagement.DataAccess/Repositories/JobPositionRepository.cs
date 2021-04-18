@@ -53,7 +53,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public IEnumerable<JobPosition> GetAll()
         {
-            string sqlExpression = "SELECT Id, Title, Purpose FROM JobPisitionController";
+            string sqlExpression = "SELECT Id, Title, Purpose FROM JobPositionController";
             List<JobPosition> jobPisitionControllers = new List<JobPosition>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))

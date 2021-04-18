@@ -9,13 +9,13 @@ using System.Web.Mvc;
 
 namespace RepairCompanyManagement.WebUI.Controllers
 {
-    public class JobPositionController : Controller
+    public class JobPositionsController : Controller
     {
         private IBrigadeService _brigadeService { get; set; }
 
         private IMapper _mapper { get; set; }
 
-        public JobPositionController(IBrigadeService brigadeService, IMapper mapper)
+        public JobPositionsController(IBrigadeService brigadeService, IMapper mapper)
         {
             _brigadeService = brigadeService;
             _mapper = mapper;

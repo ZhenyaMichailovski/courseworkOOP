@@ -152,7 +152,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\JobPositionController.cs" />
+    <Compile Include="Controllers\JobPositionsController.cs" />
     <Compile Include="Controllers\SpecializationsController.cs" />
     <Compile Include="Filters\ExceptionFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -314,6 +314,7 @@
     <Content Include="Views\JobPositions\Create.cshtml" />
     <Content Include="Views\JobPositions\Delete.cshtml" />
     <Content Include="Views\JobPositions\Update.cshtml" />
+    <Content Include="Views\Shared\_ReturnToJobPositions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
