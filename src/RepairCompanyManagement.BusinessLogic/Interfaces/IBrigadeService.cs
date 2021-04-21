@@ -18,27 +18,41 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
 
         void ValidateSpecialization(SpecializationDto item);
 
-        //int CreateBrigade(BrigadeDto item);
+        /////////////////////////////////
+        int CreateManager(ManagerDto item);
 
-        //BrigadeDto GetBrigadeById(int id);
+        ManagerDto GetManagerById(int id);
 
-        //IReadOnlyCollection<BrigadeDto> GetAllBrigades();
+        IReadOnlyCollection<ManagerDto> GetAllManagers();
 
-        //void UpdateBrigade(BrigadeDto item);
+        void UpdateManager(ManagerDto item);
 
-        //void DeleteBrigade(int id);
+        void DeleteManager(int id);
 
+        void ValidateManager(ManagerDto item);
+        // /// / / / / /// / / / / /  //  //  // 
 
-        //int CreateEmployee(EmployeeDto item);
+        int CreateBrigade(BrigadeDto item);
 
-        //EmployeeDto GetEmployeeById(int id);
+        BrigadeDto GetBrigadeById(int id);
 
-        //IReadOnlyCollection<EmployeeDto> GetAllEmployees();
+        IReadOnlyCollection<BrigadeDto> GetAllBrigades();
 
-        //void UpdateEmployee(EmployeeDto item);
+        void UpdateBrigade(BrigadeDto item);
 
-        //void DeleteEmployee(int id);
+        void DeleteBrigade(int id);
 
+        // /// / / / / /// / / / / /  //  //  // 
+        int CreateEmployee(EmployeeDto item);
+
+        EmployeeDto GetEmployeeById(int id);
+
+        IReadOnlyCollection<EmployeeDto> GetAllEmployees();
+
+        void UpdateEmployee(EmployeeDto item);
+
+        void DeleteEmployee(int id);
+        // /// / / / / /// / / / / /  //  //  // 
 
         int CreateJobPosition(JobPositionDto item);
 
@@ -51,5 +65,55 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
         void DeleteJobPosition(int id);
 
         void ValidateJobPosition(JobPositionDto item);
+        /////////////////////////////////
+        int CreateOrder(OrderDto item);
+
+        OrderDto GetOrderById(int id);
+
+        IReadOnlyCollection<OrderDto> GetAllOrders();
+
+        void UpdateOrder(OrderDto item);
+
+        void DeleteOrder(int id);
+
+        void ValidateOrder(OrderDto item);
+        /////////////////////////////////
+        int CreateOrderTask(OrderTaskDto item);
+
+        OrderTaskDto GetOrderTaskById(int id);
+
+        IReadOnlyCollection<OrderTaskDto> GetAllOrderTasks();
+
+        void UpdateOrderTask(OrderTaskDto item);
+
+        void DeleteOrderTask(int id);
+
+        void ValidateOrderTask(OrderTaskDto item);
+        /////////////////////////////////
+        int CreateTask(TaskDto item);
+
+        OrderTaskDto GetTaskById(int id);
+
+        IReadOnlyCollection<TaskDto> GetAllTasks();
+
+        void UpdateTask(TaskDto item);
+
+        void DeleteTask(int id);
+
+        void ValidateTask(TaskDto item);
+
+        /////////////////////////////////
+        int CreateCustomer(CustomerDto item);
+
+        OrderTaskDto GetCustomerById(int id);
+
+        IReadOnlyCollection<TaskDto> GetAllCustomers();
+
+        void UpdateCustomer(CustomerDto item);
+
+        void DeleteCustomer(int id);
+
+        void ValidateCustomer(TaskDto item);
+        // /// / / / / /// / / / / /  //  //  // 
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RepairCompanyManagement.BusinessLogic.Dtos
 {
-    class ManagerDto
+    public class ManagerDto
     {
         public int Id { get; set; }
         public DateTimeOffset DateOfBirth { get; set; }

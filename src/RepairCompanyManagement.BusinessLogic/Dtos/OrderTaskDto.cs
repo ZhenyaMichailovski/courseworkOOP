@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RepairCompanyManagement.BusinessLogic.Dtos
 {
-    class OrderTaskDto
+    public class OrderTaskDto
     {
         public int Id { get; set; }
         public int IdTask { get; set; }

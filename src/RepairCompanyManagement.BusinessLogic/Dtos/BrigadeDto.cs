@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RepairCompanyManagement.BusinessLogic.Dtos
 {
-    class BrigadeDto
+    public class BrigadeDto
     {
         public int Id { get; set; }
         public string Title { get; set; }
