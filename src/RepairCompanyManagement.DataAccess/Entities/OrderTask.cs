@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace RepairCompanyManagement.DataAccess.Entities
 {
-    class OrderTask
+    public class OrderTask
     {
+        public int Id { get; set; }
+        public int IdTask { get; set; }
+        public int IdOrder { get; set; }
     }
 }
