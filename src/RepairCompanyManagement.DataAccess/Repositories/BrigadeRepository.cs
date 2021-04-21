@@ -4,21 +4,20 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
-
 namespace RepairCompanyManagement.DataAccess.Repositories
 {
-    public class ManagerRepository : IRepository<Manager>
+    class BrigadeRepository : IRepository<Brigade>
     {
         private readonly string connectionString;
 
-        public ManagerRepository(string connectionString)
+        public BrigadeRepository(string connectionString)
         {
             this.connectionString = connectionString;
         }
-        public int Create(Manager item)
+        public int Create(Brigade item)
         {
-            string sqlExpression = $"INSERT INTO Manager (DateOfBirth, Address, Salary, IdentituUserID)" +
-                " VALUES (@dateOfBirth, @address, @salary, @identituUserID); SELECT SCOPE_IDENTITY()";
+            string sqlExpression = $"INSERT INTO Brigade (Title, IdSpecialization)" +
+                " VALUES (@title, @idSpecialization); SELECT SCOPE_IDENTITY()";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -27,10 +26,9 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                 {
                     command.Parameters.AddRange(new SqlParameter[]
                         {
-                            new SqlParameter("@dateOfBirth", item.DateOfBirth),
-                            new SqlParameter("@address", item.Address),
-                            new SqlParameter("@salary", item.Salary),
-                            new SqlParameter("@identituUserID", item.IdentituUserID),
+                            new SqlParameter("@idTask", item.Title),
+                            new SqlParameter("@idOrder", item.IdSpecialization),
+
                         });
 
                     return command.ExecuteNonQuery();
@@ -39,7 +37,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
         }
         public void Delete(int id)
         {
-            string sqlExpression = "DELETE FROM Manager WHERE Id=@id";
+            string sqlExpression = "DELETE FROM Brigade WHERE Id=@id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -54,10 +52,10 @@ namespace RepairCompanyManagement.DataAccess.Repositories
             }
         }
 
-        public IEnumerable<Manager> GetAll()
+        public IEnumerable<Brigade> GetAll()
         {
-            string sqlExpression = "SELECT Id, DateOfBirth, Address, Salary, IdentituUser FROM Manager";
-            List<Manager> manager = new List<Manager>();
+            string sqlExpression = "SELECT Id, Title, IdSpecialization FROM Brigade";
+            List<Brigade> brigade = new List<Brigade>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -68,25 +66,23 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                     {
                         while (reader.Read())
                         {
-                            manager.Add(new Manager()
+                            brigade.Add(new Brigade()
                             {
                                 Id = Convert.ToInt32(reader["Id"], null),
-                                DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]),
-                                Address = reader["Address"].ToString(),
-                                Salary = Convert.ToDouble(reader["Salary"]),
-                                IdentituUserID = reader["IdentituUser"].ToString(),
+                                Title = (string)reader["Title"],
+                                IdSpecialization = (int)reader["IdSpecialization"],
                             });
                         }
                     }
                 }
             }
 
-            return manager;
+            return brigade;
         }
 
-        public Manager GetById(int id)
+        public Brigade GetById(int id)
         {
-            string sqlExpression = "SELECT Id, DateOfBirth, Address, Salary, IdentituUser FROM Manager" +
+            string sqlExpression = "SELECT Id, Title, IdSpecialization FROM Brigade" +
                 " WHERE Id = @id";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -97,23 +93,21 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                     command.Parameters.Add(idParam);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        return reader.Read() ? new Manager()
+                        return reader.Read() ? new Brigade()
                         {
                             Id = Convert.ToInt32(reader["Id"], null),
-                            DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]),
-                            Address = reader["Address"].ToString(),
-                            Salary = Convert.ToDouble(reader["Salary"]),
-                            IdentituUserID = reader["IdentituUser"].ToString(),
+                            Title = (string)reader["Title"],
+                            IdSpecialization = (int)reader["IdSpecialization"],
                         } : null;
                     }
                 }
             }
         }
 
-        public void Update(Manager item)
+        public void Update(Brigade item)
         {
-            string sqlExpression = "UPDATE Manager SET Manager=@manager, Address=@address, Salary=@salary, IdentituUser=@identituUser" +
-                " FROM Manager" +
+            string sqlExpression = "UPDATE Brigade SET Title=@title, IdSpecialization=@idSpecialization" +
+                " FROM Brigade" +
                 " WHERE Id = @id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -123,10 +117,8 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                 {
                     command.Parameters.AddRange(new SqlParameter[]
                         {
-                            new SqlParameter("@dateOfBirth", item.DateOfBirth),
-                            new SqlParameter("@address", item.Address),
-                            new SqlParameter("@salary", item.Salary),
-                            new SqlParameter("@identituUserID", item.IdentituUserID),
+                            new SqlParameter("@title", item.Title),
+                            new SqlParameter("@idSpecialization", item.IdSpecialization),
                         });
 
                     command.ExecuteNonQuery();

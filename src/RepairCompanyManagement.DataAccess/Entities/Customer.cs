@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RepairCompanyManagement.DataAccess.Entities
 {
-    public class Customers
+    public class Customer
     {
         public int Id { get; set; }
         public string Gender { get; set; }
