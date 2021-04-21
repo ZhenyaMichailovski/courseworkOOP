@@ -92,7 +92,7 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
         /////////////////////////////////
         int CreateTask(TaskDto item);
 
-        OrderTaskDto GetTaskById(int id);
+        TaskDto GetTaskById(int id);
 
         IReadOnlyCollection<TaskDto> GetAllTasks();
 
@@ -105,15 +105,15 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
         /////////////////////////////////
         int CreateCustomer(CustomerDto item);
 
-        OrderTaskDto GetCustomerById(int id);
+        CustomerDto GetCustomerById(int id);
 
-        IReadOnlyCollection<TaskDto> GetAllCustomers();
+        IReadOnlyCollection<CustomerDto> GetAllCustomers();
 
         void UpdateCustomer(CustomerDto item);
 
         void DeleteCustomer(int id);
 
-        void ValidateCustomer(TaskDto item);
+        void ValidateCustomer(CustomerDto item);
         // /// / / / / /// / / / / /  //  //  // 
     }
 }
