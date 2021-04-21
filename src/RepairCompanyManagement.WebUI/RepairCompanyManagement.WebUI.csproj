@@ -329,6 +329,11 @@
     <Content Include="Views\JobPositions\Delete.cshtml" />
     <Content Include="Views\JobPositions\Update.cshtml" />
     <Content Include="Views\Shared\_ReturnToJobPositions.cshtml" />
+    <Content Include="Views\Brigades\_BrigadesTableItem.cshtml" />
+    <Content Include="Views\Brigades\Create.cshtml" />
+    <Content Include="Views\Brigades\Delete.cshtml" />
+    <Content Include="Views\Brigades\Index.cshtml" />
+    <Content Include="Views\Brigades\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

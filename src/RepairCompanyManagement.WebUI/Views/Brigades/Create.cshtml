@@ -1,9 +1,9 @@
-﻿@model RepairCompanyManagement.WebUI.Models.JobPositionViewModel
-@{ ViewBag.Title = "Create a new job position"; }
+﻿@model RepairCompanyManagement.WebUI.Models.BrigadeViewModel
+@{ ViewBag.Title = "Create a new brigade"; }
 <h2>@ViewBag.Title</h2>
 
 <hr />
-@using (Html.BeginForm("Create", "JobPositions", FormMethod.Post, new { @class = "" }))
+@using (Html.BeginForm("Create", "Brigades", FormMethod.Post, new { @class = "" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
@@ -18,10 +18,10 @@
     </div>
 
     <div class="form-group row">
-        @Html.LabelFor(m => m.Purpose, new { @class = "col-sm-2 col-form-label" })
+        @Html.LabelFor(m => m.IdSpecialization, new { @class = "col-sm-2 col-form-label" })
         <div class="col-sm-10">
-            @Html.TextBoxFor(m => m.Purpose, new { @class = "form-control", placeholder = "Description" })
-            @Html.ValidationMessageFor(m => m.Purpose, "", new { @class = "text-danger name" })
+            @Html.TextBoxFor(m => m.IdSpecialization, new { @class = "form-control", placeholder = "Description" })
+            @Html.ValidationMessageFor(m => m.IdSpecialization, "", new { @class = "text-danger name" })
         </div>
     </div>
 
@@ -29,4 +29,4 @@
         <button type="submit" class="btn btn-primary">Create</button>
     </div>}
 <br>
-@Html.Partial("_ReturnToJobPositions")
+@Html.Partial("_ReturnToBrigades")

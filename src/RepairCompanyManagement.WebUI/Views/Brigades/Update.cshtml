@@ -1,0 +1,34 @@
+﻿@model RepairCompanyManagement.WebUI.Models.BrigadeViewModel
+@{ var title = "Update brigade";
+                ViewBag.Title = $"{title} {Model.Title}"; }
+<h2>@title <i>@Model.Title</i></h2>
+
+<hr />
+@using (Html.BeginForm("Update", "Brigades", FormMethod.Post, new { @class = "" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group row">
+        @Html.HiddenFor(m => m.Id)
+        @Html.LabelFor(m => m.Title, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "Title" })
+            @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger name" })
+        </div>
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(m => m.IdSpecialization, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.IdSpecialization, new { @class = "form-control", placeholder = "IdSpecialization" })
+            @Html.ValidationMessageFor(m => m.IdSpecialization, "", new { @class = "text-danger name" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Update</button>
+    </div>}
+<br>
+@Html.Partial("_ReturnToBrigades")
