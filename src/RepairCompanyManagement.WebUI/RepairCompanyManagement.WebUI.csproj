@@ -334,6 +334,7 @@
     <Content Include="Views\Brigades\Delete.cshtml" />
     <Content Include="Views\Brigades\Index.cshtml" />
     <Content Include="Views\Brigades\Update.cshtml" />
+    <Content Include="Views\Shared\_ReturnToBrigades.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
