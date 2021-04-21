@@ -2,7 +2,7 @@
 
 namespace RepairCompanyManagement.WebUI.Controllers
 {
-    public class HomesController : Controller
+    public class HomeController : Controller
     {
         public ActionResult Index()
         {
