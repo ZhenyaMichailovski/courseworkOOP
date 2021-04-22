@@ -1,0 +1,61 @@
+﻿@model RepairCompanyManagement.WebUI.Models.RegisterViewModel
+
+@{
+    ViewBag.Title = "Registration";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary()
+
+            <div class="form-group row">
+                <span class="col-md-2 control-label">Email</span>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", id="emailInput", placeholder = "Email"})
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger", id = "emailInput" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <span class="col-md-2 control-label">Surname</span>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Surname, new { @class = "form-control", placeholder = "Surname" })
+                    @Html.ValidationMessageFor(m => m.Surname, "", new { @class = "text-danger", id="surnameInput" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <span class="col-md-2 control-label">First name</span>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "First name"})
+                    @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger", id = "firstNameInput" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <span class="col-md-2 control-label">Password</span>
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password"})
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger", id = "passwordInput" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <span class="col-md-2 control-label">Confirm password</span>
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm password"})
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger", id = "confirmPasswordInput" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <button type="submit" class="btn btn-primary" id="registerBtn">Register</button>
+            </div>
+        }
+    </div>
+</div>
