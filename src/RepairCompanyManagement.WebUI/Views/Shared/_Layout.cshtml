@@ -8,7 +8,8 @@
 </head>
 @{
     var appName = "My App";
-    //var isUser = User.IsInRole("User");
+    var isUser = User.IsInRole("User");
+    var isAdmin = User.IsInRole("Administator");
 }
 <body>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -18,16 +19,18 @@
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <!-- LEFT & RIGHT HEADER NAV BUTTONS HERE -->
-            <!--if (!User.Identity.IsAuthenticated)
+            @if (!User.Identity.IsAuthenticated)
             {
-                Html.Partial("_AnonymousUser");
+                @Html.Partial("_AnonymousUser");
             }
             else if (isUser)
             {
-                Html.Partial("_User");
-            }-->
-            @Html.Partial("_AnonymousUser")
+                @Html.Partial("_User");
+            }
+            else if (isAdmin)
+            {
+                @Html.Partial("_Administrator");
+            }
         </div>
     </nav>
     
