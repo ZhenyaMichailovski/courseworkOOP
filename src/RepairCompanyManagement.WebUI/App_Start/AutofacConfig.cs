@@ -1,10 +1,17 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
 using AutoMapper;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security;
 using RepairCompanyManagement.BusinessLogic.Mapper;
+using RepairCompanyManagement.WebUI.Contexts;
+using RepairCompanyManagement.WebUI.Identity;
 using RepairCompanyManagement.WebUI.Mapper;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Entity;
+using System.Web;
 using System.Web.Mvc;
 
 namespace RepairCompanyManagement.WebUI.App_Start
@@ -30,10 +37,12 @@ namespace RepairCompanyManagement.WebUI.App_Start
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterModule<AutofacWebTypesModule>();
 
-            // builder.RegisterType<UserStore<User>>().As<IUserStore<User>>().InstancePerRequest();
-            // builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();
-            // builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerRequest();
-            // builder.Register<IAuthenticationManager>(c => HttpContext.Current.GetOwinContext().Authentication).InstancePerRequest();
+            builder.RegisterType<UserStore<User>>().As<IUserStore<User>>().InstancePerRequest();
+            builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();
+            builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerRequest();
+            builder.Register<IAuthenticationManager>(c => HttpContext.Current.GetOwinContext().Authentication).InstancePerRequest();
+            builder.RegisterType<IdentityContext>().WithParameter("connectionString", connectionString)
+                .AsSelf().As<DbContext>().InstancePerRequest();
 
             builder.RegisterModule(new RepairCompanyManagement.BusinessLogic.DiModule(connectionString));
 
