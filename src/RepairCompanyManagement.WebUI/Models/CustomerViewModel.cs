@@ -3,15 +3,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RepairCompanyManagement.WebUI.Models
 {
-    public class JobPositionViewModel
+    public class CustomerViewModel
     {
         public int Id { get; set; }
 
         [Required(ErrorMessage = Constants.EmptyJobPositionTitleMessage)]
-        [Display(Name = "Title")]
-        public string Title { get; set; }
+        [Display(Name = "Gender")]
+        public string Gender { get; set; }
 
-        [Display(Description = "Purpose")]
-        public string Purpose { get; set; }
+        [Required(ErrorMessage = Constants.EmptyJobPositionTitleMessage)]
+        public string IdentityUserID { get; set; }
     }
 }

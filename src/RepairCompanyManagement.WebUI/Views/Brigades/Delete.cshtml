@@ -1,0 +1,14 @@
+﻿@model RepairCompanyManagement.WebUI.Models.BrigadeViewModel
+@{ ViewBag.Title = "Brigade job position " + Model.Title; }
+
+<h3>Are you sure you want to <strong>delete this brigade</strong>?</h3>
+
+<div class="alert alert-secondary" role="alert">
+    <p><strong>@Html.LabelFor(e => e.Title): </strong>@Model.Title</p>
+    <p><strong>@Html.LabelFor(e => e.IdSpecialization): </strong>@Model.IdSpecialization</p>
+</div>
+<div>
+    @Html.ActionLink("Delete", "ConfirmDelete", "Brigades", new { id = Model.Id, }, new { @class = "btn btn-outline-danger" })
+</div>
+<br />
+@Html.Partial("_ReturnToJobBrigades")

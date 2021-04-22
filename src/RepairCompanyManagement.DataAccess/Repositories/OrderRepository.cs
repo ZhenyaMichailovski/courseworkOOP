@@ -6,18 +6,18 @@ using System.Data.SqlClient;
 
 namespace RepairCompanyManagement.DataAccess.Repositories
 {
-    public class JobPositionRepository : IRepository<JobPosition>
+    public class OrderRepository : IRepository<Order>
     {
         private readonly string connectionString;
 
-        public JobPositionRepository(string connectionString)
+        public OrderRepository(string connectionString)
         {
             this.connectionString = connectionString;
         }
-        public int Create(JobPosition item)
+        public int Create(Order item)
         {
-            string sqlExpression = $"INSERT INTO JobPositionController (Title, Purpose)" +
-                " VALUES (@title, @purpose); SELECT SCOPE_IDENTITY()";
+            string sqlExpression = $"INSERT INTO Order (Title, IdBrigade, IdCustomers, IdManager, IdTask, OrderStatus, Requirements)" +
+                " VALUES (@title, @idBrigade, @idCustomers, @idManager, @idTask, @orderStatus, @requirements); SELECT SCOPE_IDENTITY()";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -27,7 +27,12 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                     command.Parameters.AddRange(new SqlParameter[]
                         {
                             new SqlParameter("@title", item.Title),
-                            new SqlParameter("@purpose", item.Purpose),
+                            new SqlParameter("@idBrigade", item.IdBrigade),
+                            new SqlParameter("@idCustomers", item.IdCustomers),
+                            new SqlParameter("@idManager", item.IdManager),
+                            new SqlParameter("@idTask", item.IdTask),
+                            new SqlParameter("@orderStatus", item.OrderStatus),
+                            new SqlParameter("@requirements", item.Requirements),
                         });
 
                     return command.ExecuteNonQuery();
@@ -36,7 +41,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
         }
         public void Delete(int id)
         {
-            string sqlExpression = "DELETE FROM JobPositionController WHERE Id=@id";
+            string sqlExpression = "DELETE FROM Order WHERE Id=@id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -51,10 +56,10 @@ namespace RepairCompanyManagement.DataAccess.Repositories
             }
         }
 
-        public IEnumerable<JobPosition> GetAll()
+        public IEnumerable<Order> GetAll()
         {
-            string sqlExpression = "SELECT Id, Title, Purpose FROM JobPositionController";
-            List<JobPosition> jobPositionControllers = new List<JobPosition>();
+            string sqlExpression = "SELECT Id, Title, IdBrigade, IdCustomers, IdManager, IdTask, OrderStatus, Requirements FROM Order";
+            List<Order> order = new List<Order>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -65,23 +70,28 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                     {
                         while (reader.Read())
                         {
-                            jobPositionControllers.Add(new JobPosition()
+                            order.Add(new Order()
                             {
                                 Id = Convert.ToInt32(reader["Id"], null),
-                                Title = reader["Title"].ToString(),
-                                Purpose = reader["Purpose"].ToString(),
+                                Title = (string)reader["Title"],
+                                IdBrigade = (int)reader["IdBrigade"],
+                                IdCustomers = (int)(reader["IdCustomers"]),
+                                IdManager = (int)reader["IdManager"],
+                                IdTask = (int)reader["IdTask"],
+                                OrderStatus = reader["OrderStatus"].ToString(),
+                                Requirements = reader["Requirements"].ToString(),
                             });
                         }
                     }
                 }
             }
 
-            return jobPositionControllers;
+            return order;
         }
-        
-        public JobPosition GetById(int id)
+
+        public Order GetById(int id)
         {
-            string sqlExpression = "SELECT Id, Title, Purpose FROM JobPositionController" +
+            string sqlExpression = "SELECT Id, Title, IdBrigade, IdCustomers, IdManager, IdTask, OrderStatus, Requirements FROM Order" +
                 " WHERE Id = @id";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -92,21 +102,26 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                     command.Parameters.Add(idParam);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        return reader.Read() ? new JobPosition()
+                        return reader.Read() ? new Order()
                         {
                             Id = Convert.ToInt32(reader["Id"], null),
-                            Title = reader["Title"].ToString(),
-                            Purpose = reader["Purpose"].ToString()
+                            Title = (string)reader["Title"],
+                            IdBrigade = (int)reader["IdBrigade"],
+                            IdCustomers = (int)(reader["IdCustomers"]),
+                            IdManager = (int)reader["IdManager"],
+                            IdTask = (int)reader["IdTask"],
+                            OrderStatus = reader["OrderStatus"].ToString(),
+                            Requirements = reader["Requirements"].ToString(),
                         } : null;
                     }
                 }
             }
         }
 
-        public void Update(JobPosition item)
+        public void Update(Order item)
         {
-            string sqlExpression = "UPDATE JobPositionController SET Title=@title, Purpose=@purpose" +
-                " FROM JobPositionController" +
+            string sqlExpression = "UPDATE Manager SET Title=@title, IdBrigade=@idBrigade, IdCustomers=@idCustomers, IdManager=@idManager, IdTask=@idTask, OrderStatus=@orderStatus, Requirements=@requirements " +
+                " FROM Order" +
                 " WHERE Id = @id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -116,9 +131,13 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                 {
                     command.Parameters.AddRange(new SqlParameter[]
                         {
-                            new SqlParameter("@id", item.Id),
                             new SqlParameter("@title", item.Title),
-                            new SqlParameter("@purpose", item.Purpose)
+                            new SqlParameter("@idBrigade", item.IdBrigade),
+                            new SqlParameter("@idCustomers", item.IdCustomers),
+                            new SqlParameter("@idManager", item.IdManager),
+                            new SqlParameter("@idTask", item.IdTask),
+                            new SqlParameter("@orderStatus", item.OrderStatus),
+                            new SqlParameter("@requirements", item.Requirements),
                         });
 
                     command.ExecuteNonQuery();

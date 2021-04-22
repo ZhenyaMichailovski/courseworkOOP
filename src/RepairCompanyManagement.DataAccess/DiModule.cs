@@ -24,6 +24,34 @@ namespace RepairCompanyManagement.DataAccess
             builder.RegisterType<JobPositionRepository>()
                 .WithParameter("connectionString", _connectionString)
                 .AsImplementedInterfaces().InstancePerLifetimeScope();
+
+            builder.RegisterType<TaskRepository>()
+                .WithParameter("connectionString", _connectionString)
+                .AsImplementedInterfaces().InstancePerLifetimeScope();
+
+            builder.RegisterType<OrderTaskRepository>()
+                .WithParameter("connectionString", _connectionString)
+                .AsImplementedInterfaces().InstancePerLifetimeScope();
+
+            builder.RegisterType<OrderRepository>()
+                .WithParameter("connectionString", _connectionString)
+                .AsImplementedInterfaces().InstancePerLifetimeScope();
+
+            builder.RegisterType<ManagerRepository>()
+                .WithParameter("connectionString", _connectionString)
+                .AsImplementedInterfaces().InstancePerLifetimeScope();
+
+            builder.RegisterType<EmployeeRepository>()
+                .WithParameter("connectionString", _connectionString)
+                .AsImplementedInterfaces().InstancePerLifetimeScope();
+
+            builder.RegisterType<CustomerRepository>()
+                .WithParameter("connectionString", _connectionString)
+                .AsImplementedInterfaces().InstancePerLifetimeScope();
+
+            builder.RegisterType<BrigadeRepository>()
+                .WithParameter("connectionString", _connectionString)
+                .AsImplementedInterfaces().InstancePerLifetimeScope();
         }
     }
 }

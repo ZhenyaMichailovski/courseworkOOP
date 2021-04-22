@@ -1,8 +1,8 @@
 ﻿@model IReadOnlyCollection<RepairCompanyManagement.WebUI.Models.JobPositionViewModel>
 @{ ViewBag.Title = "JobPositions";
-                var anySpecializations = Model != null && Model.Any(); }
+                var anyJobPositions = Model != null && Model.Any(); }
 
-<h2>Specializations</h2>
+<h2>Job Positions</h2>
 <hr />
 @Html.ActionLink("Create new...", "Create", "JobPositions", null, new { @class = "btn btn-primary" })
 <hr />
@@ -13,7 +13,7 @@
         <th></th>
         <th></th>
     </tr>
-    @if (anySpecializations)
+    @if (anyJobPositions)
     {
         foreach (var item in Model)
         {

@@ -1,0 +1,7 @@
+﻿@model RepairCompanyManagement.WebUI.Models.BrigadeViewModel
+
+<td>@Model.Title</td>
+<td>@Model.IdSpecialization</td>
+<td> @Html.ActionLink("Update", "Update", "Brigades", new { id = Model.Id, }, new { @class = "btn btn-outline-primary" })</td>
+<td> @Html.ActionLink("Delete", "Delete", "Brigades", new { id = Model.Id, }, new { @class = "btn btn-outline-danger" })</td>
+

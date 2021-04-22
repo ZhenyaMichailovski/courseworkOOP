@@ -43,8 +43,15 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="DiModule.cs" />
+    <Compile Include="Dtos\BrigadeDto.cs" />
+    <Compile Include="Dtos\CustomerDto.cs" />
+    <Compile Include="Dtos\EmployeeDto.cs" />
     <Compile Include="Dtos\JobPositionDto.cs" />
+    <Compile Include="Dtos\ManagerDto.cs" />
+    <Compile Include="Dtos\OrderDto.cs" />
+    <Compile Include="Dtos\OrderTaskDto.cs" />
     <Compile Include="Dtos\SpecializationDto.cs" />
+    <Compile Include="Dtos\TaskDto.cs" />
     <Compile Include="Exceptions\BusinessLogicException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Interfaces\IBrigadeService.cs" />

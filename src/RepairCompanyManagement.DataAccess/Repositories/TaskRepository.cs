@@ -4,21 +4,20 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
-
 namespace RepairCompanyManagement.DataAccess.Repositories
 {
-    public class ManagerRepository : IRepository<Manager>
+    public class TaskRepository : IRepository<Task>
     {
         private readonly string connectionString;
 
-        public ManagerRepository(string connectionString)
+        public TaskRepository(string connectionString)
         {
             this.connectionString = connectionString;
         }
-        public int Create(Manager item)
+        public int Create(Task item)
         {
-            string sqlExpression = $"INSERT INTO Manager (DateOfBirth, Address, Salary, IdentituUserID)" +
-                " VALUES (@dateOfBirth, @address, @salary, @identituUserID); SELECT SCOPE_IDENTITY()";
+            string sqlExpression = $"INSERT INTO Task (Title, IdSpecialization, Price, Description, TaskCompletionDate)" +
+                " VALUES (@title, @idSpecialization, @price, @description, @taskCompletionDate); SELECT SCOPE_IDENTITY()";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -27,10 +26,11 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                 {
                     command.Parameters.AddRange(new SqlParameter[]
                         {
-                            new SqlParameter("@dateOfBirth", item.DateOfBirth),
-                            new SqlParameter("@address", item.Address),
-                            new SqlParameter("@salary", item.Salary),
-                            new SqlParameter("@identituUserID", item.IdentituUserID),
+                            new SqlParameter("@title", item.Title),
+                            new SqlParameter("@idSpecialization", item.IdSpecialization),
+                            new SqlParameter("@price", item.Price),
+                            new SqlParameter("@description", item.Description),
+                            new SqlParameter("@taskCompletionDate", item.TaskCompletionDate),
                         });
 
                     return command.ExecuteNonQuery();
@@ -39,7 +39,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
         }
         public void Delete(int id)
         {
-            string sqlExpression = "DELETE FROM Manager WHERE Id=@id";
+            string sqlExpression = "DELETE FROM Task WHERE Id=@id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -54,10 +54,10 @@ namespace RepairCompanyManagement.DataAccess.Repositories
             }
         }
 
-        public IEnumerable<Manager> GetAll()
+        public IEnumerable<Task> GetAll()
         {
-            string sqlExpression = "SELECT Id, DateOfBirth, Address, Salary, IdentituUser FROM Manager";
-            List<Manager> manager = new List<Manager>();
+            string sqlExpression = "SELECT Id, Title, IdSpecialization, Price, Description, TaskCompletionDate FROM Task";
+            List<Task> task = new List<Task>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -68,25 +68,26 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                     {
                         while (reader.Read())
                         {
-                            manager.Add(new Manager()
+                            task.Add(new Task()
                             {
                                 Id = Convert.ToInt32(reader["Id"], null),
-                                DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]),
-                                Address = reader["Address"].ToString(),
-                                Salary = Convert.ToDouble(reader["Salary"]),
-                                IdentituUserID = reader["IdentituUser"].ToString(),
+                                Title = (string)reader["Title"],
+                                IdSpecialization = (int)reader["IdSpecialization"],
+                                Price = Convert.ToDouble(reader["Price"]),
+                                Description = reader["Description"].ToString(),
+                                TaskCompletionDate = Convert.ToDateTime(reader["TaskCompletionDate"]),
                             });
                         }
                     }
                 }
             }
 
-            return manager;
+            return task;
         }
 
-        public Manager GetById(int id)
+        public Task GetById(int id)
         {
-            string sqlExpression = "SELECT Id, DateOfBirth, Address, Salary, IdentituUser FROM Manager" +
+            string sqlExpression = "SELECT Id, Title, IdSpecialization, Price, Description, TaskCompletionDate FROM Task" +
                 " WHERE Id = @id";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -97,23 +98,24 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                     command.Parameters.Add(idParam);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        return reader.Read() ? new Manager()
+                        return reader.Read() ? new Task()
                         {
                             Id = Convert.ToInt32(reader["Id"], null),
-                            DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]),
-                            Address = reader["Address"].ToString(),
-                            Salary = Convert.ToDouble(reader["Salary"]),
-                            IdentituUserID = reader["IdentituUser"].ToString(),
+                            Title = (string)reader["Title"],
+                            IdSpecialization = (int)reader["IdSpecialization"],
+                            Price = Convert.ToDouble(reader["Price"]),
+                            Description = reader["Description"].ToString(),
+                            TaskCompletionDate = Convert.ToDateTime(reader["TaskCompletionDate"]),
                         } : null;
                     }
                 }
             }
         }
 
-        public void Update(Manager item)
+        public void Update(Task item)
         {
-            string sqlExpression = "UPDATE Manager SET Manager=@manager, Address=@address, Salary=@salary, IdentituUser=@identituUser" +
-                " FROM Manager" +
+            string sqlExpression = "UPDATE Task SET Title=@title, IdSpecialization=@idSpecialization, Price=@price, Description=@description, TaskCompletionDate=@taskCompletionDate" +
+                " FROM Task" +
                 " WHERE Id = @id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -123,10 +125,11 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                 {
                     command.Parameters.AddRange(new SqlParameter[]
                         {
-                            new SqlParameter("@dateOfBirth", item.DateOfBirth),
-                            new SqlParameter("@address", item.Address),
-                            new SqlParameter("@salary", item.Salary),
-                            new SqlParameter("@identituUserID", item.IdentituUserID),
+                            new SqlParameter("@title", item.Title),
+                            new SqlParameter("@idSpecialization", item.IdSpecialization),
+                            new SqlParameter("@price", item.Price),
+                            new SqlParameter("@description", item.Description),
+                            new SqlParameter("@taskCompletionDate", item.TaskCompletionDate),
                         });
 
                     command.ExecuteNonQuery();
