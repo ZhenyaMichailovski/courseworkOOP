@@ -11,13 +11,13 @@ namespace RepairCompanyManagement.WebUI.Controllers
 {
     public class EmployeesController : Controller
     {
-        private IBrigadeService _brigadeService { get; set; }
+        private IWorkerService _workerService { get; set; }
 
         private IMapper _mapper { get; set; }
 
-        public EmployeesController(IBrigadeService brigadeService, IMapper mapper)
+        public EmployeesController(IWorkerService brigadeService, IMapper mapper)
         {
-            _brigadeService = brigadeService;
+            _workerService = brigadeService;
             _mapper = mapper;
         }
 
@@ -25,7 +25,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [ExceptionFilter()]
         public ActionResult Index()
         {
-            var specs = _mapper.Map<IReadOnlyCollection<EmployeeViewModel>>(_brigadeService.GetAllEmployees());
+            var specs = _mapper.Map<IReadOnlyCollection<EmployeeViewModel>>(_workerService.GetAllEmployees());
             return View(specs);
         }
 
@@ -42,7 +42,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         {
             if (model != null && ModelState.IsValid)
             {
-                _brigadeService.CreateEmployee(_mapper.Map<EmployeeDto>(model));
+                _workerService.CreateEmployee(_mapper.Map<EmployeeDto>(model));
 
                 return RedirectToAction("Index", "Employees", null);
             }
@@ -54,7 +54,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [ExceptionFilter("Index")]
         public ActionResult Update(int id)
         {
-            var model = _mapper.Map<EmployeeViewModel>(_brigadeService.GetEmployeeById(id));
+            var model = _mapper.Map<EmployeeViewModel>(_workerService.GetEmployeeById(id));
             return View(model);
         }
 
@@ -64,7 +64,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         {
             if (model != null && ModelState.IsValid)
             {
-                _brigadeService.UpdateEmployee(_mapper.Map<EmployeeDto>(model));
+                _workerService.UpdateEmployee(_mapper.Map<EmployeeDto>(model));
 
                 return RedirectToAction("Index", "Employees", null);
             }
@@ -76,7 +76,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [ExceptionFilter("Index")]
         public ActionResult Delete(int id)
         {
-            var model = _mapper.Map<EmployeeViewModel>(_brigadeService.GetEmployeeById(id));
+            var model = _mapper.Map<EmployeeViewModel>(_workerService.GetEmployeeById(id));
 
             return View(model);
         }
@@ -85,8 +85,8 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [ExceptionFilter("Index")]
         public ActionResult ConfirmDelete(int id)
         {
-            var model = _mapper.Map<EmployeeViewModel>(_brigadeService.GetEmployeeById(id));
-            _brigadeService.DeleteEmployee(id);
+            var model = _mapper.Map<EmployeeViewModel>(_workerService.GetEmployeeById(id));
+            _workerService.DeleteEmployee(id);
 
             return RedirectToAction("Index", "Employees", null);
         }

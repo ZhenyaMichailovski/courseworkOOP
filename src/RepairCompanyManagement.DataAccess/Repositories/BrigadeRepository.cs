@@ -26,8 +26,8 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                 {
                     command.Parameters.AddRange(new SqlParameter[]
                         {
-                            new SqlParameter("@idTask", item.Title),
-                            new SqlParameter("@idOrder", item.IdSpecialization),
+                            new SqlParameter("@title", item.Title),
+                            new SqlParameter("@idSpecialization", item.IdSpecialization),
 
                         });
 

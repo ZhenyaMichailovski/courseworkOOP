@@ -11,13 +11,13 @@ namespace RepairCompanyManagement.WebUI.Controllers
 {
     public class ManagersController : Controller
     {
-        private IBrigadeService _brigadeService { get; set; }
+        private IOrderService _orderService { get; set; }
 
         private IMapper _mapper { get; set; }
 
-        public ManagersController(IBrigadeService brigadeService, IMapper mapper)
+        public ManagersController(IOrderService brigadeService, IMapper mapper)
         {
-            _brigadeService = brigadeService;
+            _orderService = brigadeService;
             _mapper = mapper;
         }
 
@@ -25,7 +25,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [ExceptionFilter()]
         public ActionResult Index()
         {
-            var specs = _mapper.Map<IReadOnlyCollection<ManagerViewModel>>(_brigadeService.GetAllManagers());
+            var specs = _mapper.Map<IReadOnlyCollection<ManagerViewModel>>(_orderService.GetAllManagers());
             return View(specs);
         }
 
@@ -42,7 +42,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         {
             if (model != null && ModelState.IsValid)
             {
-                _brigadeService.CreateManager(_mapper.Map<ManagerDto>(model));
+                _orderService.CreateManager(_mapper.Map<ManagerDto>(model));
 
                 return RedirectToAction("Index", "Managers", null);
             }
@@ -54,7 +54,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [ExceptionFilter("Index")]
         public ActionResult Update(int id)
         {
-            var model = _mapper.Map<ManagerViewModel>(_brigadeService.GetManagerById(id));
+            var model = _mapper.Map<ManagerViewModel>(_orderService.GetManagerById(id));
             return View(model);
         }
 
@@ -64,7 +64,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         {
             if (model != null && ModelState.IsValid)
             {
-                _brigadeService.UpdateManager(_mapper.Map<ManagerDto>(model));
+                _orderService.UpdateManager(_mapper.Map<ManagerDto>(model));
 
                 return RedirectToAction("Index", "Managers", null);
             }
@@ -76,7 +76,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [ExceptionFilter("Index")]
         public ActionResult Delete(int id)
         {
-            var model = _mapper.Map<ManagerViewModel>(_brigadeService.GetManagerById(id));
+            var model = _mapper.Map<ManagerViewModel>(_orderService.GetManagerById(id));
 
             return View(model);
         }
@@ -85,8 +85,8 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [ExceptionFilter("Index")]
         public ActionResult ConfirmDelete(int id)
         {
-            var model = _mapper.Map<ManagerViewModel>(_brigadeService.GetManagerById(id));
-            _brigadeService.DeleteManager(id);
+            var model = _mapper.Map<ManagerViewModel>(_orderService.GetManagerById(id));
+            _orderService.DeleteManager(id);
 
             return RedirectToAction("Index", "Managers", null);
         }

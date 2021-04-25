@@ -11,13 +11,13 @@ namespace RepairCompanyManagement.WebUI.Controllers
 {
     public class CustomersController : Controller
     {
-        private IBrigadeService _brigadeService { get; set; }
+        private IOrderService _orderService { get; set; }
 
         private IMapper _mapper { get; set; }
 
-        public CustomersController(IBrigadeService brigadeService, IMapper mapper)
+        public CustomersController(IOrderService brigadeService, IMapper mapper)
         {
-            _brigadeService = brigadeService;
+            _orderService = brigadeService;
             _mapper = mapper;
         }
 
@@ -25,7 +25,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [ExceptionFilter()]
         public ActionResult Index()
         {
-            var specs = _mapper.Map<IReadOnlyCollection<CustomerViewModel>>(_brigadeService.GetAllCustomers());
+            var specs = _mapper.Map<IReadOnlyCollection<CustomerViewModel>>(_orderService.GetAllCustomers());
             return View(specs);
         }
 
@@ -42,7 +42,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         {
             if (model != null && ModelState.IsValid)
             {
-                _brigadeService.CreateCustomer(_mapper.Map<CustomerDto>(model));
+                _orderService.CreateCustomer(_mapper.Map<CustomerDto>(model));
 
                 return RedirectToAction("Index", "Customers", null);
             }
@@ -54,7 +54,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [ExceptionFilter("Index")]
         public ActionResult Update(int id)
         {
-            var model = _mapper.Map<CustomerViewModel>(_brigadeService.GetCustomerById(id));
+            var model = _mapper.Map<CustomerViewModel>(_orderService.GetCustomerById(id));
             return View(model);
         }
 
@@ -64,7 +64,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         {
             if (model != null && ModelState.IsValid)
             {
-                _brigadeService.UpdateCustomer(_mapper.Map<CustomerDto>(model));
+                _orderService.UpdateCustomer(_mapper.Map<CustomerDto>(model));
 
                 return RedirectToAction("Index", "Customers", null);
             }
@@ -76,7 +76,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [ExceptionFilter("Index")]
         public ActionResult Delete(int id)
         {
-            var model = _mapper.Map<CustomerViewModel>(_brigadeService.GetCustomerById(id));
+            var model = _mapper.Map<CustomerViewModel>(_orderService.GetCustomerById(id));
 
             return View(model);
         }
@@ -85,8 +85,8 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [ExceptionFilter("Index")]
         public ActionResult ConfirmDelete(int id)
         {
-            var model = _mapper.Map<CustomerViewModel>(_brigadeService.GetCustomerById(id));
-            _brigadeService.DeleteCustomer(id);
+            var model = _mapper.Map<CustomerViewModel>(_orderService.GetCustomerById(id));
+            _orderService.DeleteCustomer(id);
 
             return RedirectToAction("Index", "Customers", null);
         }

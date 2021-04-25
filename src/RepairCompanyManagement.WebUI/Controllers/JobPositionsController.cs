@@ -11,13 +11,13 @@ namespace RepairCompanyManagement.WebUI.Controllers
 {
     public class JobPositionsController : Controller
     {
-        private IBrigadeService _brigadeService { get; set; }
+        private IWorkerService _workerService { get; set; }
 
         private IMapper _mapper { get; set; }
 
-        public JobPositionsController(IBrigadeService brigadeService, IMapper mapper)
+        public JobPositionsController(IWorkerService brigadeService, IMapper mapper)
         {
-            _brigadeService = brigadeService;
+            _workerService = brigadeService;
             _mapper = mapper;
         }
 
@@ -25,7 +25,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [ExceptionFilter()]
         public ActionResult Index()
         {
-            var specs = _mapper.Map<IReadOnlyCollection<JobPositionViewModel>>(_brigadeService.GetAllJobPositions());
+            var specs = _mapper.Map<IReadOnlyCollection<JobPositionViewModel>>(_workerService.GetAllJobPositions());
             return View(specs);
         }
 
@@ -42,7 +42,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         {
             if (model != null && ModelState.IsValid)
             {
-                _brigadeService.CreateJobPosition(_mapper.Map<JobPositionDto>(model));
+                _workerService.CreateJobPosition(_mapper.Map<JobPositionDto>(model));
 
                 return RedirectToAction("Index", "JobPositions", null);
             }
@@ -54,7 +54,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [ExceptionFilter("Index")]
         public ActionResult Update(int id)
         {
-            var model = _mapper.Map<JobPositionViewModel>(_brigadeService.GetJobPositionById(id));
+            var model = _mapper.Map<JobPositionViewModel>(_workerService.GetJobPositionById(id));
             return View(model);
         }
 
@@ -64,7 +64,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         {
             if (model != null && ModelState.IsValid)
             {
-                _brigadeService.UpdateJobPosition(_mapper.Map<JobPositionDto>(model));
+                _workerService.UpdateJobPosition(_mapper.Map<JobPositionDto>(model));
 
                 return RedirectToAction("Index", "JobPositions", null);
             }
@@ -76,7 +76,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [ExceptionFilter("Index")]
         public ActionResult Delete(int id)
         {
-            var model = _mapper.Map<JobPositionViewModel>(_brigadeService.GetJobPositionById(id));
+            var model = _mapper.Map<JobPositionViewModel>(_workerService.GetJobPositionById(id));
 
             return View(model);
         }
@@ -85,8 +85,8 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [ExceptionFilter("Index")]
         public ActionResult ConfirmDelete(int id)
         {
-            var model = _mapper.Map<JobPositionViewModel>(_brigadeService.GetJobPositionById(id));
-            _brigadeService.DeleteJobPosition(id);
+            var model = _mapper.Map<JobPositionViewModel>(_workerService.GetJobPositionById(id));
+            _workerService.DeleteJobPosition(id);
 
             return RedirectToAction("Index", "JobPositions", null);
         }

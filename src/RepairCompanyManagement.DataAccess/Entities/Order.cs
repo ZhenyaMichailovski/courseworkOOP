@@ -13,7 +13,6 @@ namespace RepairCompanyManagement.DataAccess.Entities
         public int IdBrigade { get; set; }
         public int IdCustomers { get; set; }
         public int IdManager { get; set; }
-        public int IdTask { get; set; }
         public string OrderStatus { get; set; }
         public string Requirements { get; set; }
     }

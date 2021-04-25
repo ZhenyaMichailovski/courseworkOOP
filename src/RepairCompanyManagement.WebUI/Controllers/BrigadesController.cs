@@ -5,6 +5,7 @@ using RepairCompanyManagement.WebUI.Filters;
 using RepairCompanyManagement.WebUI.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace RepairCompanyManagement.WebUI.Controllers
@@ -25,14 +26,23 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [ExceptionFilter()]
         public ActionResult Index()
         {
-            var specs = _mapper.Map<IReadOnlyCollection<BrigadeViewModel>>(_brigadeService.GetAllSpecializations());
+            var specs = _mapper.Map<IReadOnlyCollection<BrigadeViewModel>>(_brigadeService.GetAllBrigades());
             return View(specs);
         }
 
         [HttpGet]
         public ActionResult Create()
-        {
-            return View();
+        { 
+            var items = _brigadeService.GetAllSpecializations()
+                                      .Select(x => new SpecializationItem
+                                      { Name = x.Name, SpecializationId = x.Id }).ToList();
+  
+            BrigadeViewModel model = new BrigadeViewModel()
+            {
+                SpecializationItems = items is null ? new List<SpecializationItem>() : items,
+                SpecializationName = ""
+            };
+            return View(model);
         }
 
         [HttpPost]
@@ -89,6 +99,15 @@ namespace RepairCompanyManagement.WebUI.Controllers
             _brigadeService.DeleteBrigade(id);
 
             return RedirectToAction("Index", "Brigades", null);
+        }
+
+        [HttpGet]
+        [ExceptionFilter("Index")]
+        public ActionResult BySpecialization(int id)
+        {
+            var model = _mapper.Map<BrigadeViewModel>(_brigadeService.FindBrigadeBySpecialization(id));
+
+            return View(model);
         }
     }
 }
