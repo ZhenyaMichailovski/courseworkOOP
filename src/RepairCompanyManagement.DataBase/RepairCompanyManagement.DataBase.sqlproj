@@ -9,8 +9,7 @@
     <ProjectGuid>{5c4f64d5-245d-4c25-85ad-ba22a63f163f}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
-    <RootPath>
-    </RootPath>
+    <RootPath />
     <RootNamespace>RepairCompanyManagement.DataBase</RootNamespace>
     <AssemblyName>RepairCompanyManagement.DataBase</AssemblyName>
     <ModelCollation>1033, CI</ModelCollation>
@@ -48,7 +47,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
-    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
     <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
     <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
   </PropertyGroup>
@@ -58,7 +56,7 @@
     <Folder Include="Properties" />
     <Folder Include="Tables" />
     <Folder Include="Post\" />
-    <Folder Include="ForeignKeys" />
+    <Folder Include="FK" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Order.sql" />
@@ -76,8 +74,10 @@
     <Build Include="Tables\OrderTask.sql" />
     <Build Include="Tables\Specialization.sql" />
     <Build Include="Tables\Task.sql" />
-    <Build Include="ForeignKeys\FK_AspNetUsers_Customer.sql" />
-    <Build Include="ForeignKeys\FK_OrderTask_Order.sql" />
+    <Build Include="FK\FK_AspNetUsers_Customer.sql" />
+    <Build Include="FK\FK_AspNetUsers_Manager.sql" />
+    <Build Include="FK\FK_AspNetUsers_Employee.sql" />
+    <Build Include="FK\FK_OrderTask_Order.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post\Script.PostDeployment.sql" />

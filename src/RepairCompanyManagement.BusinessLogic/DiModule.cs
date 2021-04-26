@@ -21,6 +21,10 @@ namespace RepairCompanyManagement.BusinessLogic
 
             builder.RegisterType<BrigadeService>()
                 .AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType<OrderService>()
+                .AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType<WorkerService>()
+                .AsImplementedInterfaces().InstancePerLifetimeScope();
         }
     }
 }

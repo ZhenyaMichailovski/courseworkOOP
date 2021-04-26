@@ -4,6 +4,6 @@
     [Address]        NVARCHAR (MAX)     NOT NULL,
     [Salary]         FLOAT (53)         NOT NULL,
     [IdentityUserID] NVARCHAR (128)     NOT NULL,
-    PRIMARY KEY CLUSTERED ([Id] ASC)
+    PRIMARY KEY CLUSTERED ([Id] ASC) 
 );
 

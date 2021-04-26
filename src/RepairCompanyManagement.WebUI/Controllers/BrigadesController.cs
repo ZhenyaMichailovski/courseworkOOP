@@ -64,7 +64,16 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [ExceptionFilter("Index")]
         public ActionResult Update(int id)
         {
-            var model = _mapper.Map<BrigadeViewModel>(_brigadeService.GetBrigadeById(id));
+            var items = _brigadeService.GetAllSpecializations()
+                                      .Select(x => new SpecializationItem
+                                      { Name = x.Name, SpecializationId = x.Id }).ToList();
+            var item = _mapper.Map<BrigadeViewModel>(_brigadeService.GetBrigadeById(id));
+            BrigadeViewModel model = new BrigadeViewModel()
+            {
+                SpecializationItems = items is null ? new List<SpecializationItem>() : items,
+                SpecializationName = item.Title,
+            };
+           
             return View(model);
         }
 

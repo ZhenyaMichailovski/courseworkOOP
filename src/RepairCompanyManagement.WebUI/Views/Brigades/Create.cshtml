@@ -7,7 +7,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
-    //@Html.HiddenFor(x => x.SpecializationItems)
+    @Html.HiddenFor(x => x.SpecializationItems)
 
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group row">
@@ -22,7 +22,7 @@
         @Html.LabelFor(model => model.IdSpecialization, new { @class = "control-label col-md-2" })
         <div class="col-md-10 center justify-content-center" style="width:250px">
             @Html.DropDownListFor(model => model.IdSpecialization, 
-           new SelectList(Model.SpecializationItems, "SpecializationId", "Name", ""), new { @class = "form-control" }),
+           new SelectList(Model.SpecializationItems, "SpecializationId", "Name", Model.SpecializationName), new { @class = "form-control" }),
             @Html.ValidationMessageFor(model => model.IdSpecialization, "", new { @class = "text-danger", @id = "error" })
         </div>
     </div>

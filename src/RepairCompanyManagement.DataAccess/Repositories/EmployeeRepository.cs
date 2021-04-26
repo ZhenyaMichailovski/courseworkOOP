@@ -124,6 +124,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                 {
                     command.Parameters.AddRange(new SqlParameter[]
                         {
+                            new SqlParameter("@id", item.Id),
                             new SqlParameter("@idBrigade", item.IdBrigade),
                             new SqlParameter("@salary", item.Salary),
                             new SqlParameter("@idJobPosition", item.IdJobPosition),
