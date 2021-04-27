@@ -1,4 +1,4 @@
-﻿ALTER TABLE dbo.[Order]
-ADD CONSTRAINT FK_OrderTask_Order FOREIGN KEY (Id)
-	REFERENCES dbo.OrderTask(IdOrder)
+﻿ALTER TABLE dbo.[OrderTask]
+ADD CONSTRAINT FK_OrderTask_Order FOREIGN KEY (IdOrder)
+	REFERENCES dbo.[Order](Id)
 

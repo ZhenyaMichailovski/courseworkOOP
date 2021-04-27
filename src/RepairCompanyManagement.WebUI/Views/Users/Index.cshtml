@@ -1,0 +1,102 @@
+﻿@model RepairCompanyManagement.WebUI.Models.UsersIndexViewModel
+@{ ViewBag.Title = "Users";
+    var anyManagers = Model.Managers != null && Model.Managers.Any();
+    var anyCustomers = Model.Customers != null && Model.Customers.Any();
+    var anyEmployee = Model.Employee != null && Model.Employee.Any();}
+
+<h2>Users</h2>
+@*<hr />
+@Html.ActionLink("Create new...", "Create", "Users", null, new { @class = "btn btn-primary" })
+<hr />*@
+
+<h4>Managers</h4>
+<table class="table">
+    <tr>
+        <th>Surname</th>
+        <th>FirstName</th>
+        <th>LastName</th>
+        <th>PhoneNumber</th>
+        <th>Email</th>
+        <th></th>
+        <th></th>
+    </tr>
+    @if (anyManagers)
+    {
+        foreach (var item in Model.Managers)
+        {
+<tr>
+    @Html.Partial("_UserTableItem", item)
+    @Html.Partial("_ButtonsTableItem", item)
+
+</tr> }
+            }
+            else
+            {
+<tr>
+    <td colspan="7" class="text-center">No customers</td>
+</tr>}
+</table>
+
+<h4>Cumstomers</h4>
+<table class="table">
+    <tr>
+        <th>Surname</th>
+        <th>FirstName</th>
+        <th>LastName</th>
+        <th>PhoneNumber</th>
+        <th>Email</th>
+        <th></th>
+        <th></th>
+    </tr>
+    @if (anyCustomers)
+    {
+        foreach (var item in Model.Customers)
+        {
+<tr>
+    @Html.Partial("_UserTableItem", item)
+    
+    @Html.Partial("_ButtonsTableItem", item)
+
+</tr> }
+            }
+            else
+            {
+<tr>
+    <td colspan="7" class="text-center">No managers</td>
+</tr>}
+</table>
+
+
+
+<h4>Employees</h4>
+<table class="table">
+    <tr>
+        <th>Surname</th>
+        <th>FirstName</th>
+        <th>LastName</th>
+        <th>PhoneNumber</th>
+        <th>Email</th>
+        <th>JobPositionName</th>
+        <th>BrigadeName</th>
+        <th></th>
+        <th></th>
+    </tr>
+    @if (anyCustomers)
+    {
+        foreach (var item in Model.Customers)
+        {
+<tr>
+    @Html.Partial("_UserTableItem", item)
+    @Html.Partial("_BrigadeJobPositionColumns", item)
+    @Html.Partial("_ButtonsTableItem", item)
+
+</tr> }
+            }
+            else
+            {
+<tr>
+    <td colspan="9" class="text-center">No employees</td>
+</tr>}
+</table>
+
+<br>

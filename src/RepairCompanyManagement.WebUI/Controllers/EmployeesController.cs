@@ -11,11 +11,11 @@ namespace RepairCompanyManagement.WebUI.Controllers
 {
     public class EmployeesController : Controller
     {
-        private IWorkerService _workerService { get; set; }
+        private IUserService _workerService { get; set; }
 
         private IMapper _mapper { get; set; }
 
-        public EmployeesController(IWorkerService brigadeService, IMapper mapper)
+        public EmployeesController(IUserService brigadeService, IMapper mapper)
         {
             _workerService = brigadeService;
             _mapper = mapper;

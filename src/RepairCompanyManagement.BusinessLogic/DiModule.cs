@@ -23,7 +23,7 @@ namespace RepairCompanyManagement.BusinessLogic
                 .AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<OrderService>()
                 .AsImplementedInterfaces().InstancePerLifetimeScope();
-            builder.RegisterType<WorkerService>()
+            builder.RegisterType<UserService>()
                 .AsImplementedInterfaces().InstancePerLifetimeScope();
         }
     }

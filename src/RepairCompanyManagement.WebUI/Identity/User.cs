@@ -6,15 +6,18 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace RepairCompanyManagement.WebUI.Identity
 {
-    [Table("AspNetUsers")]
+    //[Table("AspNetUsers")]
     public class User : IdentityUser
     {
         public string Surname { get; set; }
 
         public string FirstName { get; set; }
 
+        public string LastName { get; set; }
+
         public decimal Balance { get; set; }
 
+       
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

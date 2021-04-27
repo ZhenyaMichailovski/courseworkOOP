@@ -6,42 +6,32 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
 {
     public interface IOrderService
     {
-        int CreateManager(ManagerDto item);
-
         ManagerDto GetManagerById(int id);
 
         IReadOnlyCollection<ManagerDto> GetAllManagers();
 
-        void UpdateManager(ManagerDto item);
-
-        void DeleteManager(int id);
-
-        void ValidateManager(ManagerDto item);
 
         ////////////////////////
         
 
         /////////////////////
-        int CreateCustomer(CustomerDto item);
-
+       
         CustomerDto GetCustomerById(int id);
 
         IReadOnlyCollection<CustomerDto> GetAllCustomers();
 
-        void UpdateCustomer(CustomerDto item);
+        int CreateTask(TaskDto item);
 
-        void DeleteCustomer(int id);
+        TaskDto GetTaskById(int id);
 
-        void ValidateCustomer(CustomerDto item);
-        int CreateBrigade(BrigadeDto item);
+        IReadOnlyCollection<TaskDto> GetAllTasks();
 
-        BrigadeDto GetBrigadeById(int id);
+        void UpdateTask(TaskDto item);
 
-        IReadOnlyCollection<BrigadeDto> GetAllBrigades();
+        void DeleteTask(int id);
 
-        void UpdateBrigade(BrigadeDto item);
+        void ValidateTask(TaskDto item);
 
-        void DeleteBrigade(int id);
 
         int CreateOrder(OrderDto item);
 
@@ -54,5 +44,21 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
         void DeleteOrder(int id);
 
         void ValidateOrder(OrderDto item);
+
+        int CreateOrderTask(OrderTaskDto item);
+
+        OrderTaskDto GetOrderTaskById(int id);
+
+        IReadOnlyCollection<OrderTaskDto> GetAllOrderTasks();
+
+        void UpdateOrderTask(OrderTaskDto item);
+
+        void DeleteOrderTask(int id);
+
+
+        SpecializationDto GetSpecializationById(int id);
+
+        IReadOnlyCollection<SpecializationDto> GetAllSpecializations();
+
     }
 }

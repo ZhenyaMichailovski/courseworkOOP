@@ -16,19 +16,67 @@ namespace RepairCompanyManagement.BusinessLogic.Services
         private readonly IRepository<Brigade> _brigadeRepository;
         private readonly IRepository<Task> _taskRepository;
         private readonly IRepository<OrderTask> _orderTaskRepository;
-        
+        private readonly IRepository<JobPosition> _jobPositionRepository;
+        private readonly IRepository<Employee> _employeeRepository;
+
         private readonly IMapper _mapper;
 
-        public BrigadeService(IRepository<Specialization> specializationRepository, IRepository<Brigade> brigadeRepository, 
-            IRepository<OrderTask> orderTaskRepository, IRepository<Task> taskRepository, IMapper mapper)
+        public BrigadeService(IRepository<Specialization> specializationRepository, IRepository<Brigade> brigadeRepository,
+            IRepository<Employee> employeeRepository, IRepository<JobPosition> jobPositionRepository, IMapper mapper)
 
         {
             _specializationRepository = specializationRepository;
             _brigadeRepository = brigadeRepository;
-            _taskRepository = taskRepository;
-            _orderTaskRepository = orderTaskRepository;
+            _jobPositionRepository = jobPositionRepository;
+            _employeeRepository = employeeRepository;
 
             _mapper = mapper;
+        }
+        public int CreateEmployee(EmployeeDto item)
+        {
+            ValidateEmployee(item);
+
+            return _employeeRepository.Create(_mapper.Map<Employee>(item));
+        }
+
+        public void DeleteEmployee(int id)
+        {
+            if (_employeeRepository.GetById(id) is null)
+                throw new BusinessLogicException(Constants.EmployeeNotFoundMessage);
+
+            _employeeRepository.Delete(id);
+        }
+
+        public IReadOnlyCollection<EmployeeDto> GetAllEmployees()
+        {
+            return _mapper.Map<IEnumerable<EmployeeDto>>(_employeeRepository.GetAll())
+                .ToList().AsReadOnly();
+        }
+
+        public EmployeeDto GetEmployeeById(int id)
+        {
+            var response = _employeeRepository.GetById(id);
+
+            if (response is null)
+            {
+                throw new BusinessLogicException(Constants.EmployeeNotFoundMessage);
+            }
+
+            return _mapper.Map<EmployeeDto>(response);
+        }
+
+        public void UpdateEmployee(EmployeeDto item)
+        {
+
+            ValidateEmployee(item);
+
+            _employeeRepository.Update(_mapper.Map<Employee>(item));
+        }
+
+        public void ValidateEmployee(EmployeeDto item)
+        {
+            if (string.IsNullOrEmpty(item.IdentityUserID))
+                throw new ValidationException(Constants.EmptyEmployeeTitleMessage);
         }
 
         public int CreateSpecialization(SpecializationDto item)
@@ -81,12 +129,60 @@ namespace RepairCompanyManagement.BusinessLogic.Services
 
         ///////////////////////////////
 
-        
+        public int CreateJobPosition(JobPositionDto item)
+        {
+            ValidateJobPosition(item);
 
-       
+            return _jobPositionRepository.Create(_mapper.Map<JobPosition>(item));
+        }
+
+        public void DeleteJobPosition(int id)
+        {
+            if (_jobPositionRepository.GetById(id) is null)
+                throw new BusinessLogicException(Constants.JobPositionNotFoundMessage);
+
+            _jobPositionRepository.Delete(id);
+        }
+
+        public IReadOnlyCollection<JobPositionDto> GetAllJobPositions()
+        {
+            return _mapper.Map<IEnumerable<JobPositionDto>>(_jobPositionRepository.GetAll())
+                .ToList().AsReadOnly();
+        }
+
+        public JobPositionDto GetJobPositionById(int id)
+        {
+            var response = _jobPositionRepository.GetById(id);
+
+            if (response is null)
+            {
+                throw new BusinessLogicException(Constants.JobPositionNotFoundMessage);
+            }
+
+            return _mapper.Map<JobPositionDto>(response);
+        }
+
+        public void UpdateJobPosition(JobPositionDto item)
+        {
+            //ValidateSpecialization(item);
+            ValidateJobPosition(item);
+
+            _jobPositionRepository.Update(_mapper.Map<JobPosition>(item));
+        }
+
+        public void ValidateJobPosition(JobPositionDto item)
+        {
+            if (string.IsNullOrEmpty(item.Title))
+                throw new ValidationException(Constants.EmptyJobPositionTitleMessage);
+            if (item.Purpose is null)
+                item.Purpose = "";
+        }
+
+
+
         ///////////////////////////////
         ///
-        
+
         public int CreateBrigade(BrigadeDto item)
         {
             ValidateBrigade(item);

@@ -8,78 +8,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace RepairCompanyManagement.BusinessLogic.Services
 {
-    public class OrderService : IOrderService
+    public class UserService : IUserService
     {
-       
         private readonly IRepository<Manager> _managerRepository;
         private readonly IRepository<Customer> _customerRepository;
-        private readonly IRepository<Order> _orderRepository;
+        private readonly IRepository<Employee> _employeeRepository;
         private readonly IRepository<Brigade> _brigadeRepository;
-        private readonly IRepository<OrderTask> _orderTaskRepository;
-        private readonly IRepository<Specialization> _specializationRepository;
-        private readonly IRepository<Task> _taskRepository;
-
+        private readonly IRepository<JobPosition> _jobPositionRepository;
         private readonly IMapper _mapper;
-        public OrderService(IRepository<Order> orderRepository, IRepository<Task> taskRepository, IRepository<Manager> managerRepository, IRepository<Specialization> specializationRepository,
-        IRepository<Customer> customerRepository, IRepository<OrderTask> orderTaskRepository, IMapper mapper)
+        public UserService(IRepository<Manager> managerRepository, IRepository<Employee> employeeRepository, IRepository<JobPosition> jobPositionRepositiory,
+           IRepository<Customer> customerRepository, IMapper mapper, IRepository<Brigade> brigadeRepository)
 
         {
             _customerRepository = customerRepository;
             _managerRepository = managerRepository;
-            _orderRepository = orderRepository;
-            _orderTaskRepository = orderTaskRepository;
-            _specializationRepository = specializationRepository;
-            _taskRepository = taskRepository;
+            _employeeRepository = employeeRepository;
+            _brigadeRepository = brigadeRepository;
+            _jobPositionRepository = jobPositionRepositiory;
             _mapper = mapper;
-        }
-        public int CreateSpecialization(SpecializationDto item)
-        {
-            ValidateSpecialization(item);
-
-            return _specializationRepository.Create(_mapper.Map<Specialization>(item));
-        }
-
-        public void DeleteSpecialization(int id)
-        {
-            if (_specializationRepository.GetById(id) is null)
-                throw new BusinessLogicException(Constants.SpecializationNotFoundMessage);
-
-            _specializationRepository.Delete(id);
-        }
-
-        public IReadOnlyCollection<SpecializationDto> GetAllSpecializations()
-        {
-            return _mapper.Map<IEnumerable<SpecializationDto>>(_specializationRepository.GetAll())
-                .ToList().AsReadOnly();
-        }
-
-        public SpecializationDto GetSpecializationById(int id)
-        {
-            var response = _specializationRepository.GetById(id);
-
-            if (response is null)
-            {
-                throw new BusinessLogicException(Constants.SpecializationNotFoundMessage);
-            }
-
-            return _mapper.Map<SpecializationDto>(response);
-        }
-
-        public void UpdateSpecialization(SpecializationDto item)
-        {
-            ValidateSpecialization(item);
-
-            _specializationRepository.Update(_mapper.Map<Specialization>(item));
-        }
-
-        public void ValidateSpecialization(SpecializationDto item)
-        {
-            if (string.IsNullOrEmpty(item.Name))
-                throw new ValidationException(Constants.EmptySpecializationNameMessage);
-            if (item.Description is null)
-                item.Description = "";
         }
         public int CreateCustomer(CustomerDto item)
         {
@@ -132,6 +81,7 @@ namespace RepairCompanyManagement.BusinessLogic.Services
 
         ///////////////////////////////
         ///
+
         public int CreateManager(ManagerDto item)
         {
             ValidateManager(item);
@@ -186,56 +136,59 @@ namespace RepairCompanyManagement.BusinessLogic.Services
         }
 
         ///////////////////////////////
-        ///
-        public int CreateOrder(OrderDto item)
+        //
+        public (string, string) GetEmployeeFullInfo(string id)
         {
-            ValidateOrder(item);
+            var employee = _employeeRepository.GetById(Convert.ToInt32(id));
+            var brigade = _brigadeRepository.GetById(employee.IdBrigade);
+            var jobPosition = _jobPositionRepository.GetById(employee.IdJobPosition);
+            return (brigade.Title, jobPosition.Title);
+        }
+        public int CreateEmployee(EmployeeDto item)
+        {
+            ValidateEmployee(item);
 
-            return _orderRepository.Create(_mapper.Map<Order>(item));
+            return _employeeRepository.Create(_mapper.Map<Employee>(item));
         }
 
-        public void DeleteOrder(int id)
+        public void DeleteEmployee(int id)
         {
-            if (_orderRepository.GetById(id) is null)
-                throw new BusinessLogicException(Constants.OrderNotFoundMessage);
+            if (_employeeRepository.GetById(id) is null)
+                throw new BusinessLogicException(Constants.EmployeeNotFoundMessage);
 
-            _orderRepository.Delete(id);
+            _employeeRepository.Delete(id);
         }
 
-        public IReadOnlyCollection<OrderDto> GetAllOrders()
+        public IReadOnlyCollection<EmployeeDto> GetAllEmployees()
         {
-            return _mapper.Map<IEnumerable<OrderDto>>(_orderRepository.GetAll())
+            return _mapper.Map<IEnumerable<EmployeeDto>>(_employeeRepository.GetAll())
                 .ToList().AsReadOnly();
         }
 
-        public OrderDto GetOrderById(int id)
+        public EmployeeDto GetEmployeeById(int id)
         {
-            var response = _orderRepository.GetById(id);
+            var response = _employeeRepository.GetById(id);
 
             if (response is null)
             {
-                throw new BusinessLogicException(Constants.OrderNotFoundMessage);
+                throw new BusinessLogicException(Constants.EmployeeNotFoundMessage);
             }
 
-            return _mapper.Map<OrderDto>(response);
+            return _mapper.Map<EmployeeDto>(response);
         }
 
-        public void UpdateOrder(OrderDto item)
+        public void UpdateEmployee(EmployeeDto item)
         {
 
-            ValidateOrder(item);
+            ValidateEmployee(item);
 
-            _orderRepository.Update(_mapper.Map<Order>(item));
+            _employeeRepository.Update(_mapper.Map<Employee>(item));
         }
 
-        public void ValidateOrder(OrderDto item)
+        public void ValidateEmployee(EmployeeDto item)
         {
-            if (string.IsNullOrEmpty(item.OrderStatus))
-                throw new ValidationException(Constants.EmptyOrderTitleMessage);
-            if (string.IsNullOrEmpty(item.Requirements))
-                item.Requirements = "";
-            if (string.IsNullOrEmpty(item.Title))
-                throw new ValidationException(Constants.EmptyOrderTitleMessage);
+            if (string.IsNullOrEmpty(item.IdentityUserID))
+                throw new ValidationException(Constants.EmptyEmployeeTitleMessage);
         }
         public int CreateBrigade(BrigadeDto item)
         {
@@ -278,104 +231,67 @@ namespace RepairCompanyManagement.BusinessLogic.Services
 
             _brigadeRepository.Update(_mapper.Map<Brigade>(item));
         }
-
+        public IReadOnlyCollection<BrigadeDto> FindBrigadeBySpecialization(int specializationId)
+        {
+            return _mapper.Map<IEnumerable<BrigadeDto>>(_brigadeRepository.GetAll().Where(x => x.IdSpecialization == specializationId))
+                .ToList().AsReadOnly();
+        }
         public void ValidateBrigade(BrigadeDto item)
         {
             if (string.IsNullOrEmpty(item.Title))
                 throw new ValidationException(Constants.BrigadeEmptyTitleMessage);
 
         }
-        public int CreateOrderTask(OrderTaskDto item)
+        public int CreateJobPosition(JobPositionDto item)
         {
-            ValidateOrderTask(item);
+            ValidateJobPosition(item);
 
-            return _orderTaskRepository.Create(_mapper.Map<OrderTask>(item));
+            return _jobPositionRepository.Create(_mapper.Map<JobPosition>(item));
         }
 
-        public void DeleteOrderTask(int id)
+        public void DeleteJobPosition(int id)
         {
-            if (_orderTaskRepository.GetById(id) is null)
-                throw new BusinessLogicException(Constants.OrderTaskNotFoundMessage);
+            if (_jobPositionRepository.GetById(id) is null)
+                throw new BusinessLogicException(Constants.JobPositionNotFoundMessage);
 
-            _orderTaskRepository.Delete(id);
+            _jobPositionRepository.Delete(id);
         }
 
-        public IReadOnlyCollection<OrderTaskDto> GetAllOrderTasks()
+        public IReadOnlyCollection<JobPositionDto> GetAllJobPositions()
         {
-            return _mapper.Map<IEnumerable<OrderTaskDto>>(_orderTaskRepository.GetAll())
+            return _mapper.Map<IEnumerable<JobPositionDto>>(_jobPositionRepository.GetAll())
                 .ToList().AsReadOnly();
         }
 
-        public OrderTaskDto GetOrderTaskById(int id)
+        public JobPositionDto GetJobPositionById(int id)
         {
-            var response = _orderTaskRepository.GetById(id);
+            var response = _jobPositionRepository.GetById(id);
 
             if (response is null)
             {
-                throw new BusinessLogicException(Constants.OrderTaskNotFoundMessage);
+                throw new BusinessLogicException(Constants.JobPositionNotFoundMessage);
             }
 
-            return _mapper.Map<OrderTaskDto>(response);
+            return _mapper.Map<JobPositionDto>(response);
         }
 
-        public void UpdateOrderTask(OrderTaskDto item)
+        public void UpdateJobPosition(JobPositionDto item)
         {
+            //ValidateSpecialization(item);
+            ValidateJobPosition(item);
 
-            ValidateOrderTask(item);
-
-            _orderTaskRepository.Update(_mapper.Map<OrderTask>(item));
+            _jobPositionRepository.Update(_mapper.Map<JobPosition>(item));
         }
 
-        public void ValidateOrderTask(OrderTaskDto item)
+        public void ValidateJobPosition(JobPositionDto item)
         {
-
-        }
-        ///////////////////////
-        public int CreateTask(TaskDto item)
-        {
-            ValidateTask(item);
-
-            return _taskRepository.Create(_mapper.Map<Task>(item));
+            if (string.IsNullOrEmpty(item.Title))
+                throw new ValidationException(Constants.EmptyJobPositionTitleMessage);
+            if (item.Purpose is null)
+                item.Purpose = "";
         }
 
-        public void DeleteTask(int id)
-        {
-            if (_taskRepository.GetById(id) is null)
-                throw new BusinessLogicException(Constants.TaskNotFoundMessage);
 
-            _taskRepository.Delete(id);
-        }
 
-        public IReadOnlyCollection<TaskDto> GetAllTasks()
-        {
-            return _mapper.Map<IEnumerable<TaskDto>>(_taskRepository.GetAll())
-                .ToList().AsReadOnly();
-        }
-
-        public TaskDto GetTaskById(int id)
-        {
-            var response = _taskRepository.GetById(id);
-
-            if (response is null)
-            {
-                throw new BusinessLogicException(Constants.TaskNotFoundMessage);
-            }
-
-            return _mapper.Map<TaskDto>(response);
-        }
-
-        public void UpdateTask(TaskDto item)
-        {
-
-            ValidateTask(item);
-
-            _taskRepository.Update(_mapper.Map<Task>(item));
-        }
-
-        public void ValidateTask(TaskDto item)
-        {
-
-        }
-        
     }
 }

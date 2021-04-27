@@ -22,29 +22,9 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
 
         // /// / / / / /// / / / / /  //  //  // 
 
-        int CreateOrderTask(OrderTaskDto item);
 
-        OrderTaskDto GetOrderTaskById(int id);
-
-        IReadOnlyCollection<OrderTaskDto> GetAllOrderTasks();
-
-        void UpdateOrderTask(OrderTaskDto item);
-
-        void DeleteOrderTask(int id);
-
-        void ValidateOrderTask(OrderTaskDto item);
         /////////////////////////////////
-        int CreateTask(TaskDto item);
 
-        TaskDto GetTaskById(int id);
-
-        IReadOnlyCollection<TaskDto> GetAllTasks();
-
-        void UpdateTask(TaskDto item);
-
-        void DeleteTask(int id);
-
-        void ValidateTask(TaskDto item);
 
         // /// / / / / /// / / / / /  //  //  // 
         int CreateBrigade(BrigadeDto item);
@@ -58,5 +38,22 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
         void DeleteBrigade(int id);
 
         IReadOnlyCollection<BrigadeDto> FindBrigadeBySpecialization(int specializationId);
+
+        int CreateJobPosition(JobPositionDto item);
+
+        JobPositionDto GetJobPositionById(int id);
+
+        IReadOnlyCollection<JobPositionDto> GetAllJobPositions();
+
+        void UpdateJobPosition(JobPositionDto item);
+
+        void DeleteJobPosition(int id);
+
+        void ValidateJobPosition(JobPositionDto item);
+
+        IReadOnlyCollection<EmployeeDto> GetAllEmployees();
+
+        void UpdateEmployee(EmployeeDto item);
+
     }
 }

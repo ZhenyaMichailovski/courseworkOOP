@@ -30,7 +30,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                             new SqlParameter("@dateOfBirth", item.DateOfBirth),
                             new SqlParameter("@address", item.Address),
                             new SqlParameter("@salary", item.Salary),
-                            new SqlParameter("@identituUserID", item.IdentituUserID),
+                            new SqlParameter("@identituUserID", item.IdentityUserID),
                         });
 
                     return command.ExecuteNonQuery();
@@ -56,7 +56,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public IEnumerable<Manager> GetAll()
         {
-            string sqlExpression = "SELECT Id, DateOfBirth, Address, Salary, IdentituUser FROM Manager";
+            string sqlExpression = "SELECT Id, DateOfBirth, Address, Salary, IdentityUserID FROM Manager";
             List<Manager> manager = new List<Manager>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -71,10 +71,10 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                             manager.Add(new Manager()
                             {
                                 Id = Convert.ToInt32(reader["Id"], null),
-                                DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]),
+                                DateOfBirth = DateTime.Parse(reader["DateOfBirth"].ToString()),
                                 Address = reader["Address"].ToString(),
                                 Salary = Convert.ToDouble(reader["Salary"]),
-                                IdentituUserID = reader["IdentituUser"].ToString(),
+                                IdentityUserID = reader["IdentityUserID"].ToString(),
                             });
                         }
                     }
@@ -103,7 +103,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                             DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]),
                             Address = reader["Address"].ToString(),
                             Salary = Convert.ToDouble(reader["Salary"]),
-                            IdentituUserID = reader["IdentituUser"].ToString(),
+                            IdentityUserID = reader["IdentituUser"].ToString(),
                         } : null;
                     }
                 }
@@ -127,7 +127,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                             new SqlParameter("@dateOfBirth", item.DateOfBirth),
                             new SqlParameter("@address", item.Address),
                             new SqlParameter("@salary", item.Salary),
-                            new SqlParameter("@identituUserID", item.IdentituUserID),
+                            new SqlParameter("@identituUserID", item.IdentityUserID),
                         });
 
                     command.ExecuteNonQuery();

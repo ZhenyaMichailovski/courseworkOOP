@@ -55,13 +55,13 @@
     <Compile Include="Exceptions\BusinessLogicException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Interfaces\IBrigadeService.cs" />
-    <Compile Include="Interfaces\IWorkerService.cs" />
+    <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Interfaces\IOrderService.cs" />
     <Compile Include="Mapper\BusinessLogicMapperProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BrigadeService.cs" />
     <Compile Include="Services\OrderService.cs" />
-    <Compile Include="Services\WorkerService.cs" />
+    <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper">

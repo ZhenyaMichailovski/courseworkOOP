@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RepairCompanyManagement.BusinessLogic.Dtos;
+using RepairCompanyManagement.WebUI.Identity;
 using RepairCompanyManagement.WebUI.Models;
 
 namespace RepairCompanyManagement.WebUI.Mapper
@@ -11,6 +12,7 @@ namespace RepairCompanyManagement.WebUI.Mapper
             CreateMap<SpecializationDto, SpecializationViewModel>().ReverseMap();
             CreateMap<JobPositionDto, JobPositionViewModel>().ReverseMap();
             CreateMap<BrigadeDto, BrigadeViewModel>().ReverseMap();
+            CreateMap<EmployeeFullInfoViewModel, User>().ReverseMap();
         }
     }
 }

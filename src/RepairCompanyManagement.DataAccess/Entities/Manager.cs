@@ -8,6 +8,6 @@ namespace RepairCompanyManagement.DataAccess.Entities
         public DateTimeOffset DateOfBirth { get; set; }
         public string Address { get; set; }
         public double Salary { get; set; }
-        public string IdentituUserID { get; set; }
+        public string IdentityUserID { get; set; }
     }
 }
