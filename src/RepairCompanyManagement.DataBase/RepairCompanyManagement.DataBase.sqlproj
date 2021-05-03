@@ -69,7 +69,7 @@
     <Build Include="Tables\Brigade.sql" />
     <Build Include="Tables\Customer.sql" />
     <Build Include="Tables\Employee.sql" />
-    <Build Include="Tables\JobPositionController.sql" />
+    <Build Include="Tables\JobPosition.sql" />
     <Build Include="Tables\Manager.sql" />
     <Build Include="Tables\OrderTask.sql" />
     <Build Include="Tables\Specialization.sql" />

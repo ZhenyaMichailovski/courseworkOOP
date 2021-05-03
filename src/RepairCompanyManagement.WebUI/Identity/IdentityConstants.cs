@@ -1,10 +1,12 @@
-﻿namespace TicketManagement.WebUI.Identity
+﻿namespace RepairCompanyManagement.WebUI.Identity
 {
     public static class IdentityConstants
     {
-        internal const string AdminRole = "Administrator";
-        internal const string UserRole = "User";
-
-        internal const decimal MinBalance = 0.0m;
+        public const string AdminRole = "Administrator";
+        public const string CustomerRole = "Customer";
+        public const string EmployeeRole = "Employee";
+        public const string ManagerRole = "Manager";
+        
+        public const decimal MinBalance = 0.0m;
     }
 }

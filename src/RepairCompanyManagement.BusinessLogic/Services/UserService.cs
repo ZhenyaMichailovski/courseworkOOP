@@ -139,7 +139,7 @@ namespace RepairCompanyManagement.BusinessLogic.Services
         //
         public (string, string) GetEmployeeFullInfo(string id)
         {
-            var employee = _employeeRepository.GetById(Convert.ToInt32(id));
+            var employee = _employeeRepository.GetAll().FirstOrDefault(x => x.IdentityUserID == id);
             var brigade = _brigadeRepository.GetById(employee.IdBrigade);
             var jobPosition = _jobPositionRepository.GetById(employee.IdJobPosition);
             return (brigade.Title, jobPosition.Title);

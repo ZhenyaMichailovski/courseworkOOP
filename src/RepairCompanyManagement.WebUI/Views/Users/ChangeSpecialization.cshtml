@@ -1,0 +1,27 @@
+﻿@model RepairCompanyManagement.WebUI.Models.UserChangeSpecializationViewModel
+@{ ViewBag.Title = "Specializations";
+                var anySpecializations = Model != null && Model.Specializations.Any(); }
+
+<h2>Choose specialization</h2>
+<hr />
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th></th>
+    </tr>
+    @if (anySpecializations)
+    {
+        foreach (var item in Model.Specializations)
+        {
+<tr>
+    <td>@item.Item2</td>
+    <td> @Html.ActionLink("Select", "ChangeEmployee", "Users", new { id = Model.UserId, specId = item.Item1 }, new { @class = "btn btn-outline-secondary" })</td>
+</tr> }
+            }
+            else
+            {
+<tr>
+    <td colspan="2" class="text-center">No specializations</td>
+</tr>}
+</table>
+<br>

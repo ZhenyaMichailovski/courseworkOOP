@@ -16,7 +16,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
         }
         public int Create(JobPosition item)
         {
-            string sqlExpression = $"INSERT INTO JobPositionController (Title, Purpose)" +
+            string sqlExpression = $"INSERT INTO JobPosition (Title, Purpose)" +
                 " VALUES (@title, @purpose); SELECT SCOPE_IDENTITY()";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -36,7 +36,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
         }
         public void Delete(int id)
         {
-            string sqlExpression = "DELETE FROM JobPositionController WHERE Id=@id";
+            string sqlExpression = "DELETE FROM JobPosition WHERE Id=@id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -53,7 +53,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public IEnumerable<JobPosition> GetAll()
         {
-            string sqlExpression = "SELECT Id, Title, Purpose FROM JobPositionController";
+            string sqlExpression = "SELECT Id, Title, Purpose FROM JobPosition";
             List<JobPosition> jobPositionControllers = new List<JobPosition>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -81,7 +81,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
         
         public JobPosition GetById(int id)
         {
-            string sqlExpression = "SELECT Id, Title, Purpose FROM JobPositionController" +
+            string sqlExpression = "SELECT Id, Title, Purpose FROM JobPosition" +
                 " WHERE Id = @id";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -105,8 +105,8 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public void Update(JobPosition item)
         {
-            string sqlExpression = "UPDATE JobPositionController SET Title=@title, Purpose=@purpose" +
-                " FROM JobPositionController" +
+            string sqlExpression = "UPDATE JobPosition SET Title=@title, Purpose=@purpose" +
+                " FROM JobPosition" +
                 " WHERE Id = @id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))

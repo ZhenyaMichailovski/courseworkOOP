@@ -6,7 +6,7 @@ using Microsoft.Owin.Security;
 using RepairCompanyManagement.BusinessLogic.Interfaces;
 using RepairCompanyManagement.WebUI.Identity;
 using RepairCompanyManagement.WebUI.Models;
-using TicketManagement.WebUI.Identity;
+using RepairCompanyManagement.WebUI.Identity;
 
 namespace RepairCompanyManagement.WebUI.Controllers
 {
@@ -89,7 +89,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
                 var result = UserManager.Create(user, model.Password);
                 if (result.Succeeded)
                 {
-                    UserManager.AddToRole(user.Id, IdentityConstants.UserRole);
+                    UserManager.AddToRole(user.Id, IdentityConstants.CustomerRole);
                     SignInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
                     return RedirectToAction("Index", "Home");
                 }
@@ -112,7 +112,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
 
         // GET: /Account/ChangePassword
         [HttpGet]
-        [Authorize(Roles = IdentityConstants.AdminRole+","+IdentityConstants.UserRole)]
+        [Authorize(Roles = IdentityConstants.AdminRole+","+IdentityConstants.CustomerRole)]
         public ActionResult ChangePassword()
         {
             

@@ -26,7 +26,11 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [ExceptionFilter()]
         public ActionResult Index()
         {
-            var specs = _mapper.Map<IReadOnlyCollection<BrigadeViewModel>>(_brigadeService.GetAllBrigades());
+            var specs = _mapper.Map<IList<BrigadeViewModel>>(_brigadeService.GetAllBrigades());
+            foreach (var one in specs)
+            {
+                one.SpecializationName = _brigadeService.GetSpecializationById(one.IdSpecialization).Name;
+            }
             return View(specs);
         }
 
@@ -52,8 +56,9 @@ namespace RepairCompanyManagement.WebUI.Controllers
         {
             if (model != null && ModelState.IsValid)
             {
+                model.SpecializationName = _brigadeService.GetSpecializationById(model.IdSpecialization).Name;
                 _brigadeService.CreateBrigade(_mapper.Map<BrigadeDto>(model));
-
+                
                 return RedirectToAction("Index", "Brigades", null);
             }
 
@@ -71,7 +76,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
             BrigadeViewModel model = new BrigadeViewModel()
             {
                 SpecializationItems = items is null ? new List<SpecializationItem>() : items,
-                SpecializationName = item.Title,
+                SpecializationName = item.SpecializationName,
             };
            
             return View(model);

@@ -37,5 +37,7 @@
         public const string EmptyTaskTitleMessage = "Task should have a not empty name!";
 
         public const string TaskNotFoundMessage = "The specific task wasn't found!";
+
+        public const string UserNotFoundMassage = "This user is not registered";
     }
 }
