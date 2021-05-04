@@ -10,8 +10,6 @@ namespace RepairCompanyManagement.DataAccess.Entities
     {
         public int Id { get; set; }
 
-        public string Gender { get; set; }
-
         public string IdentityUserID { get; set; }
     }
 }

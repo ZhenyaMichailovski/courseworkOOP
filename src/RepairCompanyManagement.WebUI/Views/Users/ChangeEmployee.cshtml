@@ -1,10 +1,35 @@
-﻿
+﻿@model RepairCompanyManagement.WebUI.Models.ChangeEmployeeViewModel
+@{ ViewBag.Title = "Change employee"; }
+<h2>@ViewBag.Title</h2>
 
-@*<div class="form-group row">
-    @Html.LabelFor(model => model.IdSpecialization, new { @class = "control-label col-md-2" })
-    <div class="col-md-10 center justify-content-center" style="width:250px">
-        @Html.DropDownListFor(model => model.IdSpecialization,
-                 new SelectList(Model.SpecializationItems, "SpecializationId", "Name", Model.SpecializationName), new { @class = "form-control" }),
-        @Html.ValidationMessageFor(model => model.IdSpecialization, "", new { @class = "text-danger", @id = "error" })
+<hr />
+@using (Html.BeginForm("ChangeEmployee", "Users", FormMethod.Post, new { @class = "" }))
+{
+@Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    @Html.HiddenFor(x => x.IdentityUserId)
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group row">
+        @Html.LabelFor(model => model.BrigadeId, new { @class = "control-label col-md-2" })
+        <div class="col-md-10 center justify-content-center" style="width:250px">
+            @Html.DropDownListFor(model => model.BrigadeId,
+                                 new SelectList(Model.Brigades, "Id", "Name", ""), new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.BrigadeId, "", new { @class = "text-danger", @id = "error" })
+        </div>
     </div>
-</div>*@
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.JobPositionId, new { @class = "control-label col-md-2" })
+        <div class="col-md-10 center justify-content-center" style="width:250px">
+            @Html.DropDownListFor(model => model.JobPositionId,
+                            new SelectList(Model.JobPositions, "Id", "Title", ""), new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.JobPositionId, "", new { @class = "text-danger", @id = "error" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Change</button>
+    </div>
+}
+<br>
+@Html.Partial("_ReturnToBrigades")

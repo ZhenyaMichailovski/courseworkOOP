@@ -39,5 +39,7 @@
         public const string TaskNotFoundMessage = "The specific task wasn't found!";
 
         public const string UserNotFoundMassage = "This user is not registered";
+
+        public const decimal SelaryCoefficient = 1.5m;
     }
 }

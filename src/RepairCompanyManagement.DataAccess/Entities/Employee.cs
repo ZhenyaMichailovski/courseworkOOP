@@ -10,7 +10,7 @@ namespace RepairCompanyManagement.DataAccess.Entities
     {
         public int Id { get; set; }
         public int IdBrigade { get; set; }
-        public double Salary { get; set; }
+        public decimal Salary { get; set; }
         public int IdJobPosition { get; set; }
         public string IdentityUserID { get; set; }
     }

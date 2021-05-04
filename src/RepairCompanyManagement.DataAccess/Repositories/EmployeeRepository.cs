@@ -72,7 +72,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                             {
                                 Id = Convert.ToInt32(reader["Id"], null),
                                 IdBrigade = (int)reader["IdBrigade"],
-                                Salary = (double)reader["Salary"],
+                                Salary = (decimal)reader["Salary"],
                                 IdJobPosition = (int)(reader["IdJobPosition"]),
                                 IdentityUserID = (string)reader["IdentityUserID"],
                                
@@ -102,7 +102,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                         {
                             Id = Convert.ToInt32(reader["Id"], null),
                             IdBrigade = (int)reader["IdBrigade"],
-                            Salary = (double)reader["Salary"],
+                            Salary = (decimal)reader["Salary"],
                             IdJobPosition = (int)(reader["IdJobPosition"]),
                             IdentityUserID = (string)reader["IdentityUserID"],
                         } : null;

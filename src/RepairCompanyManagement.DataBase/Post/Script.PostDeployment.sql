@@ -19,20 +19,20 @@ values('88527CB8-A870-4757-AED9-DB0BC51624E2', '15269863-61E7-4877-BE2A-A22602CE
 ('88527CB8-A870-4757-AED9-DB0BC51624E4', '15269863-61E7-4877-BE2A-A22602CE742F'),
 ('88527CB8-A870-4757-AED9-DB0BC51624E5', '15269863-61E7-4877-BE2A-A22602CE742G')
 
-insert into dbo.[Customer](Gender, IdentityUserID)
-values('ћужской', '88527CB8-A870-4757-AED9-DB0BC51624E3')
+insert into dbo.[Customer](IdentityUserID)
+values('88527CB8-A870-4757-AED9-DB0BC51624E3')
 
 insert into dbo.[Specialization](Name, Description)
-values('Ёлектрик', 'Ёлектричит')
+values('Electric', 'Electrichat')
 
 insert into dbo.Brigade(Title, IdSpecialization)
-values('’ром', 1)
+values('Chom', 1)
 
 insert into dbo.JobPosition(Title, Purpose)
-values('Ѕригадир', 'Ѕригадирит')
+values('Brigadir', 'Brigadidrit')
 
 insert into dbo.Employee(IdBrigade, Salary, IdJobPosition, IdentityUserID)
-values(1, 1000, 1, '88527CB8-A870-4757-AED9-DB0BC51624E5')
+values(1, 1.5, 1, '88527CB8-A870-4757-AED9-DB0BC51624E5')
 
-insert into dbo.Manager([Address], Salary, IdentityUserID, DateOfBirth)
-values('ѕечальна€ область, тоскливый район, город грусть, проспект разочарование, дом 13', 1000, '88527CB8-A870-4757-AED9-DB0BC51624E2', '2000-12-12')
+insert into dbo.Manager(Salary, IdentityUserID)
+values(1000, '88527CB8-A870-4757-AED9-DB0BC51624E2')

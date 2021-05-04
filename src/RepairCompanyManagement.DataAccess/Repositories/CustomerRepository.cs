@@ -16,8 +16,8 @@ namespace RepairCompanyManagement.DataAccess.Repositories
         }
         public int Create(Customer item)
         {
-            string sqlExpression = $"INSERT INTO Customer (Gender, IdentityUserID)" +
-                " VALUES (@gender, @identityUserID); SELECT SCOPE_IDENTITY()";
+            string sqlExpression = $"INSERT INTO Customer (IdentityUserID)" +
+                " VALUES (@identityUserID); SELECT SCOPE_IDENTITY()";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -26,9 +26,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                 {
                     command.Parameters.AddRange(new SqlParameter[]
                         {
-                            new SqlParameter("@idTask", item.Gender),
-                            new SqlParameter("@idOrder", item.IdentityUserID),
-
+                            new SqlParameter("@identityUserID", item.IdentityUserID),
                         });
 
                     return command.ExecuteNonQuery();
@@ -54,7 +52,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public IEnumerable<Customer> GetAll()
         {
-            string sqlExpression = "SELECT Id, Gender, IdentityUserID FROM Customer";
+            string sqlExpression = "SELECT Id, IdentityUserID FROM Customer";
             List<Customer> customer = new List<Customer>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -69,7 +67,6 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                             customer.Add(new Customer()
                             {
                                 Id = Convert.ToInt32(reader["Id"], null),
-                                Gender = (string)reader["Gender"],
                                 IdentityUserID = (string)reader["IdentityUserID"],
                             });
                         }
@@ -82,7 +79,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public Customer GetById(int id)
         {
-            string sqlExpression = "SELECT Id, Gender, IdentityUserID FROM Customer" +
+            string sqlExpression = "SELECT Id, IdentityUserID FROM Customer" +
                 " WHERE Id = @id";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -96,7 +93,6 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                         return reader.Read() ? new Customer()
                         {
                             Id = Convert.ToInt32(reader["Id"], null),
-                            Gender = (string)reader["Gender"],
                             IdentityUserID = (string)reader["IdentityUserID"],
                         } : null;
                     }
@@ -106,7 +102,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public void Update(Customer item)
         {
-            string sqlExpression = "UPDATE Customer SET Gender=@gender, IdentityUserID=@identityUserID" +
+            string sqlExpression = "UPDATE Customer SET IdentityUserID=@identityUserID" +
                 " FROM Customer" +
                 " WHERE Id = @id";
 
@@ -118,7 +114,6 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                     command.Parameters.AddRange(new SqlParameter[]
                         {
                             new SqlParameter("@id", item.Id),
-                            new SqlParameter("@gender", item.Gender),
                             new SqlParameter("@identityUserID", item.IdentityUserID),
                         });
 

@@ -9,7 +9,6 @@ namespace RepairCompanyManagement.BusinessLogic.Dtos
     public class CustomerDto
     {
         public int Id { get; set; }
-        public string Gender { get; set; }
         public string IdentityUserID { get; set; }
     }
 }

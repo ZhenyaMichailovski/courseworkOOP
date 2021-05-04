@@ -18,6 +18,6 @@ namespace RepairCompanyManagement.WebUI.Models
         public double Salary { get; set; }
 
         [Required(ErrorMessage = Constants.EmptyManagerTitleMessage)]
-        public string IdentituUserID { get; set; }
+        public string IdentityUserID { get; set; }
     }
 }

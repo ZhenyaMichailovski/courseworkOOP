@@ -207,9 +207,12 @@
     <Compile Include="Identity\ApplicationUserManager.cs" />
     <Compile Include="Identity\IdentityConstants.cs" />
     <Compile Include="Identity\User.cs" />
+    <Compile Include="Models\BrigadeItem.cs" />
+    <Compile Include="Models\ChangeEmployeeViewModel.cs" />
     <Compile Include="Models\ChangePasswordViewModel.cs" />
     <Compile Include="Models\EmployeeFullInfoViewModel.cs" />
     <Compile Include="Models\ErrorViewModel.cs" />
+    <Compile Include="Models\JobPositionItem.cs" />
     <Compile Include="Models\JobPositionViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
@@ -219,6 +222,7 @@
     <Compile Include="Models\ManagerViewModel.cs" />
     <Compile Include="Models\OrderTaskViewModel.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
+    <Compile Include="Models\SetSelaryViewModel.cs" />
     <Compile Include="Models\SpecializationItem.cs" />
     <Compile Include="Models\SpecializationViewModel.cs" />
     <Compile Include="Mapper\WebUIMapperProfile.cs" />
@@ -367,6 +371,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Users\SetSelary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

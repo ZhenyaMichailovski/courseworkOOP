@@ -58,5 +58,6 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
         void DeleteCustomer(int id);
 
         void ValidateCustomer(CustomerDto item);
+        void RemoveFromRoles(string id);
     }
 }

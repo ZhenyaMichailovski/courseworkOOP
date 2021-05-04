@@ -98,11 +98,65 @@ namespace RepairCompanyManagement.WebUI.Controllers
             {
                 throw new BusinessLogic.Exceptions.BusinessLogicException(BusinessLogic.Constants.UserNotFoundMassage);
             }
+            if(roleName == IdentityConstants.EmployeeRole)
+            {
+                
+                return RedirectToAction("ChangeSpecialization", new { id, }); // перенос на вьюшку для эмплоера
+            }
+
+            UserManager.RemoveFromRolesAsync(id, new string[]{ IdentityConstants.CustomerRole, IdentityConstants.EmployeeRole,
+            IdentityConstants.ManagerRole, IdentityConstants.AdminRole});
             UserManager.AddToRoleAsync(id, roleName);
+            _userService.RemoveFromRoles(id);
+
+            if (roleName == IdentityConstants.CustomerRole)
+                _userService.CreateCustomer(new CustomerDto { IdentityUserID = id });
+            else if (roleName == IdentityConstants.ManagerRole)
+                return RedirectToAction("SetSelary", new { id, }); //перенос на вьюшку для менеджера
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public ActionResult ChangeEmployee(string id, int specId)
+        {
+            var jobPosition = _brigadeService.GetAllJobPositions();
+            var brigade = _brigadeService.FindBrigadeBySpecialization(specId);
+            ChangeEmployeeViewModel model = new ChangeEmployeeViewModel { Brigades = brigade.Select(x => new BrigadeItem{ Id = x.Id, Name = x.Title }).ToList(), JobPositions = jobPosition.Select(x => new JobPositionItem { Id = x.Id, Title = x.Title }).ToList(), IdentityUserId = id };
+            return View(model);
+        }
+        [HttpGet]
+        public ActionResult SetSelary(string id)
+        {
+            SetSelaryViewModel model = new SetSelaryViewModel { Selary = 0, IdentityUserId = id };
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult SetSelary(SetSelaryViewModel model)
+        {
+            if (model != null && ModelState.IsValid)
+            {
 
+                _userService.CreateManager(new ManagerDto { Salary = model.Selary, IdentityUserID = model.IdentityUserId });
 
+                return RedirectToAction("Index", "Users", null);
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ChangeEmployee(ChangeEmployeeViewModel model)
+        {
+            if (model != null && ModelState.IsValid)
+            {
+                UserManager.RemoveFromRolesAsync(model.IdentityUserId, new string[]{ IdentityConstants.CustomerRole, IdentityConstants.EmployeeRole,
+                IdentityConstants.ManagerRole, IdentityConstants.AdminRole});
+                UserManager.AddToRoleAsync(model.IdentityUserId, IdentityConstants.EmployeeRole);
+                _userService.RemoveFromRoles(model.IdentityUserId);
+                _userService.CreateEmployee(new EmployeeDto { IdBrigade = model.BrigadeId, IdJobPosition = model.JobPositionId , Salary = RepairCompanyManagement.BusinessLogic.Constants.SelaryCoefficient, IdentityUserID = model.IdentityUserId });
+
+                return RedirectToAction("Index", "Users", null);
+            }
+            return View(model);
+        }
         [HttpGet]
         [ExceptionFilter("Ingex")]
         public ActionResult ChangeSpecialization(string id)

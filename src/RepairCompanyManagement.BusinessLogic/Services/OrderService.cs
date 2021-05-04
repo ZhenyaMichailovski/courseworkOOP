@@ -124,8 +124,6 @@ namespace RepairCompanyManagement.BusinessLogic.Services
 
         public void ValidateCustomer(CustomerDto item)
         {
-            if (string.IsNullOrEmpty(item.Gender))
-                throw new ValidationException(Constants.EmptyCustomerTitleMessage);
             if (string.IsNullOrEmpty(item.IdentityUserID))
                 throw new ValidationException(Constants.EmptyCustomerTitleMessage);
         }
@@ -175,12 +173,6 @@ namespace RepairCompanyManagement.BusinessLogic.Services
 
         public void ValidateManager(ManagerDto item)
         {
-            if (string.IsNullOrEmpty(item.Address))
-                throw new ValidationException(Constants.EmptyManagerTitleMessage);
-            if (item.DateOfBirth == default(DateTimeOffset))
-                throw new ValidationException(Constants.EmptyManagerTitleMessage);
-            if (string.IsNullOrEmpty(item.Address))
-                throw new ValidationException(Constants.EmptyJobPositionTitleMessage);
             if (string.IsNullOrEmpty(item.IdentityUserID))
                 throw new ValidationException(Constants.EmptyJobPositionTitleMessage);
         }

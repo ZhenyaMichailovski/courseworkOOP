@@ -73,8 +73,6 @@ namespace RepairCompanyManagement.BusinessLogic.Services
 
         public void ValidateCustomer(CustomerDto item)
         {
-            if (string.IsNullOrEmpty(item.Gender))
-                throw new ValidationException(Constants.EmptyCustomerTitleMessage);
             if (string.IsNullOrEmpty(item.IdentityUserID))
                 throw new ValidationException(Constants.EmptyCustomerTitleMessage);
         }
@@ -125,14 +123,8 @@ namespace RepairCompanyManagement.BusinessLogic.Services
 
         public void ValidateManager(ManagerDto item)
         {
-            if (string.IsNullOrEmpty(item.Address))
-                throw new ValidationException(Constants.EmptyManagerTitleMessage);
-            if (item.DateOfBirth == default(DateTimeOffset))
-                throw new ValidationException(Constants.EmptyManagerTitleMessage);
-            if (string.IsNullOrEmpty(item.Address))
-                throw new ValidationException(Constants.EmptyJobPositionTitleMessage);
             if (string.IsNullOrEmpty(item.IdentityUserID))
-                throw new ValidationException(Constants.EmptyJobPositionTitleMessage);
+                throw new ValidationException();
         }
 
         ///////////////////////////////
@@ -292,6 +284,17 @@ namespace RepairCompanyManagement.BusinessLogic.Services
         }
 
 
-
+        public void RemoveFromRoles(string id)
+        {
+            var manager = _managerRepository.GetAll().FirstOrDefault(x => x.IdentityUserID == id);
+            var customers = _customerRepository.GetAll().FirstOrDefault(x => x.IdentityUserID == id);
+            var employee = _employeeRepository.GetAll().FirstOrDefault(x => x.IdentityUserID == id);
+            if (manager != null)
+                _managerRepository.Delete(manager.Id);
+            else if (customers != null)
+                _customerRepository.Delete(customers.Id);
+            else if (employee != null)
+                _employeeRepository.Delete(employee.Id);
+        }
     }
 }

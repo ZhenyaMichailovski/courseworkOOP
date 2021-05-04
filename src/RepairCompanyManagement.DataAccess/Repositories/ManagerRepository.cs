@@ -17,8 +17,8 @@ namespace RepairCompanyManagement.DataAccess.Repositories
         }
         public int Create(Manager item)
         {
-            string sqlExpression = $"INSERT INTO Manager (DateOfBirth, Address, Salary, IdentituUserID)" +
-                " VALUES (@dateOfBirth, @address, @salary, @identituUserID); SELECT SCOPE_IDENTITY()";
+            string sqlExpression = $"INSERT INTO Manager (Salary, IdentityUserID)" +
+                " VALUES (@salary, @IdentityUserID); SELECT SCOPE_IDENTITY()";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -27,10 +27,8 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                 {
                     command.Parameters.AddRange(new SqlParameter[]
                         {
-                            new SqlParameter("@dateOfBirth", item.DateOfBirth),
-                            new SqlParameter("@address", item.Address),
                             new SqlParameter("@salary", item.Salary),
-                            new SqlParameter("@identituUserID", item.IdentityUserID),
+                            new SqlParameter("@IdentityUserID", item.IdentityUserID),
                         });
 
                     return command.ExecuteNonQuery();
@@ -56,7 +54,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public IEnumerable<Manager> GetAll()
         {
-            string sqlExpression = "SELECT Id, DateOfBirth, Address, Salary, IdentityUserID FROM Manager";
+            string sqlExpression = "SELECT Id, Salary, IdentityUserID FROM Manager";
             List<Manager> manager = new List<Manager>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -71,9 +69,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                             manager.Add(new Manager()
                             {
                                 Id = Convert.ToInt32(reader["Id"], null),
-                                DateOfBirth = DateTime.Parse(reader["DateOfBirth"].ToString()),
-                                Address = reader["Address"].ToString(),
-                                Salary = Convert.ToDouble(reader["Salary"]),
+                                Salary = Convert.ToDecimal(reader["Salary"]),
                                 IdentityUserID = reader["IdentityUserID"].ToString(),
                             });
                         }
@@ -86,7 +82,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public Manager GetById(int id)
         {
-            string sqlExpression = "SELECT Id, DateOfBirth, Address, Salary, IdentituUser FROM Manager" +
+            string sqlExpression = "SELECT Id, Salary, IdentituUser FROM Manager" +
                 " WHERE Id = @id";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -100,9 +96,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                         return reader.Read() ? new Manager()
                         {
                             Id = Convert.ToInt32(reader["Id"], null),
-                            DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]),
-                            Address = reader["Address"].ToString(),
-                            Salary = Convert.ToDouble(reader["Salary"]),
+                            Salary = Convert.ToDecimal(reader["Salary"]),
                             IdentityUserID = reader["IdentituUser"].ToString(),
                         } : null;
                     }
@@ -112,7 +106,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public void Update(Manager item)
         {
-            string sqlExpression = "UPDATE Manager SET Manager=@manager, Address=@address, Salary=@salary, IdentituUser=@identituUser" +
+            string sqlExpression = "UPDATE Manager SET Salary=@salary, IdentituUser=@identituUser" +
                 " FROM Manager" +
                 " WHERE Id = @id";
 
@@ -124,10 +118,8 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                     command.Parameters.AddRange(new SqlParameter[]
                         {
                             new SqlParameter("@id", item.Id),
-                            new SqlParameter("@dateOfBirth", item.DateOfBirth),
-                            new SqlParameter("@address", item.Address),
                             new SqlParameter("@salary", item.Salary),
-                            new SqlParameter("@identituUserID", item.IdentityUserID),
+                            new SqlParameter("@IdentityUserID", item.IdentityUserID),
                         });
 
                     command.ExecuteNonQuery();
