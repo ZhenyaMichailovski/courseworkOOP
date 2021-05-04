@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RepairCompanyManagement.WebUI.Models
 {
-    public class OrderViewModel
+    public class MyOrdersViewModel
     {
         public int Id { get; set; }
 
@@ -12,13 +12,13 @@ namespace RepairCompanyManagement.WebUI.Models
         public string Title { get; set; }
 
         [Required(ErrorMessage = Constants.EmptyOrderTitleMessage)]
-        public string Brigade { get; set; }
-
-        [Required(ErrorMessage = Constants.EmptyOrderTitleMessage)]
-        public string Customers { get; set; }
-
-        [Required(ErrorMessage = Constants.EmptyOrderTitleMessage)]
+        [Display(Name = "Order Status")]
         public string OrderStatus { get; set; }
+
+        [Display(Name = "Price")]
+        public decimal Price { get; set; }
+
+        [Display(Name = "Requirements")]
         public string Requirements { get; set; }
     }
 }

@@ -3,7 +3,6 @@
     [Title]        NVARCHAR (MAX) NOT NULL,
     [IdBrigade]    INT            NOT NULL,
     [IdCustomers]  INT            NOT NULL,
-    [IdManager]    INT            NOT NULL,
     [OrderStatus]  NVARCHAR (MAX) NOT NULL,
     [Requirements] NVARCHAR (MAX) NOT NULL, 
 );

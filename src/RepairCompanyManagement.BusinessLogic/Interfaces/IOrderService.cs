@@ -12,10 +12,10 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
 
 
         ////////////////////////
-        
+
 
         /////////////////////
-       
+        decimal GetOrderPrice(int id);
         CustomerDto GetCustomerById(int id);
 
         IReadOnlyCollection<CustomerDto> GetAllCustomers();

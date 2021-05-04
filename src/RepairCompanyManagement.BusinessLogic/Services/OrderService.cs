@@ -368,6 +368,12 @@ namespace RepairCompanyManagement.BusinessLogic.Services
         {
 
         }
-        
+        public decimal GetOrderPrice(int id)
+        {
+            var taskOrder = _orderTaskRepository.GetAll().FirstOrDefault(x => x.IdOrder == id);
+            var tasks = _taskRepository.GetAll().Where(x => x.Id == taskOrder.IdTask);
+
+            return tasks.Sum(x => x.Price);
+        }
     }
 }

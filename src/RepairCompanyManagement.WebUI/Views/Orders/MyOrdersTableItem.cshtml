@@ -1,0 +1,7 @@
+﻿@model RepairCompanyManagement.WebUI.Models.MyOrdersViewModel
+
+<td>@Model.OrderStatus</td>
+<td>@Model.Title</td>
+<td>@Model.Price</td>
+<td>@Model.Requirements</td>
+<td> @Html.ActionLink("Info", "Info", "Orders", new { id = Model.Id, }, new { @class = "btn btn-outline-primary" })</td>

@@ -2,31 +2,47 @@
 using RepairCompanyManagement.BusinessLogic.Dtos;
 using RepairCompanyManagement.BusinessLogic.Interfaces;
 using RepairCompanyManagement.WebUI.Filters;
+using RepairCompanyManagement.WebUI.Identity;
 using RepairCompanyManagement.WebUI.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace RepairCompanyManagement.WebUI.Controllers
 {
-    public class OrdersController : Controller
+    public class OrdersController : IdentityBaseController
     {
         private IOrderService _orderService { get; set; }
 
         private IMapper _mapper { get; set; }
 
-        public OrdersController(IOrderService brigadeService, IMapper mapper)
+
+        public OrdersController(IOrderService orderService, IMapper mapper, ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+            : base(userManager, signInManager)
         {
-            _orderService = brigadeService;
+            _orderService = orderService;
             _mapper = mapper;
         }
 
         [HttpGet]
         [ExceptionFilter()]
+        [Authorize(Roles = Identity.IdentityConstants.ManagerRole)]
         public ActionResult Index()
         {
             var specs = _mapper.Map<IReadOnlyCollection<OrderViewModel>>(_orderService.GetAllOrders());
             return View(specs);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult My()
+        {
+            var userId = UserManager.FindByNameAsync(User.Identity.Name).Result.Id;
+            var customer = _orderService.GetAllCustomers().FirstOrDefault(x => x.IdentityUserID == userId);
+            var model = _orderService.GetAllOrders().Where(x => x.IdCustomers == customer.Id).Select(x => new MyOrdersViewModel 
+            { Id = x.Id , OrderStatus = x.OrderStatus, Requirements = x.Requirements, Title = x.Title, Price = _orderService.GetOrderPrice(x.Id) }).ToList();
+            return View(model);
         }
 
         [HttpGet]
