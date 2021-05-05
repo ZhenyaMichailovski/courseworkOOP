@@ -1,0 +1,22 @@
+﻿@model RepairCompanyManagement.WebUI.Enums.OrderStatus
+<!--
+        NotConfirmed = 1,
+        Paid,
+        Confirmed,
+        Complited,-->
+@if (Model is RepairCompanyManagement.WebUI.Enums.OrderStatus.Completed)
+{
+    <span class="badge badge-success" style="width: max-content">COMPLETED</span>
+}
+else if (Model is RepairCompanyManagement.WebUI.Enums.OrderStatus.Confirmed)
+{
+    <span class="badge badge-warning" style="width: max-content">NOT COMPLETED</span>
+}
+else if (Model is RepairCompanyManagement.WebUI.Enums.OrderStatus.Paid)
+{
+    <span class="badge badge-primary" style="width: max-content">PAID</span>
+}
+else if (Model is RepairCompanyManagement.WebUI.Enums.OrderStatus.NotConfirmed)
+{
+    <span class="badge badge-danger" style="width: max-content">NOT CONFIRMED</span>
+}

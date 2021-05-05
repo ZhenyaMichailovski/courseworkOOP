@@ -13,7 +13,7 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
 
         ////////////////////////
 
-
+        IReadOnlyCollection<TaskDto> GetTasksByOrderId(int id);
         /////////////////////
         decimal GetOrderPrice(int id);
         CustomerDto GetCustomerById(int id);

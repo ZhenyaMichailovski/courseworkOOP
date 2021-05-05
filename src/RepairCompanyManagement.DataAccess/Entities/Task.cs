@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using RepairCompanyManagement.DataAccess.Enums;
 
 namespace RepairCompanyManagement.DataAccess.Entities
 {
@@ -15,5 +15,6 @@ namespace RepairCompanyManagement.DataAccess.Entities
         public string Description { get; set; }
         public DateTimeOffset TaskCompletionDate { get; set; }
         public int IdBrigade { get; set; }
+        public TaskStatus Status { get; set; }
     }
 }

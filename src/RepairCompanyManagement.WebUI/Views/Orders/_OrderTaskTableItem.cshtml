@@ -1,10 +1,14 @@
 ﻿@model (bool, RepairCompanyManagement.WebUI.Models.TaskViewModel)
 
-<td>Model.Item2.Title</td>
+<td>@Html.Partial("_TaskStatusBadge", Model.Item2.Status)</td>
+<td>@Model.Item2.Title</td>
 @if (Model.Item1)
-{<td>Model.Item2.Brigade</td>}
-<td>Model.Item2.Specialization</td>
-<td>Model.Item2.Description</td>
-<td>Model.Item2.Price</td>
-<td>Model.Item2.TaskCompletionDate</td>
-<td>@Html.ActionLink("Delete", "RemoveTask", "Orders", new { id = Model.Item2.Id }, new { @class="btn btn-outline-danger" } )</td>
+{
+    <td>@Model.Item2.BrigadeName</td>
+    <td>@Model.Item2.Owner</td>
+}
+<td>@Model.Item2.SpecializationName</td>
+<td>@Model.Item2.Description</td>
+<td>@Model.Item2.Price</td>
+<td>@Model.Item2.TaskCompletionDate</td>
+<td>@Html.ActionLink("Delete", "RemoveTask", "Orders", new { id = Model.Item2.Id }, new { @class = "btn btn-outline-danger" })</td>

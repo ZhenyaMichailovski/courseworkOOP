@@ -1,4 +1,5 @@
 ﻿using RepairCompanyManagement.BusinessLogic;
+using RepairCompanyManagement.WebUI.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace RepairCompanyManagement.WebUI.Models
@@ -13,14 +14,14 @@ namespace RepairCompanyManagement.WebUI.Models
         [Display(Name = "Price")]
         public decimal Price { get; set; }
 
-        [Required(ErrorMessage = Constants.EmptyOrderTitleMessage)]
-        [Display(Name = "Customers")]
+    
+        [Display(Name = "Customer name")]
         public string CustomerName { get; set; }
         public int CustomersId { get; set; }
 
-        [Required(ErrorMessage = Constants.EmptyOrderTitleMessage)]
+       
         [Display(Name = "Order status")]
-        public string OrderStatus { get; set; }
+        public OrderStatus OrderStatus { get; set; }
         [Display(Name = "Requirements")]
         public string Requirements { get; set; }
     }

@@ -2,6 +2,6 @@
 
 <td>@Model.Title<td>
 <td>@Model.CustomerName</td>
-<td>@Model.OrderStatus</td>
+<td>@Html.Partial("_OrderStatusBadge", Model.OrderStatus)</td>
 <td>@Model.Requirements</td>
 <td> @Html.ActionLink("Info", "Info", "Orders", new { id = Model.Id, }, new { @class = "btn btn-outline-primary" })</td>

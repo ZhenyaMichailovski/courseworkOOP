@@ -1,7 +1,7 @@
 ﻿using System;
 using RepairCompanyManagement.BusinessLogic;
 using System.ComponentModel.DataAnnotations;
-
+using RepairCompanyManagement.WebUI.Enums;
 
 namespace RepairCompanyManagement.WebUI.Models
 {
@@ -11,6 +11,8 @@ namespace RepairCompanyManagement.WebUI.Models
 
         [Required(ErrorMessage = Constants.EmptyTaskTitleMessage)]
         public string Title { get; set; }
+
+        public string Owner { get; set; }
 
         [Required(ErrorMessage = Constants.EmptyTaskTitleMessage)]
         public int IdSpecialization { get; set; }
@@ -27,5 +29,6 @@ namespace RepairCompanyManagement.WebUI.Models
 
         [Required(ErrorMessage = Constants.EmptyTaskTitleMessage)]
         public DateTimeOffset TaskCompletionDate { get; set; }
+        public TaskStatus Status { get; set; }
     }
 }

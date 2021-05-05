@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RepairCompanyManagement.DataAccess.Enums;
 
 namespace RepairCompanyManagement.DataAccess.Entities
 {
@@ -11,7 +12,8 @@ namespace RepairCompanyManagement.DataAccess.Entities
         public int Id { get; set; }
         public string Title { get; set; }
         public int IdCustomers { get; set; }
-        public string OrderStatus { get; set; }
+        public OrderStatus OrderStatus { get; set; }
         public string Requirements { get; set; }
+
     }
 }

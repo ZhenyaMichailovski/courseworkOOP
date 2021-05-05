@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using RepairCompanyManagement.BusinessLogic.Dtos;
 using RepairCompanyManagement.BusinessLogic.Interfaces;
+using RepairCompanyManagement.WebUI.Enums;
 using RepairCompanyManagement.WebUI.Filters;
 using RepairCompanyManagement.WebUI.Identity;
 using RepairCompanyManagement.WebUI.Models;
@@ -38,7 +39,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
                 var userId = UserManager.FindByNameAsync(User.Identity.Name).Result.Id;
                 var customer = _orderService.GetAllCustomers().FirstOrDefault(x => x.IdentityUserID == userId);
                 model = orders.Where(x => x.IdCustomers == customer.Id).Select(x => new OrderViewModel
-                { Id = x.Id, OrderStatus = x.OrderStatus, Requirements = x.Requirements, 
+                { Id = x.Id, OrderStatus = (OrderStatus)x.OrderStatus, Requirements = x.Requirements, 
                     Title = x.Title, Price = _orderService.GetOrderPrice(x.Id) }).ToList();
             }
             else
@@ -47,7 +48,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
                 {
                     Title = x.Title,
                     CustomerName = GetCustomerNameById(x.IdCustomers),
-                    OrderStatus = x.OrderStatus,
+                    OrderStatus = (OrderStatus)x.OrderStatus,
                     Requirements = x.Requirements
                 }).ToList();
             }                                                   
@@ -55,45 +56,42 @@ namespace RepairCompanyManagement.WebUI.Controllers
         }                         
         [HttpGet]
         [Authorize]
-        public ActionResult Info()
+        public ActionResult Info(int id)
         {
-            var orders = _orderService.GetAllOrders().ToList();
-            var model = new List<OrderInfoViewModel>();
-            if (User.IsInRole(Identity.IdentityConstants.CustomerRole))
+
+            var order = _orderService.GetOrderById(id);
+            var userId = UserManager.FindByNameAsync(User.Identity.Name).Result.Id;
+            var customer = _orderService.GetAllCustomers().FirstOrDefault(x => x.IdentityUserID == userId);
+
+            // проверить менеджер или владелец заказа
+            if (User.IsInRole(Identity.IdentityConstants.ManagerRole) || order.IdCustomers == customer.Id)
             {
-                var userId = UserManager.FindByNameAsync(User.Identity.Name).Result.Id;
-                var customer = _orderService.GetAllCustomers().FirstOrDefault(x => x.IdentityUserID == userId);
-                model = orders.Where(x => x.IdCustomers == customer.Id).Select(x => new OrderInfoViewModel
+                var model = new OrderInfoViewModel
                 {
-                    Id = x.Id,
-                    OrderStatus = x.OrderStatus,
-                    Requirements = x.Requirements,
-                    Title = x.Title,
-                    TotalPrice = _orderService.GetOrderPrice(x.Id),
-                    
-                }).ToList();
+                    Id = order.Id,
+                    OrderStatus = (OrderStatus)order.OrderStatus,
+                    Requirements = order.Requirements,
+                    Title = order.Title,
+                    TotalPrice = _orderService.GetOrderPrice(order.Id),
+                    Tasks = GetTasksByOrder(order.Id),
+                };
+                return View(model);
             }
             else
             {
-                
-                model = orders.Select(x => new OrderInfoViewModel
-                {
-                    Title = x.Title,
-                    CustomerName = GetCustomerNameById(x.IdCustomers),
-                    OrderStatus = x.OrderStatus,
-                    Requirements = x.Requirements,
-                    TotalPrice = _orderService.GetOrderPrice(x.Id),
-                    Tasks = SetTasksModel(x.Id),
-                }).ToList();
+                return RedirectToAction("Index");
             }
-            return View(model.AsReadOnly());
         }
-        private List<TaskViewModel> SetTasksModel(int id)
+        private List<TaskViewModel> GetTasksByOrder(int id)
         {
-            var orderTasks = _orderService.GetAllOrderTasks().FirstOrDefault(y => y.IdOrder == id);
-            var tasks = _orderService.GetAllTasks().Select(x => x.Id == orderTasks.IdTask).ToList();
-            var modelTasks = tasks.Select(x => new TaskViewModel { BrigadeName = x. }).ToList();
-
+            var taskDtos = _orderService.GetTasksByOrderId(id);
+            return taskDtos.Select(x => new TaskViewModel { BrigadeName = _brigadeService.GetAllBrigades().FirstOrDefault(y => y.Id == x.IdBrigade).Title,
+                                SpecializationName = _brigadeService.GetAllSpecializations().FirstOrDefault(y => y.Id == x.IdSpecialization).Name,
+                                Title = x.Title, 
+                                Description = x.Description,
+                                Price = x.Price,
+                                TaskCompletionDate = x.TaskCompletionDate,
+                                Status = (TaskStatus)x.Status}).ToList();
         }
         private string GetCustomerNameById(int id)
         {
@@ -103,7 +101,8 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            return View();
+
+            return View(new OrderViewModel());
         }
 
         [HttpPost]
@@ -113,7 +112,14 @@ namespace RepairCompanyManagement.WebUI.Controllers
         {
             if (model != null && ModelState.IsValid)
             {
-                _orderService.CreateOrder(_mapper.Map<OrderDto>(model));
+                _orderService.CreateOrder(new OrderDto
+                {
+                    OrderStatus = (int)Enums.OrderStatus.NotConfirmed,
+                    Id = model.Id,
+                    IdCustomers = _orderService.GetAllCustomers().FirstOrDefault(x => x.IdentityUserID == UserManager.FindByNameAsync(User.Identity.Name).Result.Id).Id,
+                    Requirements = model.Requirements,
+                    Title = model.Title,
+                });
 
                 return RedirectToAction("Index", "Orders", null);
             }

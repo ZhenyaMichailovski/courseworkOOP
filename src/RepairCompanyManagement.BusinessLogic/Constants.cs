@@ -26,7 +26,7 @@
 
         public const string ManagerNotFoundMessage = "The specific manager wasn't found!";
 
-        public const string EmptyOrderTitleMessage = "Order should have a not empty name!";
+        public const string EmptyOrderTitleMessage = "Order should have a not empty title!";
 
         public const string OrderNotFoundMessage = "The specific order wasn't found!";
 

@@ -222,8 +222,6 @@ namespace RepairCompanyManagement.BusinessLogic.Services
 
         public void ValidateOrder(OrderDto item)
         {
-            if (string.IsNullOrEmpty(item.OrderStatus))
-                throw new ValidationException(Constants.EmptyOrderTitleMessage);
             if (string.IsNullOrEmpty(item.Requirements))
                 item.Requirements = "";
             if (string.IsNullOrEmpty(item.Title))
@@ -374,6 +372,11 @@ namespace RepairCompanyManagement.BusinessLogic.Services
             var tasks = _taskRepository.GetAll().Where(x => x.Id == taskOrder.IdTask);
 
             return tasks.Sum(x => x.Price);
+        }
+        public IReadOnlyCollection<TaskDto> GetTasksByOrderId(int id)
+        {
+            var taskOrders = _orderTaskRepository.GetAll().Where(x => x.IdOrder == id).ToList();
+            return _mapper.Map<IReadOnlyCollection<TaskDto>>(taskOrders.Select(x => _taskRepository.GetById(x.IdTask)).ToList().AsReadOnly());
         }
     }
 }

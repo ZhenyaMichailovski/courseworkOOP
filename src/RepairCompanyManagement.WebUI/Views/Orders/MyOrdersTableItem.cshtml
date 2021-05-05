@@ -1,6 +1,6 @@
 ﻿@model RepairCompanyManagement.WebUI.Models.OrderViewModel
 
-<td>@Model.OrderStatus</td>
+<td>@Html.Partial("_OrderStatusBadge", Model.OrderStatus)</td>
 <td>@Model.Title</td>
 <td>@Model.Price</td>
 <td>@Model.Requirements</td>

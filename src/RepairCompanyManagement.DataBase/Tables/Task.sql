@@ -6,5 +6,6 @@
     [Description]        NVARCHAR (MAX)     NOT NULL,
     [TaskCompletionDate] DATETIMEOFFSET (7) NOT NULL, 
     [IdBrigade] INT NOT NULL, 
+    [Status] INT NOT NULL, 
 );
 

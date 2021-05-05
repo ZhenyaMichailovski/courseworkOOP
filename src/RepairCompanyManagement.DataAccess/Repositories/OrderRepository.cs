@@ -1,4 +1,5 @@
 ﻿using RepairCompanyManagement.DataAccess.Entities;
+using RepairCompanyManagement.DataAccess.Enums;
 using RepairCompanyManagement.DataAccess.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -16,8 +17,8 @@ namespace RepairCompanyManagement.DataAccess.Repositories
         }
         public int Create(Order item)
         {
-            string sqlExpression = $"INSERT INTO Order (Title, IdCustomers, OrderStatus, Requirements)" +
-                " VALUES (@title, @idCustomers, @idManager, @idTask, @orderStatus, @requirements); SELECT SCOPE_IDENTITY()";
+            string sqlExpression = $"INSERT INTO [Order] (Title, IdCustomers, OrderStatus, Requirements)" +
+                " VALUES (@title, @idCustomers, @orderStatus, @requirements); SELECT SCOPE_IDENTITY()";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -38,7 +39,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
         }
         public void Delete(int id)
         {
-            string sqlExpression = "DELETE FROM Order WHERE Id=@id";
+            string sqlExpression = "DELETE FROM [Order] WHERE Id=@id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -55,7 +56,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public IEnumerable<Order> GetAll()
         {
-            string sqlExpression = "SELECT Id, Title, IdCustomers, OrderStatus, Requirements FROM Order";
+            string sqlExpression = "SELECT Id, Title, IdCustomers, OrderStatus, Requirements FROM [Order]";
             List<Order> order = new List<Order>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -71,8 +72,8 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                             {
                                 Id = Convert.ToInt32(reader["Id"], null),
                                 Title = (string)reader["Title"],
-                                IdCustomers = (int)(reader["IdCustomers"]),                        
-                                OrderStatus = reader["OrderStatus"].ToString(),
+                                IdCustomers = (int)(reader["IdCustomers"]),
+                                OrderStatus = (OrderStatus)int.Parse(reader["OrderStatus"].ToString()),
                                 Requirements = reader["Requirements"].ToString(),
                             });
                         }
@@ -85,7 +86,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public Order GetById(int id)
         {
-            string sqlExpression = "SELECT Id, Title, IdCustomers, OrderStatus, Requirements FROM Order" +
+            string sqlExpression = "SELECT Id, Title, IdCustomers, OrderStatus, Requirements FROM [Order]" +
                 " WHERE Id = @id";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -101,7 +102,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                             Id = Convert.ToInt32(reader["Id"], null),
                             Title = (string)reader["Title"],
                             IdCustomers = (int)(reader["IdCustomers"]),   
-                            OrderStatus = reader["OrderStatus"].ToString(),
+                            OrderStatus = (OrderStatus)int.Parse(reader["OrderStatus"].ToString()),
                             Requirements = reader["Requirements"].ToString(),
                         } : null;
                     }
@@ -112,7 +113,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
         public void Update(Order item)
         {
             string sqlExpression = "UPDATE Manager SET Title=@title, IdCustomers=@idCustomers, OrderStatus=@orderStatus, Requirements=@requirements " +
-                " FROM Order" +
+                " FROM [Order]" +
                 " WHERE Id = @id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))

@@ -1,0 +1,10 @@
+﻿@model RepairCompanyManagement.WebUI.Enums.TaskStatus
+
+@if (Model is RepairCompanyManagement.WebUI.Enums.TaskStatus.Completed)
+{
+    <span class="badge badge-success" style="width: max-content">COMPLETED</span>
+}
+else
+{
+    <span class="badge badge-danger" style="width: max-content">NOT COMPLETED</span>
+}
