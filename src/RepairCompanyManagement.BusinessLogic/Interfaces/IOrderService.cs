@@ -59,6 +59,5 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
         SpecializationDto GetSpecializationById(int id);
 
         IReadOnlyCollection<SpecializationDto> GetAllSpecializations();
-
     }
 }

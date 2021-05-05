@@ -10,7 +10,6 @@ namespace RepairCompanyManagement.BusinessLogic.Dtos
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public int IdBrigade { get; set; }
         public int IdCustomers { get; set; }
         public int IdManager { get; set; }
         public string OrderStatus { get; set; }

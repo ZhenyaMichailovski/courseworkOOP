@@ -1,0 +1,54 @@
+﻿@model RepairCompanyManagement.WebUI.Models.OrderInfoViewModel
+@{ ViewBag.Title = "My Orders";
+    var anyTasks = Model.Tasks != null && Model.Tasks.Any();
+    var isManager = User.IsInRole("Manager");
+    var columnsCount = isManager ? 7 : 6;
+    var totalPriceColumnsSpan = columnsCount - 2;
+    var isCustomer = User.IsInRole(RepairCompanyManagement.WebUI.Identity.IdentityConstants.CustomerRole); }
+
+<h2>Order</h2>
+
+<p><strong>Status: </strong>@Model.OrderStatus</p>
+<p><strong>Title: </strong>@Model.Title</p>
+<p><strong>Requirements: </strong>@Model.Requirements</p>
+@if (isManager)
+{
+<p><strong>Customer: </strong>@Model.CustomerName</p>}
+<hr>
+<h2>Order Tasks:</h2>
+<hr />
+@if (isCustomer)
+{
+@Html.ActionLink("Create new task", "Create", "Orders", null, new { @class = "btn btn-primary" })}
+<hr />
+<table>
+    <tr>
+        <th>Title</th>
+        @if (isManager)
+        { <th>Brigade</th>}
+        <th>Specialization</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Date complite task</th>
+        <th></th>
+    </tr>
+    @if (anyTasks)
+    {
+        foreach (var item in Model.Tasks)
+        {
+            @Html.Partial("_OrderTaskTableItem", (isManager, item))
+        }
+        <tr colspan="@totalPriceColumnsSpan">
+            <td>Total</td>
+            <td>@Model.TotalPrice</td>
+            <td></td>
+        </tr>
+    }
+    else
+    {
+        <tr>
+            <td colspan="@columnsCount" class="text-center"> No tasks</td>
+        </tr>
+    }
+</table>
+<br>

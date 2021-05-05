@@ -215,7 +215,7 @@
     <Compile Include="Models\JobPositionItem.cs" />
     <Compile Include="Models\JobPositionViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
-    <Compile Include="Models\MyOrdersViewModel.cs" />
+    <Compile Include="Models\OrderInfoViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\BrigadeViewModel.cs" />
     <Compile Include="Models\CustomerViewModel.cs" />
@@ -375,7 +375,9 @@
     <Content Include="Views\Users\SetSelary.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
     <Content Include="Views\Orders\MyOrdersTableItem.cshtml" />
-    <Content Include="Views\Orders\OrderIndex.cshtml" />
+    <Content Include="Views\Orders\ManagerOrdersTableItem.cshtml" />
+    <Content Include="Views\Orders\Info.cshtml" />
+    <Content Include="Views\Orders\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -14,5 +14,6 @@ namespace RepairCompanyManagement.BusinessLogic.Dtos
         public double Price { get; set; }
         public string Description { get; set; }
         public DateTimeOffset TaskCompletionDate { get; set; }
+        public int IdBrigade { get; set; }
     }
 }

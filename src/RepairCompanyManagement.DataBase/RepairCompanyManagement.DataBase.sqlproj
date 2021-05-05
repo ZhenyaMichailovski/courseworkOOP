@@ -79,7 +79,7 @@
     <Build Include="FK\FK_AspNetUsers_Employee.sql" />
     <Build Include="FK\FK_OrderTask_Order.sql" />
     <Build Include="FK\FK_Brigade_Employee.sql" />
-    <Build Include="FK\FK_Brigade_Order.sql" />
+    <Build Include="FK\FK_Brigade_Task.sql" />
     <Build Include="FK\FK_Customer_Order.sql" />
     <Build Include="FK\FK_Specialization_Brigade.sql" />
     <Build Include="FK\FK_Specialization_Task.sql" />

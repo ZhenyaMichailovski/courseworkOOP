@@ -14,5 +14,6 @@ namespace RepairCompanyManagement.DataAccess.Entities
         public decimal Price { get; set; }
         public string Description { get; set; }
         public DateTimeOffset TaskCompletionDate { get; set; }
+        public int IdBrigade { get; set; }
     }
 }

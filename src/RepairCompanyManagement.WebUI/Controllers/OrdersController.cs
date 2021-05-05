@@ -14,37 +14,92 @@ namespace RepairCompanyManagement.WebUI.Controllers
     public class OrdersController : IdentityBaseController
     {
         private IOrderService _orderService { get; set; }
-
+        private IBrigadeService _brigadeService { get; set; }
         private IMapper _mapper { get; set; }
 
 
-        public OrdersController(IOrderService orderService, IMapper mapper, ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public OrdersController(IOrderService orderService, IBrigadeService brigadeService, IMapper mapper, ApplicationUserManager userManager, ApplicationSignInManager signInManager)
             : base(userManager, signInManager)
         {
             _orderService = orderService;
+            _brigadeService = brigadeService;
             _mapper = mapper;
         }
 
-        [HttpGet]
-        [ExceptionFilter()]
-        [Authorize(Roles = Identity.IdentityConstants.ManagerRole)]
-        public ActionResult Index()
-        {
-            var specs = _mapper.Map<IReadOnlyCollection<OrderViewModel>>(_orderService.GetAllOrders());
-            return View(specs);
-        }
 
         [HttpGet]
         [Authorize]
-        public ActionResult My()
+        public ActionResult Index()
         {
-            var userId = UserManager.FindByNameAsync(User.Identity.Name).Result.Id;
-            var customer = _orderService.GetAllCustomers().FirstOrDefault(x => x.IdentityUserID == userId);
-            var model = _orderService.GetAllOrders().Where(x => x.IdCustomers == customer.Id).Select(x => new MyOrdersViewModel 
-            { Id = x.Id , OrderStatus = x.OrderStatus, Requirements = x.Requirements, Title = x.Title, Price = _orderService.GetOrderPrice(x.Id) }).ToList();
-            return View(model);
+            var orders = _orderService.GetAllOrders().ToList();
+            var model = new List<OrderViewModel>();
+            if (User.IsInRole(Identity.IdentityConstants.CustomerRole))
+            {
+                var userId = UserManager.FindByNameAsync(User.Identity.Name).Result.Id;
+                var customer = _orderService.GetAllCustomers().FirstOrDefault(x => x.IdentityUserID == userId);
+                model = orders.Where(x => x.IdCustomers == customer.Id).Select(x => new OrderViewModel
+                { Id = x.Id, OrderStatus = x.OrderStatus, Requirements = x.Requirements, 
+                    Title = x.Title, Price = _orderService.GetOrderPrice(x.Id) }).ToList();
+            }
+            else
+            {
+                model = orders.Select(x => new OrderViewModel
+                {
+                    Title = x.Title,
+                    CustomerName = GetCustomerNameById(x.IdCustomers),
+                    OrderStatus = x.OrderStatus,
+                    Requirements = x.Requirements
+                }).ToList();
+            }                                                   
+            return View(model.AsReadOnly());                    
+        }                         
+        [HttpGet]
+        [Authorize]
+        public ActionResult Info()
+        {
+            var orders = _orderService.GetAllOrders().ToList();
+            var model = new List<OrderInfoViewModel>();
+            if (User.IsInRole(Identity.IdentityConstants.CustomerRole))
+            {
+                var userId = UserManager.FindByNameAsync(User.Identity.Name).Result.Id;
+                var customer = _orderService.GetAllCustomers().FirstOrDefault(x => x.IdentityUserID == userId);
+                model = orders.Where(x => x.IdCustomers == customer.Id).Select(x => new OrderInfoViewModel
+                {
+                    Id = x.Id,
+                    OrderStatus = x.OrderStatus,
+                    Requirements = x.Requirements,
+                    Title = x.Title,
+                    TotalPrice = _orderService.GetOrderPrice(x.Id),
+                    
+                }).ToList();
+            }
+            else
+            {
+                
+                model = orders.Select(x => new OrderInfoViewModel
+                {
+                    Title = x.Title,
+                    CustomerName = GetCustomerNameById(x.IdCustomers),
+                    OrderStatus = x.OrderStatus,
+                    Requirements = x.Requirements,
+                    TotalPrice = _orderService.GetOrderPrice(x.Id),
+                    Tasks = SetTasksModel(x.Id),
+                }).ToList();
+            }
+            return View(model.AsReadOnly());
         }
+        private List<TaskViewModel> SetTasksModel(int id)
+        {
+            var orderTasks = _orderService.GetAllOrderTasks().FirstOrDefault(y => y.IdOrder == id);
+            var tasks = _orderService.GetAllTasks().Select(x => x.Id == orderTasks.IdTask).ToList();
+            var modelTasks = tasks.Select(x => new TaskViewModel { BrigadeName = x. }).ToList();
 
+        }
+        private string GetCustomerNameById(int id)
+        {
+            var user = UserManager.FindByIdAsync(_orderService.GetCustomerById(id).IdentityUserID).Result;
+            return user.FirstName + " " + user.Surname + " " + user.LastName;
+        }
         [HttpGet]
         public ActionResult Create()
         {

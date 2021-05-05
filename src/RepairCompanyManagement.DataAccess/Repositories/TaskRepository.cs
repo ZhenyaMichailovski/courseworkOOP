@@ -16,8 +16,8 @@ namespace RepairCompanyManagement.DataAccess.Repositories
         }
         public int Create(Task item)
         {
-            string sqlExpression = $"INSERT INTO Task (Title, IdSpecialization, Price, Description, TaskCompletionDate)" +
-                " VALUES (@title, @idSpecialization, @price, @description, @taskCompletionDate); SELECT SCOPE_IDENTITY()";
+            string sqlExpression = $"INSERT INTO Task (Title, IdSpecialization, Price, Description, TaskCompletionDate, IdBrigade)" +
+                " VALUES (@title, @idSpecialization, @price, @description, @taskCompletionDate, @idBrigade); SELECT SCOPE_IDENTITY()";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -31,6 +31,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                             new SqlParameter("@price", item.Price),
                             new SqlParameter("@description", item.Description),
                             new SqlParameter("@taskCompletionDate", item.TaskCompletionDate),
+                            new SqlParameter("@idBrigade", item.IdBrigade)
                         });
 
                     return command.ExecuteNonQuery();
@@ -56,7 +57,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public IEnumerable<Task> GetAll()
         {
-            string sqlExpression = "SELECT Id, Title, IdSpecialization, Price, Description, TaskCompletionDate FROM Task";
+            string sqlExpression = "SELECT Id, Title, IdSpecialization, Price, Description, TaskCompletionDate, IdBrigade FROM Task";
             List<Task> task = new List<Task>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -73,10 +74,11 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                                 Id = Convert.ToInt32(reader["Id"], null),
                                 Title = (string)reader["Title"],
                                 IdSpecialization = (int)reader["IdSpecialization"],
-                                Price = Convert.ToDouble(reader["Price"]),
+                                Price = Convert.ToDecimal(reader["Price"]),
                                 Description = reader["Description"].ToString(),
                                 TaskCompletionDate = Convert.ToDateTime(reader["TaskCompletionDate"]),
-                            });
+                                IdBrigade = (int)reader["IdBrigade"],
+                            }) ;
                         }
                     }
                 }
@@ -87,7 +89,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public Task GetById(int id)
         {
-            string sqlExpression = "SELECT Id, Title, IdSpecialization, Price, Description, TaskCompletionDate FROM Task" +
+            string sqlExpression = "SELECT Id, Title, IdSpecialization, Price, Description, TaskCompletionDate, IdBrigade FROM Task" +
                 " WHERE Id = @id";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -103,9 +105,10 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                             Id = Convert.ToInt32(reader["Id"], null),
                             Title = (string)reader["Title"],
                             IdSpecialization = (int)reader["IdSpecialization"],
-                            Price = Convert.ToDouble(reader["Price"]),
+                            Price = Convert.ToDecimal(reader["Price"]),
                             Description = reader["Description"].ToString(),
                             TaskCompletionDate = Convert.ToDateTime(reader["TaskCompletionDate"]),
+                            IdBrigade = (int)reader["IdBrigade"],
                         } : null;
                     }
                 }
@@ -114,7 +117,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public void Update(Task item)
         {
-            string sqlExpression = "UPDATE Task SET Title=@title, IdSpecialization=@idSpecialization, Price=@price, Description=@description, TaskCompletionDate=@taskCompletionDate" +
+            string sqlExpression = "UPDATE Task SET Title=@title, IdSpecialization=@idSpecialization, Price=@price, Description=@description, TaskCompletionDate=@taskCompletionDate, IdBrigade=@idBrigade" +
                 " FROM Task" +
                 " WHERE Id = @id";
 
@@ -131,6 +134,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                             new SqlParameter("@price", item.Price),
                             new SqlParameter("@description", item.Description),
                             new SqlParameter("@taskCompletionDate", item.TaskCompletionDate),
+                            new SqlParameter("@idBrigade", item.IdBrigade)
                         });
 
                     command.ExecuteNonQuery();

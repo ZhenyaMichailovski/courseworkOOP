@@ -1,19 +1,22 @@
-﻿@model IReadOnlyCollection<RepairCompanyManagement.WebUI.Models.MyOrdersViewModel>
+﻿@model IReadOnlyCollection<RepairCompanyManagement.WebUI.Models.OrderViewModel>
 @{ ViewBag.Title = "My Orders";
     var anyOrders = Model != null && Model.Any();
     var isManager = User.IsInRole("Manager");
+    var isCustomer = User.IsInRole(RepairCompanyManagement.WebUI.Identity.IdentityConstants.CustomerRole);
     }
 
 <h2>Orders</h2>
 <hr />
-@Html.ActionLink("Create new...", "Create", "Orders", null, new { @class = "btn btn-primary" })
+@if (isCustomer)
+{
+    @Html.ActionLink("Create new oreder", "Create", "Orders", null, new { @class = "btn btn-primary" })
+}
 <hr />
 <table class="table">
     <tr>
         @if (isManager)
         {
         <th>Title</th>
-        <th>Brigade</th>
         <th>Customers</th>
         <th>OrderStatus</th>
         <th>Requirements</th>
@@ -32,14 +35,23 @@
     {
         foreach (var item in Model)
         {
-<tr>
-    @Html.Partial("MyOrdersTableItem", item)
-</tr> }
+        <tr>
+            @if(isManager)
+            {
+                @Html.Partial("ManagerOrdersTableItem", item)
             }
             else
             {
-<tr>
-    <td colspan="5" class="text-center">No orders</td>
-</tr>}
+                @Html.Partial("MyOrdersTableItem", item)
+            }
+        </tr> 
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="5" class="text-center">No orders</td>
+        </tr>
+    }
 </table>
 <br>
