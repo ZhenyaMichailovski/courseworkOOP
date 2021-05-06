@@ -13,7 +13,6 @@ namespace RepairCompanyManagement.BusinessLogic.Dtos
         public int IdSpecialization { get; set; }
         public double Price { get; set; }
         public string Description { get; set; }
-        public DateTimeOffset TaskCompletionDate { get; set; }
         public int IdBrigade { get; set; }
 
         public int Status { get; set; }

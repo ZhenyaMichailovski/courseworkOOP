@@ -10,5 +10,4 @@
 <td>@Model.Item2.SpecializationName</td>
 <td>@Model.Item2.Description</td>
 <td>@Model.Item2.Price</td>
-<td>@Model.Item2.TaskCompletionDate</td>
-<td>@Html.ActionLink("Delete", "RemoveTask", "Orders", new { id = Model.Item2.Id }, new { @class = "btn btn-outline-danger" })</td>
+<td>@Model.Item2.TaskCompletionDate.ToString("d")</td>

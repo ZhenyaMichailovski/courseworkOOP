@@ -1,5 +1,6 @@
 ﻿using RepairCompanyManagement.BusinessLogic.Dtos;
 using RepairCompanyManagement.DataAccess.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace RepairCompanyManagement.BusinessLogic.Interfaces
@@ -14,6 +15,7 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
         ////////////////////////
 
         IReadOnlyCollection<TaskDto> GetTasksByOrderId(int id);
+        BrigadeDto FindFreeBrigadeForDate(DateTimeOffset date, int idSpecialization);
         /////////////////////
         decimal GetOrderPrice(int id);
         CustomerDto GetCustomerById(int id);

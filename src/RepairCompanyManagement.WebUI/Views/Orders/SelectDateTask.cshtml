@@ -1,0 +1,29 @@
+﻿@model RepairCompanyManagement.WebUI.Models.TaskDateViewModel
+@{
+
+}
+
+<h2>Date for task</h2>
+<hr />
+<table>
+    <tr>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+        <th>Saturday</th>
+        <th>Sunday</th>
+    </tr>
+    @foreach (var one in Model.AllowedDays)
+    {
+        <tr>
+            @foreach (var item in one)
+            {
+                @Html.Partial("_CalendarTableItem", (item.Item1, item.Item2, Model.OrderId, Model.TaskId));
+            }
+        </tr>
+    }
+</table>
+<br>
+@Html.ActionLink("Select other task type", "SelectTask", new { orderId = Model.OrderId, id = Model.SpecializationId }, new { @class = "btn btn-outline-secondary" })

@@ -23,13 +23,14 @@ namespace RepairCompanyManagement.BusinessLogic.Services
 
         private readonly IMapper _mapper;
         public OrderService(IRepository<Order> orderRepository, IRepository<Task> taskRepository, IRepository<Manager> managerRepository, IRepository<Specialization> specializationRepository,
-        IRepository<Customer> customerRepository, IRepository<OrderTask> orderTaskRepository, IMapper mapper)
+        IRepository<Customer> customerRepository, IRepository<Brigade> brigadeRepository, IRepository<OrderTask> orderTaskRepository, IMapper mapper)
 
         {
             _customerRepository = customerRepository;
             _managerRepository = managerRepository;
             _orderRepository = orderRepository;
             _orderTaskRepository = orderTaskRepository;
+            _brigadeRepository = brigadeRepository;
             _specializationRepository = specializationRepository;
             _taskRepository = taskRepository;
             _mapper = mapper;
@@ -368,15 +369,33 @@ namespace RepairCompanyManagement.BusinessLogic.Services
         }
         public decimal GetOrderPrice(int id)
         {
-            var taskOrder = _orderTaskRepository.GetAll().FirstOrDefault(x => x.IdOrder == id);
-            var tasks = _taskRepository.GetAll().Where(x => x.Id == taskOrder.IdTask);
+            var orderTasks = _orderTaskRepository.GetAll().Where(x => x.IdOrder == id);
+            var tasks = _taskRepository.GetAll();
 
-            return tasks.Sum(x => x.Price);
+            /* from pl in players
+             join t in teams on pl.Team equals t.Name
+             select new { Name = pl.Name, Team = pl.Team, Country = t.Country };*/
+
+            var result = from orderTask in orderTasks
+                         join t in tasks on orderTask.IdTask equals t.Id
+                         select new { value = t.Price };
+
+            return result.Sum(x => x.value);
         }
         public IReadOnlyCollection<TaskDto> GetTasksByOrderId(int id)
         {
             var taskOrders = _orderTaskRepository.GetAll().Where(x => x.IdOrder == id).ToList();
             return _mapper.Map<IReadOnlyCollection<TaskDto>>(taskOrders.Select(x => _taskRepository.GetById(x.IdTask)).ToList().AsReadOnly());
+        }
+        public BrigadeDto FindFreeBrigadeForDate(DateTimeOffset date, int idSpecialization)
+        {
+            var brigade = _brigadeRepository.GetAll().Where(x => x.IdSpecialization == idSpecialization).ToList();
+            var taskIds = _orderTaskRepository.GetAll().Where(x => x.TaskCompletionDate == date).Select(x => x.IdTask).ToList();
+
+            var tasks = _taskRepository.GetAll().Where(x => taskIds.Any(y => y == x.Id)).ToList();
+            brigade.RemoveAll(x => tasks.Any(y => y.IdBrigade == x.Id));
+
+            return brigade.Any() ? _mapper.Map<BrigadeDto>(brigade.First()) : null;
         }
     }
 }

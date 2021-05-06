@@ -19,7 +19,7 @@
 <hr />
 @if (isCustomer)
 {
-@Html.ActionLink("Create new task", "Create", "Orders", null, new { @class = "btn btn-primary" })}
+@Html.ActionLink("Create new task", "SelectTaskSpecialization", "Orders", new { orderId = Model.Id }, new { @class = "btn btn-primary" })}
 <hr />
 <table class="table">
     <tr>
@@ -33,14 +33,27 @@
         <th>Specialization</th>
         <th>Description</th>
         <th>Price</th>
-        <th>Date complite task</th>
+        <th>Completion date</th>
         <th></th>
+
     </tr>
     @if (anyTasks)
     {
         foreach (var item in Model.Tasks)
         {
+            <tr>
             @Html.Partial("_OrderTaskTableItem", (isManager, item))
+            @if (Model.OrderStatus is RepairCompanyManagement.WebUI.Enums.OrderStatus.NotConfirmed)
+            {
+                <td>
+                    @Html.ActionLink("DeleteTask", "Orders", new { id = item.Id }, new { @class = "btn btn-outline-danger" })
+                </td>
+            }
+            else
+            {
+                <td></td>
+            }
+            </tr>
         }
         <tr colspan="@totalPriceColumnsSpan">
             <td>Total</td>
@@ -56,3 +69,4 @@
     }
 </table>
 <br>
+@Html.ActionLink("Return to Orders", "Index", null, new { @class="btn btn-outline-secondary" })

@@ -16,8 +16,8 @@ namespace RepairCompanyManagement.DataAccess.Repositories
         }
         public int Create(OrderTask item)
         {
-            string sqlExpression = $"INSERT INTO OrderTask (IdTask, IdOrder)" +
-                " VALUES (@idTask, @idOrder); SELECT SCOPE_IDENTITY()";
+            string sqlExpression = $"INSERT INTO OrderTask (IdTask, IdOrder, TaskCompletionDate)" +
+                " VALUES (@idTask, @idOrder, @taskCompletionDate); SELECT SCOPE_IDENTITY()";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -28,7 +28,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                         {
                             new SqlParameter("@idTask", item.IdTask),
                             new SqlParameter("@idOrder", item.IdOrder),
-
+                            new SqlParameter("@taskCompletionDate", item.TaskCompletionDate),
                         });
 
                     return command.ExecuteNonQuery();
@@ -54,7 +54,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public IEnumerable<OrderTask> GetAll()
         {
-            string sqlExpression = "SELECT Id, IdTask, IdOrder FROM OrderTask";
+            string sqlExpression = "SELECT Id, IdTask, IdOrder, TaskCompletionDate FROM OrderTask";
             List<OrderTask> orderTask = new List<OrderTask>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -71,6 +71,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                                 Id = Convert.ToInt32(reader["Id"], null),
                                 IdTask = (int)reader["IdTask"],
                                 IdOrder = (int)reader["IdOrder"],
+                                TaskCompletionDate = DateTimeOffset.Parse(reader["TaskCompletionDate"].ToString())
                             });
                         }
                     }
@@ -82,7 +83,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public OrderTask GetById(int id)
         {
-            string sqlExpression = "SELECT Id, IdTask, IdOrder FROM OrderTask" +
+            string sqlExpression = "SELECT Id, IdTask, IdOrder, TaskCompletionDate FROM OrderTask" +
                 " WHERE Id = @id";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -98,6 +99,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                             Id = Convert.ToInt32(reader["Id"], null),
                             IdTask = (int)reader["IdTask"],
                             IdOrder = (int)reader["IdOrder"],
+                            TaskCompletionDate = DateTimeOffset.Parse(reader["TaskCompletionDate"].ToString())
                         } : null;
                     }
                 }
@@ -106,7 +108,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public void Update(OrderTask item)
         {
-            string sqlExpression = "UPDATE OrderTask SET IdTask=@idTask, IdOrder=@idOrder" +
+            string sqlExpression = "UPDATE OrderTask SET IdTask=@idTask, IdOrder=@idOrder, TaskCompletionDate=@taskCompletionDate" +
                 " FROM OrderTask" +
                 " WHERE Id = @id";
 
@@ -120,6 +122,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                             new SqlParameter("@id", item.Id),
                             new SqlParameter("@IdTask", item.IdTask),
                             new SqlParameter("@IdOrder", item.IdOrder),
+                            new SqlParameter("@taskCompletionDate", item.TaskCompletionDate),
                         });
 
                     command.ExecuteNonQuery();

@@ -1,0 +1,13 @@
+﻿@model (DateTimeOffset, bool, int, int)
+    @{
+        var stringDate = $"{Model.Item1.Day}.{Model.Item1.Month}";
+    }
+
+@if (Model.Item2)
+{
+    <td>@Html.ActionLink(stringDate, "ConfirmTask", "Orders", new { orderId = Model.Item3, taskId = Model.Item4, date = Model.Item1 }, new { @class="btn btn-success" })</td>
+} 
+else
+{
+    <td><button class="btn btn-danger" disabled>@stringDate</button></td>
+}  

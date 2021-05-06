@@ -21,15 +21,16 @@ namespace RepairCompanyManagement.BusinessLogic.Services
 
         private readonly IMapper _mapper;
 
-        public BrigadeService(IRepository<Specialization> specializationRepository, IRepository<Brigade> brigadeRepository,
-            IRepository<Employee> employeeRepository, IRepository<JobPosition> jobPositionRepository, IMapper mapper)
+        public BrigadeService(IRepository<Specialization> specializationRepository, IRepository<Brigade> brigadeRepository, IRepository<Task> taskRepository,
+            IRepository<Employee> employeeRepository, IRepository<JobPosition> jobPositionRepository, IRepository<OrderTask> orderTaskRepository, IMapper mapper)
 
         {
             _specializationRepository = specializationRepository;
             _brigadeRepository = brigadeRepository;
             _jobPositionRepository = jobPositionRepository;
             _employeeRepository = employeeRepository;
-
+            _orderTaskRepository = orderTaskRepository;
+            _taskRepository = taskRepository;
             _mapper = mapper;
         }
         public int CreateEmployee(EmployeeDto item)
@@ -331,6 +332,12 @@ namespace RepairCompanyManagement.BusinessLogic.Services
         public void ValidateTask(TaskDto item)
         {
 
+        }
+
+        public List<TaskDto> FindTasksBySpecialization(int specializationId)
+        {
+            var tasks = _taskRepository.GetAll().Where(x => x.IdSpecialization == specializationId).ToList();
+            return _mapper.Map<List<TaskDto>>(tasks);
         }
 
     }

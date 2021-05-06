@@ -11,5 +11,6 @@ namespace RepairCompanyManagement.DataAccess.Entities
         public int Id { get; set; }
         public int IdTask { get; set; }
         public int IdOrder { get; set; }
+        public DateTimeOffset TaskCompletionDate { get; set; }
     }
 }

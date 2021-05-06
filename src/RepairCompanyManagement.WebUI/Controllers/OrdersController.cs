@@ -84,14 +84,19 @@ namespace RepairCompanyManagement.WebUI.Controllers
         }
         private List<TaskViewModel> GetTasksByOrder(int id)
         {
+            var orderTasks = _orderService.GetAllOrderTasks().Where(x => x.IdOrder == id).ToList();
             var taskDtos = _orderService.GetTasksByOrderId(id);
-            return taskDtos.Select(x => new TaskViewModel { BrigadeName = _brigadeService.GetAllBrigades().FirstOrDefault(y => y.Id == x.IdBrigade).Title,
-                                SpecializationName = _brigadeService.GetAllSpecializations().FirstOrDefault(y => y.Id == x.IdSpecialization).Name,
-                                Title = x.Title, 
-                                Description = x.Description,
-                                Price = x.Price,
-                                TaskCompletionDate = x.TaskCompletionDate,
-                                Status = (TaskStatus)x.Status}).ToList();
+            return taskDtos.Select(x => new TaskViewModel 
+            { 
+                BrigadeName = _brigadeService.GetAllBrigades().FirstOrDefault(y => y.Id == x.IdBrigade).Title,
+                SpecializationName = _brigadeService.GetAllSpecializations()
+                                        .FirstOrDefault(y => y.Id == x.IdSpecialization).Name,
+                Title = x.Title, 
+                Description = x.Description,
+                Price = x.Price,
+                TaskCompletionDate = orderTasks.FirstOrDefault(y => y.IdTask == x.Id).TaskCompletionDate,
+                Status = (TaskStatus)x.Status
+            }).ToList();
         }
         private string GetCustomerNameById(int id)
         {
@@ -166,6 +171,114 @@ namespace RepairCompanyManagement.WebUI.Controllers
             _orderService.DeleteOrder(id);
 
             return RedirectToAction("Index", "Orders", null);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = Identity.IdentityConstants.CustomerRole)]
+        public ActionResult SelectTaskSpecialization(int orderId)
+        {
+            var specializations = _brigadeService.GetAllSpecializations();
+
+            var specItem = specializations.Select(x => new SpecializationItem
+            {
+                SpecializationId = x.Id,
+                Name = x.Name,
+            });
+            var model = new TaskViewModel
+            {
+                SpecializationItems = specItem,
+                OrderId = orderId,
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult SelectTaskSpecialization(TaskSpecializationViewModel model)
+        {
+            if (model != null && ModelState.IsValid)
+            {
+                return RedirectToAction("SelectTask", new { id = model.IdSpecialization, orderId = model.OrderId });
+            }
+            return RedirectToAction("SelectTaskSpecialization");
+        }
+
+        [HttpGet]
+        public ActionResult SelectTask(int id, int orderId)
+        {
+            var tasks = _brigadeService.FindTasksBySpecialization(id);
+
+            var model = new TaskViewModel
+            {
+                OrderId = orderId,
+                IdSpecialization = id,
+                TaskItems = tasks.Select(x => new TaskItem { Name = x.Title + " - $" + x.Price, TaskId = x.Id }).ToList()
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult SelectTask(TaskViewModel model)
+        {
+            if(model != null && ModelState.IsValid)
+            {
+                return RedirectToAction("SelectDateTask", new { orderId = model.OrderId, taskId = model.Id, specId = model.IdSpecialization });
+            }
+            return RedirectToAction("SelectTask", new { id = model.Id, orderId = model.OrderId, specId = model.IdSpecialization });
+        }
+        private bool CheckDate(DateTimeOffset currentDay, int specId)
+        {
+            return !(currentDay <= DateTimeOffset.Now) && _orderService.FindFreeBrigadeForDate(currentDay, specId) != null;
+        }
+
+        [HttpGet]
+        public ActionResult SelectDateTask(int orderId, int taskId, int specId)
+        {
+            int weeks = 2;
+            var currentDayOfWeek = (int)DateTimeOffset.Now.DayOfWeek;
+            var dateDiff = currentDayOfWeek - 1;
+            var mondayDate = DateTimeOffset.Now.AddDays(-dateDiff);
+            var AllowedDays = new List<List<(DateTimeOffset, bool)>>();
+            for(int i = 0; i < weeks; i++)
+            {
+                AllowedDays.Add(new List<(DateTimeOffset, bool)>());
+                for(int j = 0; j < 7; j++)
+                {
+                    var currentDay = mondayDate.AddDays(7 * i + j);
+
+                    AllowedDays[i].Add((currentDay, CheckDate(currentDay, specId)));
+                }
+            }
+            var model = new TaskDateViewModel
+            {
+                AllowedDays = AllowedDays,
+                OrderId = orderId,
+                TaskId = taskId,
+                SpecializationId = specId,
+            };
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult ConfirmTask(int orderId, int taskId, DateTimeOffset date)
+        {
+            var task = _orderService.GetTaskById(taskId);
+            var model = new TaskViewModel
+            {
+                Id = taskId,
+                OrderId = orderId,
+                Title = task.Title,
+                TaskCompletionDate = date,
+                Price = task.Price,
+                SpecializationName = _brigadeService.GetSpecializationById(task.IdSpecialization).Name,
+            };
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult CreateOrderTask(int orderId, int taskId, DateTimeOffset date)
+        {
+            _orderService.CreateOrderTask(new OrderTaskDto { IdOrder = orderId, IdTask = taskId, TaskCompletionDate = date });
+            return RedirectToAction("Info", new { id = orderId });
         }
     }
 }

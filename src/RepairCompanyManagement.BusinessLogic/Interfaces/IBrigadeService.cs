@@ -55,5 +55,6 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
 
         void UpdateEmployee(EmployeeDto item);
 
+        List<TaskDto> FindTasksBySpecialization(int specializationId);
     }
 }
