@@ -52,7 +52,7 @@
     <Compile Include="Entities\Specialization.cs" />
     <Compile Include="Entities\Task.cs" />
     <Compile Include="Enums\OrderStatus.cs" />
-    <Compile Include="Enums\TaskStatus.cs" />
+    <Compile Include="Enums\OrderTaskStatus.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BrigadeRepository.cs" />

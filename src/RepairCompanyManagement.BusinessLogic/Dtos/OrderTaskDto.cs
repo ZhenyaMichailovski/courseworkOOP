@@ -12,5 +12,7 @@ namespace RepairCompanyManagement.BusinessLogic.Dtos
         public int IdTask { get; set; }
         public int IdOrder { get; set; }
         public DateTimeOffset TaskCompletionDate { get; set; }
+        public int Status { get; set; }
+        public string Description { get; set; }
     }
 }

@@ -1,0 +1,32 @@
+﻿@model RepairCompanyManagement.WebUI.Models.WorkloadViewModel
+@{ ViewBag.Title = Model.NameBrigade;
+    var anyWork = Model != null;}
+
+<h2>Brigade: @Model.NameBrigade</h2>
+<hr />
+<table class="table">
+    <tr>
+        <th>Customer</th>
+        <th>Phone number</th>
+        <th>Task</th>
+        <th>Date complite</th>
+        <th>Status</th>
+        <th>Description</th>
+        <th></th>
+    </tr>
+    @if (anyWork)
+    {
+        
+        foreach (var item in Model.Item)
+        {
+<tr>
+    @Html.Partial("_WorkloadTableItem", item)
+</tr> }
+            }
+            else
+            {
+<tr>
+    <td colspan="7" class="text-center">No Brigades</td>
+</tr>}
+</table>
+<br>

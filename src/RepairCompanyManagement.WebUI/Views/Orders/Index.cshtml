@@ -2,6 +2,7 @@
 @{ ViewBag.Title = "My Orders";
     var anyOrders = Model != null && Model.Any();
     var isManager = User.IsInRole("Manager");
+    var columnsCount = 5;
     var isCustomer = User.IsInRole(RepairCompanyManagement.WebUI.Identity.IdentityConstants.CustomerRole);
     }
 
@@ -15,9 +16,9 @@
     <tr>
         @if (isManager)
         {
+        <th>Order Status</th>
         <th>Title</th>
         <th>Customers</th>
-        <th>OrderStatus</th>
         <th>Requirements</th>
         <th></th>
         }
@@ -49,7 +50,7 @@
     else
     {
         <tr>
-            <td colspan="5" class="text-center">No orders</td>
+            <td colspan=@columnsCount class="text-center">No orders</td>
         </tr>
     }
 </table>

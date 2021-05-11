@@ -1,8 +1,14 @@
 ﻿@model RepairCompanyManagement.WebUI.Models.TaskDateViewModel
 @{
-
+    var orderSpecTaskModel = new RepairCompanyManagement.WebUI.Models.CalendarViewModel
+    {
+        OrderId = Model.OrderId,
+        SpecId = Model.SpecializationId,
+        TaskId = Model.TaskId
+    };
 }
-
+@Html.HiddenFor(x => x.OrderId)
+@Html.HiddenFor(x => x.SpecializationId)
 <h2>Date for task</h2>
 <hr />
 <table>
@@ -20,7 +26,7 @@
         <tr>
             @foreach (var item in one)
             {
-                @Html.Partial("_CalendarTableItem", (item.Item1, item.Item2, Model.OrderId, Model.TaskId));
+                @Html.Partial("_CalendarTableItem", (item.Item2, orderSpecTaskModel, item.Item1))
             }
         </tr>
     }

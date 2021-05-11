@@ -26,6 +26,6 @@ namespace RepairCompanyManagement.WebUI.Models
       //  [Required(ErrorMessage = Constants.EmptyTaskTitleMessage)]
         public string Description { get; set; }
         public DateTimeOffset TaskCompletionDate { get; set; }
-        public TaskStatus Status { get; set; }
+        public OrderTaskStatus Status { get; set; }
     }
 }

@@ -16,14 +16,16 @@ namespace RepairCompanyManagement.WebUI.Controllers
     {
         private IOrderService _orderService { get; set; }
         private IBrigadeService _brigadeService { get; set; }
+        private IUserService _userService { get; set; }
         private IMapper _mapper { get; set; }
 
 
-        public OrdersController(IOrderService orderService, IBrigadeService brigadeService, IMapper mapper, ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public OrdersController(IOrderService orderService, IBrigadeService brigadeService, IUserService userService, IMapper mapper, ApplicationUserManager userManager, ApplicationSignInManager signInManager)
             : base(userManager, signInManager)
         {
             _orderService = orderService;
             _brigadeService = brigadeService;
+            _userService = userService;
             _mapper = mapper;
         }
 
@@ -46,6 +48,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
             {
                 model = orders.Select(x => new OrderViewModel
                 {
+                    Id = x.Id,
                     Title = x.Title,
                     CustomerName = GetCustomerNameById(x.IdCustomers),
                     OrderStatus = (OrderStatus)x.OrderStatus,
@@ -62,7 +65,16 @@ namespace RepairCompanyManagement.WebUI.Controllers
             var order = _orderService.GetOrderById(id);
             var userId = UserManager.FindByNameAsync(User.Identity.Name).Result.Id;
             var customer = _orderService.GetAllCustomers().FirstOrDefault(x => x.IdentityUserID == userId);
-            decimal Money = UserManager.FindByIdAsync(customer.IdentityUserID).Result.Balance;
+            decimal Money = 0;
+            string customerName = "";
+            if (customer != null)
+                Money = UserManager.FindByIdAsync(customer.IdentityUserID).Result.Balance;
+            else
+            {
+                var identityCustomer = _userService.GetCustomerById(order.IdCustomers).IdentityUserID;
+                var ct = UserManager.FindByIdAsync(identityCustomer).Result;
+                customerName = ct.FirstName + " " + ct.Surname;
+            }
             // проверить менеджер или владелец заказа
             if (User.IsInRole(Identity.IdentityConstants.ManagerRole) || order.IdCustomers == customer.Id)
             {
@@ -75,6 +87,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
                     Title = order.Title,
                     TotalPrice = _orderService.GetOrderPrice(order.Id),
                     Tasks = GetTasksByOrder(order.Id),
+                    CustomerName = customerName,
                     
                 };
                 return View(model);
@@ -90,7 +103,9 @@ namespace RepairCompanyManagement.WebUI.Controllers
             var taskDtos = _orderService.GetTasksByOrderId(id);
             var order = _orderService.GetOrderById(id);
             var selectedOrderTask = _orderService.GetAllOrderTasks().Where(x => x.IdOrder == id).ToList();
-
+            var identityCustomer = _userService.GetCustomerById(order.IdCustomers).IdentityUserID;
+            var ct = UserManager.FindByIdAsync(identityCustomer).Result;
+            var customerName = ct.FirstName + " " + ct.Surname;
             return taskDtos.Select(x => new TaskViewModel 
             { 
                 Id = x.Id,
@@ -101,7 +116,8 @@ namespace RepairCompanyManagement.WebUI.Controllers
                 Description = x.Description,
                 Price = x.Price,
                 TaskCompletionDate = orderTasks.FirstOrDefault(y => y.IdTask == x.Id).TaskCompletionDate,
-                Status = (TaskStatus)x.Status
+                Status = (OrderTaskStatus)_orderService.GetAllOrderTasks().FirstOrDefault(y => y.IdOrder == id && y.IdTask == x.Id).Status,
+                Owner = customerName,
             }).ToList();
         }
         private string GetCustomerNameById(int id)
@@ -266,7 +282,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         }
 
         [HttpGet]
-        public ActionResult ConfirmTask(int orderId, int taskId, DateTimeOffset date)
+        public ActionResult ConfirmTask(int orderId, int taskId, DateTimeOffset date, string description)
         {
             var task = _orderService.GetTaskById(taskId);
             var model = new TaskViewModel
@@ -277,14 +293,15 @@ namespace RepairCompanyManagement.WebUI.Controllers
                 TaskCompletionDate = date,
                 Price = task.Price,
                 SpecializationName = _brigadeService.GetSpecializationById(task.IdSpecialization).Name,
+                Description = description,
             };
             return View(model);
         }
 
         [HttpGet]
-        public ActionResult CreateOrderTask(int orderId, int taskId, DateTimeOffset date)
+        public ActionResult CreateOrderTask(int orderId, int taskId, DateTimeOffset date, string description)
         {
-            _orderService.CreateOrderTask(new OrderTaskDto { IdOrder = orderId, IdTask = taskId, TaskCompletionDate = date });
+            _orderService.CreateOrderTask(new OrderTaskDto { IdOrder = orderId, IdTask = taskId, TaskCompletionDate = date, Description = description });
             return RedirectToAction("Info", new { id = orderId });
         }
 
@@ -301,10 +318,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
                 Description = task.Description,
                 Price = task.Price,
                 TaskCompletionDate = orderTasks.FirstOrDefault(y => y.IdTask == idTask).TaskCompletionDate,
-                /*<td>@Model.Item2.SpecializationName</td>
-                <td>@Model.Item2.Description</td>
-                <td>@Model.Item2.Price</td>
-                <td>@Model.Item2.TaskCompletionDate.ToString("d")</td>*/
+               
             };
             return View(model);
         }
@@ -345,6 +359,39 @@ namespace RepairCompanyManagement.WebUI.Controllers
             foreach(var item in orderTasks)
                 _orderService.DeleteOrderTask(item.Id);
             return RedirectToAction("Info", "Orders", new { id = idOrder });
+        }
+        [HttpGet]
+        public ActionResult Confirm(int idOrder)
+        {
+            var order = _orderService.GetOrderById(idOrder);
+            if (order.OrderStatus == (int)RepairCompanyManagement.WebUI.Enums.OrderStatus.Paid)
+            {
+                order.OrderStatus = (int)OrderStatus.Confirmed;
+                _orderService.UpdateOrder(order);
+                return RedirectToAction("Info", "Orders", new { id = idOrder });
+            }
+            else
+            {
+                throw new BusinessLogic.Exceptions.BusinessLogicException("The user did not pay for the order!");
+            }
+        }
+        [HttpGet]
+        public ActionResult Description(int orderId, int taskId, DateTimeOffset date, int specId)
+        {
+            var model = new OrderTaskDescriptionViewModel
+            {
+                Date = date,
+                OrderId = orderId,
+                SpecId = specId,
+                TaskId = taskId,
+                Description = "",
+            };
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult Description(OrderTaskDescriptionViewModel model)
+        {
+            return RedirectToAction("ConfirmTask", "Orders", new { orderId = model.OrderId, taskId = model.TaskId, date = model.Date, description = model.Description });
         }
     }
 }

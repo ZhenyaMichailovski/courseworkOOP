@@ -9,6 +9,6 @@
     <p><strong>Price: </strong>@Model.Price</p>
 </div>
 <div>
-    @Html.ActionLink("Confirm", "CreateOrderTask", "Orders", new { taskId = Model.Id, orderId = Model.OrderId, date = Model.TaskCompletionDate }, new { @class = "btn btn-outline-success" })
+    @Html.ActionLink("Confirm", "CreateOrderTask", "Orders", new { taskId = Model.Id, orderId = Model.OrderId, date = Model.TaskCompletionDate, description = Model.Description }, new { @class = "btn btn-outline-success" })
 </div>
 <br />

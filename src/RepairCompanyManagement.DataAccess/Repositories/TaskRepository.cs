@@ -17,7 +17,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
         }
         public int Create(Task item)
         {
-            string sqlExpression = $"INSERT INTO Task (Title, IdSpecialization, Price, Description, IdBrigade, Status)" +
+            string sqlExpression = $"INSERT INTO Task (Title, IdSpecialization, Price, Description, IdBrigade)" +
                 " VALUES (@title, @idSpecialization, @price, @description, @idBrigade); SELECT SCOPE_IDENTITY()";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -33,7 +33,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                             new SqlParameter("@description", item.Description),
                             
                             new SqlParameter("@idBrigade", item.IdBrigade),
-                            new SqlParameter("@status", item.Status),
+                        
                         });
 
                     return command.ExecuteNonQuery();
@@ -59,7 +59,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public IEnumerable<Task> GetAll()
         {
-            string sqlExpression = "SELECT Id, Title, IdSpecialization, Price, Description, IdBrigade, Status FROM Task";
+            string sqlExpression = "SELECT Id, Title, IdSpecialization, Price, Description, IdBrigade FROM Task";
             List<Task> task = new List<Task>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -80,7 +80,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                                 Description = reader["Description"].ToString(),
                                 
                                 IdBrigade = (int)reader["IdBrigade"],
-                                Status = (Enums.TaskStatus)int.Parse(reader["Status"].ToString()),
+                     
                             }) ;
                         }
                     }
@@ -92,7 +92,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public Task GetById(int id)
         {
-            string sqlExpression = "SELECT Id, Title, IdSpecialization, Price, Description, IdBrigade, Status FROM Task" +
+            string sqlExpression = "SELECT Id, Title, IdSpecialization, Price, Description, IdBrigade FROM Task" +
                 " WHERE Id = @id";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -111,7 +111,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                             Price = Convert.ToDecimal(reader["Price"]),
                             Description = reader["Description"].ToString(),
                             IdBrigade = (int)reader["IdBrigade"],
-                            Status = (Enums.TaskStatus)int.Parse(reader["Status"].ToString())
+                            
                         } : null;
                     }
                 }
@@ -120,7 +120,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public void Update(Task item)
         {
-            string sqlExpression = "UPDATE Task SET Title=@title, IdSpecialization=@idSpecialization, Price=@price, Description=@description, IdBrigade=@idBrigade, Status=@status" +
+            string sqlExpression = "UPDATE Task SET Title=@title, IdSpecialization=@idSpecialization, Price=@price, Description=@description, IdBrigade=@idBrigade" +
                 " FROM Task" +
                 " WHERE Id = @id";
 
@@ -137,7 +137,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                             new SqlParameter("@price", item.Price),
                             new SqlParameter("@description", item.Description),
                             new SqlParameter("@idBrigade", item.IdBrigade),
-                            new SqlParameter("@status", item.Status)
+
                         });
 
                     command.ExecuteNonQuery();

@@ -400,5 +400,32 @@ namespace RepairCompanyManagement.BusinessLogic.Services
         {
             return _orderTaskRepository.GetAll().FirstOrDefault(x => x.IdOrder == orderId && x.IdTask == taskId).Id;
         }
+        public void ChangeOrderTaskStatus(int idOrderTask)
+        {
+            var orderTask = _orderTaskRepository.GetById(idOrderTask);
+            var order = _orderRepository.GetAll().FirstOrDefault(x => x.Id == orderTask.IdOrder);
+           
+            if ((int)orderTask.Status == (int)DataAccess.Enums.OrderTaskStatus.NotCompleted)
+            {
+                orderTask.Status = DataAccess.Enums.OrderTaskStatus.Completed;
+                _orderTaskRepository.Update(orderTask);
+            }
+            else
+            {
+                throw new BusinessLogic.Exceptions.BusinessLogicException("The task has already been completed");
+            }
+        }
+        public void ChangeOrderStatus(int idOrderTask)
+        {
+            var orderTask = _orderTaskRepository.GetById(idOrderTask);
+            var order = _orderRepository.GetAll().FirstOrDefault(x => x.Id == orderTask.IdOrder); 
+            var allOrderTaskByOrderId = _orderTaskRepository.GetAll().Where(x => x.IdOrder == order.Id).ToList();
+
+            if (allOrderTaskByOrderId.Any(x => x.Status == DataAccess.Enums.OrderTaskStatus.Completed))
+            {
+                order.OrderStatus = DataAccess.Enums.OrderStatus.Complited;
+                _orderRepository.Update(order);
+            }
+        }
     }
 }

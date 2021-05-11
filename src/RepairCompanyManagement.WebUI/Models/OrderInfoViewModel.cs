@@ -9,6 +9,7 @@ namespace RepairCompanyManagement.WebUI.Models
     {
         public decimal TotalPrice { get; set; }
         public decimal MoneyOfUser { get; set; }
+        
         public IList<TaskViewModel> Tasks { get; set; }
     }
 }

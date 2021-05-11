@@ -11,5 +11,6 @@ namespace RepairCompanyManagement.DataAccess.Enums
         Paid,
         Confirmed,
         Complited,
+        Canceled,
     }
 }

@@ -5,6 +5,6 @@
     [Price]              FLOAT (53)         NOT NULL,
     [Description]        NVARCHAR (MAX)     NOT NULL,
     [IdBrigade] INT NOT NULL, 
-    [Status] INT NOT NULL, 
+
 );
 

@@ -1,0 +1,12 @@
+﻿@model RepairCompanyManagement.WebUI.Models.OrderTaskItem
+
+<td>@Model.NameCustomers</td>
+<td>@Model.PhoneNumber</td>
+<td>@Model.NameTask</td>
+<td>@Model.Date</td>
+<td>@Html.Partial("_TaskStatusBadge", Model.Status)</td>
+<td>@Model.Description</td>
+@if (Model.Status == RepairCompanyManagement.WebUI.Enums.OrderTaskStatus.NotCompleted)
+{
+    <td>@Html.ActionLink("Confirm", "ConfirmTask", "Workloads", new { idOrderTask = Model.IdOrderTask }, new { @class = "btn btn-outline-primary" })</td>
+}

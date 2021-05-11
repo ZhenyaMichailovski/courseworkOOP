@@ -13,7 +13,9 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
 
 
         ////////////////////////
-
+        ///
+        void ChangeOrderTaskStatus(int idOrderTask);
+        void ChangeOrderStatus(int idOrderTask);
         IReadOnlyCollection<TaskDto> GetTasksByOrderId(int id);
         BrigadeDto FindFreeBrigadeForDate(DateTimeOffset date, int idSpecialization);
         /////////////////////

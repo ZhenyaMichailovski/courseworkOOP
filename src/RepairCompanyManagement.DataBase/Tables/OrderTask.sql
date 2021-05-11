@@ -3,5 +3,7 @@
     [IdTask]  INT NOT NULL,
     [IdOrder] INT NOT NULL,
     [TaskCompletionDate] DATETIMEOFFSET (7) NOT NULL, 
+    [Status] INT NOT NULL, 
+    [Description] NVARCHAR(MAX) NOT NULL
 );
 

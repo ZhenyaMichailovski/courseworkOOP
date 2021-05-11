@@ -9,7 +9,7 @@
 
 <h2>Order</h2>
 @Html.HiddenFor(x => x.Id)
-<p><strong>Status: </strong>@Model.OrderStatus</p>
+<p><strong>Status: </strong>@Html.Partial("_OrderStatusBadge", Model.OrderStatus)</p>
 <p><strong>Title: </strong>@Model.Title</p>
 <p><strong>Requirements: </strong>@Model.Requirements</p>
 @if (isManager)
@@ -46,9 +46,12 @@
             @Html.Partial("_OrderTaskTableItem", (isManager, item))
             @if (Model.OrderStatus is RepairCompanyManagement.WebUI.Enums.OrderStatus.NotConfirmed)
             {
+                if (isCustomer)
+                {
                 <td>
                     @Html.ActionLink("Delete", "DeleteTask", "Orders", new { idTask = item.Id, idOrder = Model.Id }, new { @class = "btn btn-outline-danger" })
                 </td>
+                }
             }
             else
             {
@@ -69,13 +72,22 @@
         </tr>
     }
 </table>
+@if (isCustomer)
+{
 <div class="alert alert-primary" role="alert">
     <strong>Your balance: </strong> @Model.MoneyOfUser
 </div>
+}
 @if(isCustomer && Model.OrderStatus == RepairCompanyManagement.WebUI.Enums.OrderStatus.NotConfirmed)
 {
     @Html.ActionLink("Pay", "Pay", "Orders", new { idOrder = Model.Id }, new { @class = "btn btn-outline-success", @style = "width:100px;margin-right:10px" })
     @Html.ActionLink("Refuse", "Refuse", "Orders", new { idOrder = Model.Id }, new { @class = "btn btn-outline-danger", @style = "width:100px" })
+}
+@if(isManager && Model.OrderStatus == RepairCompanyManagement.WebUI.Enums.OrderStatus.Paid)
+{
+    @Html.ActionLink("Confirm", "Confirm", "Orders", new { idOrder = Model.Id }, new { @class = "btn btn-outline-success", @style = "width:100px;margin-right:10px" })
+    @Html.ActionLink("Refuse", "Refuse", "Orders", new { idOrder = Model.Id }, new { @class = "btn btn-outline-danger", @style = "width:100px" })
+
 }
 <hr/>
 @Html.ActionLink("Return to Orders", "Index", null, new { @class="btn btn-outline-secondary" })

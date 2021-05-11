@@ -1,11 +1,11 @@
-﻿@model (DateTimeOffset, bool, int, int)
+﻿@model  (bool, RepairCompanyManagement.WebUI.Models.CalendarViewModel, DateTimeOffset)
     @{
-        var stringDate = $"{Model.Item1.Day}.{Model.Item1.Month}";
+        var stringDate = $"{Model.Item3.Day}.{Model.Item3.Month}";
     }
 
-@if (Model.Item2)
+@if (Model.Item1)
 {
-    <td>@Html.ActionLink(stringDate, "ConfirmTask", "Orders", new { orderId = Model.Item3, taskId = Model.Item4, date = Model.Item1 },
+    <td>@Html.ActionLink(stringDate, "Description", "Orders", new { orderId = Model.Item2.OrderId, taskId = Model.Item2.TaskId, date = Model.Item3, specId = Model.Item2.SpecId },
        new { @class="btn btn-success", @style="width:100%" })</td>
 } 
 else
