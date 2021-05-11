@@ -11,6 +11,7 @@ namespace RepairCompanyManagement.WebUI.Models
 
         public int OrderId { get; set; }
         [Required()]
+        [Display(Name ="Specialization")]
         public int IdSpecialization { get; set; }
         public IEnumerable<SpecializationItem> SpecializationItems { get; set; }
     }

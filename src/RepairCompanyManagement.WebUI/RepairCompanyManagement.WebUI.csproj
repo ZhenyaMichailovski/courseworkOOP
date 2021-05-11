@@ -196,6 +196,7 @@
     <Compile Include="Controllers\ManagersController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\OrderTasksController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\SpecializationsController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -212,8 +213,10 @@
     <Compile Include="Models\BrigadeItem.cs" />
     <Compile Include="Models\ChangeEmployeeViewModel.cs" />
     <Compile Include="Models\ChangePasswordViewModel.cs" />
+    <Compile Include="Models\EditProfileViewModel.cs" />
     <Compile Include="Models\EmployeeFullInfoViewModel.cs" />
     <Compile Include="Models\ErrorViewModel.cs" />
+    <Compile Include="Models\IndexProfileViewModel.cs" />
     <Compile Include="Models\JobPositionItem.cs" />
     <Compile Include="Models\JobPositionViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
@@ -330,6 +333,8 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="Views\Profile\Edit.cshtml" />
+    <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
@@ -391,6 +396,7 @@
     <Content Include="Views\Orders\SelectDateTask.cshtml" />
     <Content Include="Views\Orders\_CalendarTableItem.cshtml" />
     <Content Include="Views\Orders\ConfirmTask.cshtml" />
+    <Content Include="Views\Orders\DeleteTask.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

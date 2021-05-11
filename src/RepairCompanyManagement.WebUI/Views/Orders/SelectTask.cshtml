@@ -1,6 +1,11 @@
 ﻿@model RepairCompanyManagement.WebUI.Models.TaskViewModel
 @{
     ViewBag.Title = "Create a new task";
+    bool isModel = true;
+    if(Model.TaskItems.Count() == 0)
+    {
+        isModel = false;
+    }
 }
 <h2>@ViewBag.Title</h2>
 
@@ -12,19 +17,29 @@
     @Html.HiddenFor(x => x.OrderId)
     @Html.HiddenFor(x => x.IdSpecialization)
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    
     <div class="form-group row">
         @Html.LabelFor(model => model.Id, new { @class = "control-label col-md-2" })
         <div class="col-md-10 center justify-content-center" style="width:250px">
+            @if (isModel)
+            {
             @Html.DropDownListFor(model => model.Id,
-                     new SelectList(Model.TaskItems, "TaskId", "Name", ""), new { @class = "form-control" }),
+                               new SelectList(Model.TaskItems, "TaskId", "Name", ""), new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.TaskItems, "", new { @class = "text-danger", @id = "error" })
+            }
+                else
+                {
+                    <p><strong>No tasks in this specialization</strong></p>
+                }
         </div>
     </div>
-
-  
+    
+    if(isModel)
+    { 
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Confirm</button>
     </div>
+    }
 }
 <br>
 @Html.ActionLink("Select other specialization", "SelectTaskSpecialization", "Orders", new { orderId = Model.OrderId } ,new { @class = "btn btn-outline-secondary" })

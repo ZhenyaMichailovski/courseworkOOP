@@ -1,5 +1,6 @@
 ﻿@model RepairCompanyManagement.WebUI.Models.OrderInfoViewModel
 @{ ViewBag.Title = "My Orders";
+    
     var anyTasks = Model.Tasks != null && Model.Tasks.Any();
     var isManager = User.IsInRole("Manager");
     var columnsCount = isManager ? 9 : 7;
@@ -7,7 +8,7 @@
     var isCustomer = User.IsInRole(RepairCompanyManagement.WebUI.Identity.IdentityConstants.CustomerRole); }
 
 <h2>Order</h2>
-
+@Html.HiddenFor(x => x.Id)
 <p><strong>Status: </strong>@Model.OrderStatus</p>
 <p><strong>Title: </strong>@Model.Title</p>
 <p><strong>Requirements: </strong>@Model.Requirements</p>
@@ -46,7 +47,7 @@
             @if (Model.OrderStatus is RepairCompanyManagement.WebUI.Enums.OrderStatus.NotConfirmed)
             {
                 <td>
-                    @Html.ActionLink("DeleteTask", "Orders", new { id = item.Id }, new { @class = "btn btn-outline-danger" })
+                    @Html.ActionLink("Delete", "DeleteTask", "Orders", new { idTask = item.Id, idOrder = Model.Id }, new { @class = "btn btn-outline-danger" })
                 </td>
             }
             else
@@ -56,7 +57,7 @@
             </tr>
         }
         <tr colspan="@totalPriceColumnsSpan">
-            <td>Total</td>
+            <td><strong>Total: </strong></td>
             <td>@Model.TotalPrice</td>
             <td></td>
         </tr>
@@ -68,5 +69,13 @@
         </tr>
     }
 </table>
-<br>
+<div class="alert alert-primary" role="alert">
+    <strong>Your balance: </strong> @Model.MoneyOfUser
+</div>
+@if(isCustomer && Model.OrderStatus == RepairCompanyManagement.WebUI.Enums.OrderStatus.NotConfirmed)
+{
+    @Html.ActionLink("Pay", "Pay", "Orders", new { idOrder = Model.Id }, new { @class = "btn btn-outline-success", @style = "width:100px;margin-right:10px" })
+    @Html.ActionLink("Refuse", "Refuse", "Orders", new { idOrder = Model.Id }, new { @class = "btn btn-outline-danger", @style = "width:100px" })
+}
+<hr/>
 @Html.ActionLink("Return to Orders", "Index", null, new { @class="btn btn-outline-secondary" })

@@ -11,5 +11,6 @@ namespace RepairCompanyManagement.WebUI.Enums
         Paid,
         Confirmed,
         Completed,
+        Сanceled
     }
 }

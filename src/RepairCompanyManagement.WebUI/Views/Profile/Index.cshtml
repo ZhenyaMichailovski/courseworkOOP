@@ -1,0 +1,46 @@
+﻿@model RepairCompanyManagement.WebUI.Models.IndexProfileViewModel
+@{
+    ViewBag.Title = "Your profile";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="alert @ViewBag.StatusClass" role="alert">
+    @ViewBag.StatusMessage
+</div>
+<div style="display: inline">
+    <hr />
+    <dl class="dl-horizontal">
+        <dt><strong>Surname</strong></dt>
+        <dd>
+            @Model.Surname
+        </dd>
+        <dt><strong>First Name</strong></dt>
+        <dd>
+            @Model.FirstName
+        </dd>
+        <dt><strong>Email</strong></dt>
+        <dd>
+            @Model.Email
+        </dd>
+        <dt><strong>Balance</strong></dt>
+        <dd>
+            @Model.Balance
+        </dd>
+        <dd>
+           
+            @Html.ActionLink("Edit", "Edit", "Profile", new { @class= "btn btn-outline-success" })
+            
+        </dd>
+    </dl>
+    <br>
+    <dl class="dl-horizontal">
+        <dt>Password:</dt>
+        <dd>
+            
+            @Html.ActionLink("Change password", "ChangePassword", "Account", null, new { @class = "btn btn-outline-success" })
+            
+        </dd>
+    </dl>
+    <br>
+</div>

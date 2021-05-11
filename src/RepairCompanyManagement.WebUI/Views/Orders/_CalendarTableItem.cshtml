@@ -5,9 +5,10 @@
 
 @if (Model.Item2)
 {
-    <td>@Html.ActionLink(stringDate, "ConfirmTask", "Orders", new { orderId = Model.Item3, taskId = Model.Item4, date = Model.Item1 }, new { @class="btn btn-success" })</td>
+    <td>@Html.ActionLink(stringDate, "ConfirmTask", "Orders", new { orderId = Model.Item3, taskId = Model.Item4, date = Model.Item1 },
+       new { @class="btn btn-success", @style="width:100%" })</td>
 } 
 else
 {
-    <td><button class="btn btn-danger" disabled>@stringDate</button></td>
+    <td><button class="btn btn-danger" style="width:100%" disabled>@stringDate</button></td>
 }  

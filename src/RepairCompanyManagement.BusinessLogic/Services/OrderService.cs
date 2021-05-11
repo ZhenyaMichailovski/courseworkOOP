@@ -372,10 +372,7 @@ namespace RepairCompanyManagement.BusinessLogic.Services
             var orderTasks = _orderTaskRepository.GetAll().Where(x => x.IdOrder == id);
             var tasks = _taskRepository.GetAll();
 
-            /* from pl in players
-             join t in teams on pl.Team equals t.Name
-             select new { Name = pl.Name, Team = pl.Team, Country = t.Country };*/
-
+       
             var result = from orderTask in orderTasks
                          join t in tasks on orderTask.IdTask equals t.Id
                          select new { value = t.Price };
@@ -390,12 +387,18 @@ namespace RepairCompanyManagement.BusinessLogic.Services
         public BrigadeDto FindFreeBrigadeForDate(DateTimeOffset date, int idSpecialization)
         {
             var brigade = _brigadeRepository.GetAll().Where(x => x.IdSpecialization == idSpecialization).ToList();
-            var taskIds = _orderTaskRepository.GetAll().Where(x => x.TaskCompletionDate == date).Select(x => x.IdTask).ToList();
+            var taskIds = _orderTaskRepository.GetAll().Where(x => x.TaskCompletionDate.Day == date.Day && x.TaskCompletionDate.Month == date.Month && x.TaskCompletionDate.Year == date.Year)
+                .Select(x => x.IdTask).ToList();
 
             var tasks = _taskRepository.GetAll().Where(x => taskIds.Any(y => y == x.Id)).ToList();
             brigade.RemoveAll(x => tasks.Any(y => y.IdBrigade == x.Id));
 
             return brigade.Any() ? _mapper.Map<BrigadeDto>(brigade.First()) : null;
+        }
+
+        public int FindOrderTaskByOrderAndTaskIds(int orderId, int taskId)
+        {
+            return _orderTaskRepository.GetAll().FirstOrDefault(x => x.IdOrder == orderId && x.IdTask == taskId).Id;
         }
     }
 }

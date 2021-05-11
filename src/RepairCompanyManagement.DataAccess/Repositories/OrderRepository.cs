@@ -112,7 +112,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
 
         public void Update(Order item)
         {
-            string sqlExpression = "UPDATE Manager SET Title=@title, IdCustomers=@idCustomers, OrderStatus=@orderStatus, Requirements=@requirements " +
+            string sqlExpression = "UPDATE [Order] SET Title=@title, IdCustomers=@idCustomers, OrderStatus=@orderStatus, Requirements=@requirements " +
                 " FROM [Order]" +
                 " WHERE Id = @id";
 

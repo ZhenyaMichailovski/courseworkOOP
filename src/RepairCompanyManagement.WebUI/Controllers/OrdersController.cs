@@ -57,23 +57,25 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [HttpGet]
         [Authorize]
         public ActionResult Info(int id)
-        {
+       {
 
             var order = _orderService.GetOrderById(id);
             var userId = UserManager.FindByNameAsync(User.Identity.Name).Result.Id;
             var customer = _orderService.GetAllCustomers().FirstOrDefault(x => x.IdentityUserID == userId);
-
+            decimal Money = UserManager.FindByIdAsync(customer.IdentityUserID).Result.Balance;
             // проверить менеджер или владелец заказа
             if (User.IsInRole(Identity.IdentityConstants.ManagerRole) || order.IdCustomers == customer.Id)
             {
                 var model = new OrderInfoViewModel
                 {
+                    MoneyOfUser = Money,
                     Id = order.Id,
                     OrderStatus = (OrderStatus)order.OrderStatus,
                     Requirements = order.Requirements,
                     Title = order.Title,
                     TotalPrice = _orderService.GetOrderPrice(order.Id),
                     Tasks = GetTasksByOrder(order.Id),
+                    
                 };
                 return View(model);
             }
@@ -86,8 +88,12 @@ namespace RepairCompanyManagement.WebUI.Controllers
         {
             var orderTasks = _orderService.GetAllOrderTasks().Where(x => x.IdOrder == id).ToList();
             var taskDtos = _orderService.GetTasksByOrderId(id);
+            var order = _orderService.GetOrderById(id);
+            var selectedOrderTask = _orderService.GetAllOrderTasks().Where(x => x.IdOrder == id).ToList();
+
             return taskDtos.Select(x => new TaskViewModel 
             { 
+                Id = x.Id,
                 BrigadeName = _brigadeService.GetAllBrigades().FirstOrDefault(y => y.Id == x.IdBrigade).Title,
                 SpecializationName = _brigadeService.GetAllSpecializations()
                                         .FirstOrDefault(y => y.Id == x.IdSpecialization).Name,
@@ -205,8 +211,9 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [HttpGet]
         public ActionResult SelectTask(int id, int orderId)
         {
-            var tasks = _brigadeService.FindTasksBySpecialization(id);
-
+            var taskOrders = _orderService.GetAllOrderTasks().Where(x => x.IdOrder == orderId).ToList();
+            var specTasks = _brigadeService.FindTasksBySpecialization(id);
+            var tasks = specTasks.Where(x => !taskOrders.Any(y => y.IdTask == x.Id)).ToList().AsReadOnly();
             var model = new TaskViewModel
             {
                 OrderId = orderId,
@@ -279,6 +286,65 @@ namespace RepairCompanyManagement.WebUI.Controllers
         {
             _orderService.CreateOrderTask(new OrderTaskDto { IdOrder = orderId, IdTask = taskId, TaskCompletionDate = date });
             return RedirectToAction("Info", new { id = orderId });
+        }
+
+        [HttpGet]
+        public ActionResult DeleteTask(int idTask, int idOrder)
+        {
+            var orderTasks = _orderService.GetAllOrderTasks().Where(x => x.IdOrder == idOrder).ToList();
+            var task = _orderService.GetTaskById(idTask);
+            var model = new TaskViewModel
+            {
+                Id = idTask,
+                OrderId = idOrder,
+                SpecializationName = _orderService.GetSpecializationById(task.IdSpecialization).Name,
+                Description = task.Description,
+                Price = task.Price,
+                TaskCompletionDate = orderTasks.FirstOrDefault(y => y.IdTask == idTask).TaskCompletionDate,
+                /*<td>@Model.Item2.SpecializationName</td>
+                <td>@Model.Item2.Description</td>
+                <td>@Model.Item2.Price</td>
+                <td>@Model.Item2.TaskCompletionDate.ToString("d")</td>*/
+            };
+            return View(model);
+        }
+        [HttpGet]
+        public ActionResult ConfirmDeleteTask(int idTask, int idOrder)
+        {
+           _orderService.DeleteOrderTask(_orderService.FindOrderTaskByOrderAndTaskIds(idOrder, idTask));
+
+            return RedirectToAction("Index", "Orders", null);
+        }
+        [HttpGet]
+        [ExceptionFilter()]
+        public ActionResult Pay(int idOrder)
+        {
+            var totalPrice = _orderService.GetOrderPrice(idOrder); 
+            var user = UserManager.FindByNameAsync(User.Identity.Name).Result;
+            var order = _orderService.GetOrderById(idOrder);
+            if (totalPrice <= user.Balance)
+            {
+                user.Balance -= totalPrice;
+                var item = UserManager.UpdateAsync(user).Result;
+                order.OrderStatus = (int)OrderStatus.Paid;
+                _orderService.UpdateOrder(order);
+                return RedirectToAction("Info", "Orders", new { id = idOrder });
+            }
+            else
+            {
+                throw new BusinessLogic.Exceptions.BusinessLogicException("Not enough money to pay for order!");
+            }
+        }
+        [HttpGet]
+        public ActionResult Refuse(int idOrder)
+        {
+            var order = _orderService.GetOrderById(idOrder);
+            order.OrderStatus = (int)OrderStatus.Сanceled;
+            _orderService.UpdateOrder(order);
+            var orderTasks = _orderService.GetAllOrderTasks().Where(x => x.IdOrder == idOrder).ToList();
+            foreach(var item in orderTasks)
+                _orderService.DeleteOrderTask(item.Id);
+            return RedirectToAction("Info", "Orders", new { id = idOrder });
         }
     }
 }

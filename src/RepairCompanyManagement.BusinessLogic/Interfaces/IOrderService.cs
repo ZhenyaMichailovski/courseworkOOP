@@ -61,5 +61,6 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
         SpecializationDto GetSpecializationById(int id);
 
         IReadOnlyCollection<SpecializationDto> GetAllSpecializations();
+        int FindOrderTaskByOrderAndTaskIds(int orderId, int taskId);
     }
 }

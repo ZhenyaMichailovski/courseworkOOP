@@ -1,0 +1,17 @@
+﻿@model RepairCompanyManagement.WebUI.Models.TaskViewModel
+
+@{ ViewBag.Title = "Task: " + Model.Title; }
+
+<h3>Are you sure you want to <strong>delete this task</strong>?</h3>
+
+<div class="alert alert-secondary" role="alert">
+    <p><strong>Specialization: </strong>@Model.SpecializationName</p>
+    <p><strong>Description: </strong>@Model.Description</p>
+    <p><strong>Price: </strong>@Model.Price</p>
+    <p><strong>Complited date: </strong>@Model.TaskCompletionDate.ToString("d")</p>
+</div>
+<div>
+    @Html.ActionLink("Delete", "ConfirmDeleteTask", "Orders", new { idTask = Model.Id, idOrder = Model.OrderId }, new { @class = "btn btn-outline-danger" })
+</div>
+<br />
+@Html.ActionLink("Return to Info", "Info", null, new { @class = "btn btn-outline-secondary" })

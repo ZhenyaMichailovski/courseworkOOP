@@ -37,7 +37,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
         }
         public void Delete(int id)
         {
-            string sqlExpression = "DELETE FROM Employee WHERE Id=@id";
+            string sqlExpression = "DELETE FROM OrderTask WHERE Id=@id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
