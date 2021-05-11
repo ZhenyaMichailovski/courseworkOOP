@@ -1,0 +1,9 @@
+﻿@model RepairCompanyManagement.WebUI.Models.ManagerTaskViewModel
+
+<td>@Model.Title</td>
+<td>@Model.Specialization</td>
+<td>@Model.Price</td>
+<td>@Model.Description</td>
+<td>@Model.Brigade</td>
+<td>@Html.ActionLink("Update", "Update", "Tasks", new { id = Model.Id, }, new { @class = "btn btn-outline-primary" })</td>
+<td>@Html.ActionLink("Delete", "Delete", "Tasks", new { id = Model.Id, }, new { @class = "btn btn-outline-danger" })</td>

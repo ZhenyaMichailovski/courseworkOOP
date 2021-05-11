@@ -46,8 +46,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
                     NameTask = _orderService.GetTaskById(x.IdTask).Title,
                     PhoneNumber = user.PhoneNumber,
                     Description = x.Description,
-                }).ToList()
-                .ToList();
+                }).ToList();
             var model = new WorkloadViewModel
             {
                 IdBrigade = employee.IdBrigade,

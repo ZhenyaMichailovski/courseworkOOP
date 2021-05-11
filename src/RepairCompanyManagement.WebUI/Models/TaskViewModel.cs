@@ -21,7 +21,7 @@ namespace RepairCompanyManagement.WebUI.Models
         public string BrigadeName { get; set; }
 
         [Required(ErrorMessage = Constants.EmptyTaskTitleMessage)]
-        public double Price { get; set; }
+        public decimal Price { get; set; }
 
       //  [Required(ErrorMessage = Constants.EmptyTaskTitleMessage)]
         public string Description { get; set; }
