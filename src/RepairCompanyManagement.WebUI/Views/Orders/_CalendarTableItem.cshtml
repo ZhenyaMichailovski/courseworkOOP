@@ -3,12 +3,12 @@
         var stringDate = $"{Model.Item3.Day}.{Model.Item3.Month}";
     }
 
-@if (Model.Item1)
+@if (Model.Item1)                                          
 {
-    <td>@Html.ActionLink(stringDate, "Description", "Orders", new { orderId = Model.Item2.OrderId, taskId = Model.Item2.TaskId, date = Model.Item3, specId = Model.Item2.SpecId },
+    <td>@Html.ActionLink(stringDate, "ConfirmTask", "Orders", new { orderId = Model.Item2.OrderId, taskId = Model.Item2.TaskId, date = Model.Item3, description = Model.Item2.Description },
        new { @class="btn btn-success", @style="width:100%" })</td>
-} 
+}
 else
-{
+        {
     <td><button class="btn btn-danger" style="width:100%" disabled>@stringDate</button></td>
 }  

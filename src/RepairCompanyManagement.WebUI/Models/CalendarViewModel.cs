@@ -10,5 +10,6 @@ namespace RepairCompanyManagement.WebUI.Models
         public int OrderId { get; set; }
         public int TaskId { get; set;}
         public int SpecId { get; set; }
+        public string Description { get; set; }
     }
 }

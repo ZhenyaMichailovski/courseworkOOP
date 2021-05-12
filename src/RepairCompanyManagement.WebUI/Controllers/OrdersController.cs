@@ -244,7 +244,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         {
             if(model != null && ModelState.IsValid)
             {
-                return RedirectToAction("SelectDateTask", new { orderId = model.OrderId, taskId = model.Id, specId = model.IdSpecialization });
+                return RedirectToAction("Description", new { orderId = model.OrderId, taskId = model.Id, specId = model.IdSpecialization });
             }
             return RedirectToAction("SelectTask", new { id = model.Id, orderId = model.OrderId, specId = model.IdSpecialization });
         }
@@ -254,7 +254,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         }
 
         [HttpGet]
-        public ActionResult SelectDateTask(int orderId, int taskId, int specId)
+        public ActionResult SelectDateTask(int orderId, int taskId, int specId, string description)
         {
             int weeks = 2;
             var currentDayOfWeek = (int)DateTimeOffset.Now.DayOfWeek;
@@ -277,6 +277,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
                 OrderId = orderId,
                 TaskId = taskId,
                 SpecializationId = specId,
+                Description = description,
             };
             return View(model);
         }
@@ -294,6 +295,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
                 Price = task.Price,
                 SpecializationName = _brigadeService.GetSpecializationById(task.IdSpecialization).Name,
                 Description = description,
+                Status = OrderTaskStatus.NotCompleted,
             };
             return View(model);
         }
@@ -301,7 +303,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [HttpGet]
         public ActionResult CreateOrderTask(int orderId, int taskId, DateTimeOffset date, string description)
         {
-            _orderService.CreateOrderTask(new OrderTaskDto { IdOrder = orderId, IdTask = taskId, TaskCompletionDate = date, Description = description });
+            _orderService.CreateOrderTask(new OrderTaskDto { IdOrder = orderId, IdTask = taskId, TaskCompletionDate = date, Description = description, Status = (int)OrderTaskStatus.NotCompleted });
             return RedirectToAction("Info", new { id = orderId });
         }
 
@@ -376,11 +378,10 @@ namespace RepairCompanyManagement.WebUI.Controllers
             }
         }
         [HttpGet]
-        public ActionResult Description(int orderId, int taskId, DateTimeOffset date, int specId)
+        public ActionResult Description(int orderId, int taskId, int specId)
         {
             var model = new OrderTaskDescriptionViewModel
             {
-                Date = date,
                 OrderId = orderId,
                 SpecId = specId,
                 TaskId = taskId,
@@ -391,7 +392,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [HttpPost]
         public ActionResult Description(OrderTaskDescriptionViewModel model)
         {
-            return RedirectToAction("ConfirmTask", "Orders", new { orderId = model.OrderId, taskId = model.TaskId, date = model.Date, description = model.Description });
+            return RedirectToAction("SelectDateTask", "Orders", new { orderId = model.OrderId, taskId = model.TaskId, specId = model.SpecId, description = model.Description });
         }
     }
 }

@@ -1,45 +1,48 @@
 ﻿@model RepairCompanyManagement.WebUI.Models.IndexProfileViewModel
 @{
     ViewBag.Title = "Your profile";
+    var isCustomer = User.IsInRole(RepairCompanyManagement.WebUI.Identity.IdentityConstants.CustomerRole);
+    var isEmployee = User.IsInRole(RepairCompanyManagement.WebUI.Identity.IdentityConstants.EmployeeRole);
+
 }
-
-<h2>@ViewBag.Title</h2>
-
 <div class="alert @ViewBag.StatusClass" role="alert">
     @ViewBag.StatusMessage
 </div>
 <div style="display: inline">
-    <hr />
-    <dl class="dl-horizontal">
-        <dt><strong>Surname</strong></dt>
-        <dd>
-            @Model.Surname
-        </dd>
-        <dt><strong>First Name</strong></dt>
-        <dd>
-            @Model.FirstName
-        </dd>
-        <dt><strong>Email</strong></dt>
-        <dd>
-            @Model.Email
-        </dd>
-        <dt><strong>Balance</strong></dt>
-        <dd>
-            @Model.Balance
-        </dd>
-        <dd>
-           
-            @Html.ActionLink("Edit", "Edit", "Profile", new { @class= "btn btn-outline-success" })
-            
-        </dd>
-    </dl>
+
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <h2>@ViewBag.Title</h2>
+                <p><strong>Surname: </strong>@Model.Surname</p>
+                <p><strong>First Name: </strong>@Model.FirstName</p>
+                <p><strong>Email: </strong>@Model.Email</p>
+                @Html.ActionLink("Edit", "Edit", "Profile", new { @class = "btn btn-outline-success" })
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                
+                @if (isCustomer)
+                {
+                    <h2>Your balance:</h2>
+            <p><strong>Balance: </strong>@Model.Balance</p>
+                }
+                @if (isEmployee)
+                {
+                    <h2>Your salary:</h2>
+            <p><strong>Salary: </strong>@Model.Salary</p>
+                }
+                
+            </div>
+        </div>
+    </div>
+    
     <br>
     <dl class="dl-horizontal">
         <dt>Password:</dt>
         <dd>
-            
             @Html.ActionLink("Change password", "ChangePassword", "Account", null, new { @class = "btn btn-outline-success" })
-            
         </dd>
     </dl>
     <br>

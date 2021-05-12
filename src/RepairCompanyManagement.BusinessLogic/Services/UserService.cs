@@ -18,9 +18,13 @@ namespace RepairCompanyManagement.BusinessLogic.Services
         private readonly IRepository<Employee> _employeeRepository;
         private readonly IRepository<Brigade> _brigadeRepository;
         private readonly IRepository<JobPosition> _jobPositionRepository;
+        private readonly IRepository<OrderTask> _orderTaskRepository;
+        private readonly IRepository<Task> _taskRepository;
         private readonly IMapper _mapper;
         public UserService(IRepository<Manager> managerRepository, IRepository<Employee> employeeRepository, IRepository<JobPosition> jobPositionRepositiory,
-           IRepository<Customer> customerRepository, IMapper mapper, IRepository<Brigade> brigadeRepository)
+           IRepository<Customer> customerRepository, IMapper mapper, IRepository<Brigade> brigadeRepository,
+           IRepository<OrderTask> orderTaskRepository,
+           IRepository<Task> taskRepository)
 
         {
             _customerRepository = customerRepository;
@@ -28,6 +32,8 @@ namespace RepairCompanyManagement.BusinessLogic.Services
             _employeeRepository = employeeRepository;
             _brigadeRepository = brigadeRepository;
             _jobPositionRepository = jobPositionRepositiory;
+            _orderTaskRepository = orderTaskRepository;
+            _taskRepository = taskRepository;
             _mapper = mapper;
         }
         public int CreateCustomer(CustomerDto item)
@@ -295,6 +301,20 @@ namespace RepairCompanyManagement.BusinessLogic.Services
                 _customerRepository.Delete(customers.Id);
             else if (employee != null)
                 _employeeRepository.Delete(employee.Id);
+        }
+
+        public decimal GetSelaryByBrigadeId(int brigadeId)
+        {
+            var dateStart = DateTimeOffset.Now.AddDays(1 - DateTimeOffset.Now.Day);
+            var dateFinish = dateStart.AddMonths(1);
+            var task = _taskRepository.GetAll().Where(x => x.IdBrigade == brigadeId).ToList();
+            var orderTask = _orderTaskRepository.GetAll().Where(x =>
+            x.Status == RepairCompanyManagement.DataAccess.Enums.OrderTaskStatus.Completed && task.Any(y => y.Id == x.IdTask) &&
+            x.TaskCompletionDate >= dateStart && x.TaskCompletionDate < dateFinish).ToList();
+            var joinedCollection = from t in task
+                                   join ot in orderTask on t.Id equals ot.IdTask
+                                   select new { selary = t.Price };
+            return joinedCollection.Sum(x => x.selary);
         }
     }
 }

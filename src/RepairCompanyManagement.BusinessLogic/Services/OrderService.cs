@@ -421,7 +421,7 @@ namespace RepairCompanyManagement.BusinessLogic.Services
             var order = _orderRepository.GetAll().FirstOrDefault(x => x.Id == orderTask.IdOrder); 
             var allOrderTaskByOrderId = _orderTaskRepository.GetAll().Where(x => x.IdOrder == order.Id).ToList();
 
-            if (allOrderTaskByOrderId.Any(x => x.Status == DataAccess.Enums.OrderTaskStatus.Completed))
+            if (allOrderTaskByOrderId.All(x => x.Status == DataAccess.Enums.OrderTaskStatus.Completed))
             {
                 order.OrderStatus = DataAccess.Enums.OrderStatus.Complited;
                 _orderRepository.Update(order);

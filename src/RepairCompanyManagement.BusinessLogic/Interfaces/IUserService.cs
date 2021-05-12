@@ -59,5 +59,7 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
 
         void ValidateCustomer(CustomerDto item);
         void RemoveFromRoles(string id);
+
+        decimal GetSelaryByBrigadeId(int brigadeId);
     }
 }

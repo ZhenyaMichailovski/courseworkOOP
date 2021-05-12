@@ -7,14 +7,16 @@
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
 </head>
 @{
-    var appName = "My App";
-    var isUser = User.IsInRole("User");
-    var isAdmin = User.IsInRole("Administator");
+    var appName = "Bob the bilder";
+    var isCustomer = User.IsInRole(RepairCompanyManagement.WebUI.Identity.IdentityConstants.CustomerRole);
+    var isAdmin = User.IsInRole(RepairCompanyManagement.WebUI.Identity.IdentityConstants.AdminRole);
+    var isManager = User.IsInRole(RepairCompanyManagement.WebUI.Identity.IdentityConstants.ManagerRole);
+    var isEmployee = User.IsInRole(RepairCompanyManagement.WebUI.Identity.IdentityConstants.EmployeeRole);
 }
 <body>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container">
-            @Html.ActionLink("My App", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink(appName, "Index", "Home", new { area = "" }, new { @class="navbar-brand" })
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -23,13 +25,21 @@
             {
                 @Html.Partial("_AnonymousUser");
             }
-            else if (isUser)
+            else if (isCustomer)
             {
                 @Html.Partial("_User");
             }
             else if (isAdmin)
             {
                 @Html.Partial("_Administrator");
+            }
+            else if(isEmployee)
+            {
+                @Html.Partial("_Employee");
+            }
+            else if (isManager)
+            {
+                @Html.Partial("_Manager");
             }
         </div>
     </nav>

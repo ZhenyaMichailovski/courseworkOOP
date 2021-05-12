@@ -1,0 +1,27 @@
+﻿<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row">
+    <partial name="_LoginPartial" />
+    <ul class="navbar-nav flex-grow-1">
+        <li class="nav-item">
+            @Html.ActionLink("Orders", "Index", "Orders", null, new { @class = "nav-link text-dark" })
+        </li>
+        <li>
+            @Html.ActionLink("Specialization", "Index", "Specializations", null, new { @class = "nav-link text-dark" })
+        </li>
+        <li>
+            @Html.ActionLink("Brigades", "Index", "Brigades", null, new { @class = "nav-link text-dark" })
+        </li>
+        <li>
+            @Html.ActionLink("Job position", "Index", "JobPositions", null, new { @class = "nav-link text-dark" })
+        </li>
+        <li>
+            @Html.ActionLink("Tasks", "Index", "Tasks", null, new { @class = "nav-link text-dark" })
+        </li>
+    </ul>
+
+</div>
+<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+    <partial name="_LoginPartial" />
+    <ul class="navbar-nav flex-grow-1">
+        @Html.Partial("_ProfileLogOutRightNavButtons")
+    </ul>
+</div>

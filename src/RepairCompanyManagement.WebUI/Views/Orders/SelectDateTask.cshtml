@@ -4,11 +4,13 @@
     {
         OrderId = Model.OrderId,
         SpecId = Model.SpecializationId,
-        TaskId = Model.TaskId
+        TaskId = Model.TaskId,
+        Description = Model.Description,
     };
 }
 @Html.HiddenFor(x => x.OrderId)
 @Html.HiddenFor(x => x.SpecializationId)
+@Html.HiddenFor(x => x.Description)
 <h2>Date for task</h2>
 <hr />
 <table>

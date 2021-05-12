@@ -32,13 +32,20 @@ namespace RepairCompanyManagement.WebUI.Controllers
         {
             var userName = User.Identity.Name;
             var userData = UserManager.FindByNameAsync(userName).Result;
-
+            decimal selary = 0;
+            var employee = _userService.GetAllEmployees().FirstOrDefault(x => x.IdentityUserID == userData.Id);
+            if (employee != null)
+            {
+                selary = _userService.GetSelaryByBrigadeId(employee.IdBrigade) * employee.Salary;
+                
+            }
             var model = new IndexProfileViewModel
             {
                 Surname = userData.Surname,
                 FirstName = userData.FirstName,
                 Balance = userData.Balance,
                 Email = userData.Email,
+                Salary = selary,
             };
 
             return View(model);

@@ -2,7 +2,7 @@
 {
     public static class IdentityConstants
     {
-        public const string AdminRole = "Administrator";
+        public const string AdminRole = "Admin";
         public const string CustomerRole = "Customer";
         public const string EmployeeRole = "Employee";
         public const string ManagerRole = "Manager";

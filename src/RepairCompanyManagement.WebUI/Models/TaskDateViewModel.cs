@@ -12,5 +12,6 @@ namespace RepairCompanyManagement.WebUI.Models
         public int TaskId { get; set; }
         public int SpecializationId { get; set; }
         public List<List<(DateTimeOffset, bool)>> AllowedDays { get; set; }
+        public string Description { get; set; }
     }
 }

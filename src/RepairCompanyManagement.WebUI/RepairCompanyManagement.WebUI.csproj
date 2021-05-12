@@ -197,6 +197,7 @@
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\OrderTasksController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SpecializationsController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -411,6 +412,10 @@
     <Content Include="Views\Tasks\Create.cshtml" />
     <Content Include="Views\Tasks\Update.cshtml" />
     <Content Include="Views\Tasks\Delete.cshtml" />
+    <Content Include="Views\Shared\_Administrator.cshtml" />
+    <Content Include="Views\Shared\_Employee.cshtml" />
+    <Content Include="Views\Shared\_Manager.cshtml" />
+    <Content Include="Views\Reports\GetReportByOrdersInYear.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

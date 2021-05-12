@@ -25,6 +25,8 @@ namespace RepairCompanyManagement.BusinessLogic
                 .AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<UserService>()
                 .AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType<ReportService>()
+                .AsImplementedInterfaces().InstancePerLifetimeScope();
         }
     }
 }
