@@ -5,7 +5,8 @@
     var isManager = User.IsInRole("Manager");
     var columnsCount = isManager ? 9 : 7;
     var totalPriceColumnsSpan = columnsCount - 3;
-    var isCustomer = User.IsInRole(RepairCompanyManagement.WebUI.Identity.IdentityConstants.CustomerRole); }
+    var isCustomer = User.IsInRole(RepairCompanyManagement.WebUI.Identity.IdentityConstants.CustomerRole); 
+   }
 
 <h2>Order</h2>
 @Html.HiddenFor(x => x.Id)

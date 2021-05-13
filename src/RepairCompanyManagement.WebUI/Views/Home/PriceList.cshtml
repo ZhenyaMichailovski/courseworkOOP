@@ -1,0 +1,30 @@
+﻿@model IReadOnlyCollection<RepairCompanyManagement.WebUI.Models.PriceListViewModel>
+
+@{ ViewBag.Title = "Task";
+    var anyTasks = Model != null; }
+
+<h2>Price list</h2>
+<hr />
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+
+    </tr>
+    @if (anyTasks)
+    {
+        foreach (var item in Model)
+        {
+<tr>
+    @Html.Partial("_PriceListTableItem", item)
+</tr>
+ }
+}
+else
+{
+<tr>
+    <td colspan="7" class="text-center">No Brigades</td>
+</tr>
+}
+</table>
+<br>

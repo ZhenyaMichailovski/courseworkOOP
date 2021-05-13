@@ -64,5 +64,17 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
 
         IReadOnlyCollection<SpecializationDto> GetAllSpecializations();
         int FindOrderTaskByOrderAndTaskIds(int orderId, int taskId);
+
+
+        //
+        int CreateFeedback(FeedbackDto item);
+
+        FeedbackDto GetFeedbackById(int id);
+
+        IReadOnlyCollection<FeedbackDto> GetAllFeedbacks();
+
+        void UpdateFeedback(FeedbackDto item);
+
+        void DeleteFeedback(int id);
     }
 }

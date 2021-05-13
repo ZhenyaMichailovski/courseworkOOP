@@ -42,7 +42,7 @@
         @Html.LabelFor(model => model.SpecializationId, new { @class = "control-label col-md-2" })
         <div class="col-md-10 center justify-content-center" style="width:250px">
             @Html.DropDownListFor(model => model.SpecializationId,
-                     new SelectList(Model.SpecializationItems, "SpecializationId", "Name", ""), new { @class = "form-control" }),
+                     new SelectList(Model.SpecializationItems, "SpecializationId", "Name", ""), new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Specialization, "", new { @class = "text-danger", @id = "error" })
         </div>
     </div>
@@ -51,7 +51,7 @@
         @Html.LabelFor(model => model.BrigadeId, new { @class = "control-label col-md-2" })
         <div class="col-md-10 center justify-content-center" style="width:250px">
             @Html.DropDownListFor(model => model.BrigadeId,
-                     new SelectList(Model.BrigadeItems, "Id", "Name", ""), new { @class = "form-control" }),
+                     new SelectList(Model.BrigadeItems, "Id", "Name", ""), new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Brigade, "", new { @class = "text-danger", @id = "error" })
         </div>
     </div>

@@ -45,6 +45,7 @@
     <Compile Include="Entities\Brigade.cs" />
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="Entities\Employee.cs" />
+    <Compile Include="Entities\Feedback.cs" />
     <Compile Include="Entities\JobPosition.cs" />
     <Compile Include="Entities\Manager.cs" />
     <Compile Include="Entities\Order.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Repositories\BrigadeRepository.cs" />
     <Compile Include="Repositories\CustomerRepository.cs" />
     <Compile Include="Repositories\EmployeeRepository.cs" />
+    <Compile Include="Repositories\FeedbackRepository.cs" />
     <Compile Include="Repositories\JobPositionRepository.cs" />
     <Compile Include="Repositories\ManagerRepository.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />

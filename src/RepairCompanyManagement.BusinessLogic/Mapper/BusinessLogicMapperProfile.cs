@@ -28,6 +28,8 @@ namespace RepairCompanyManagement.BusinessLogic.Mapper
             CreateMap<OrderTask, OrderTaskDto>().ReverseMap();
 
             CreateMap<Task, TaskDto>().ReverseMap();
+
+            CreateMap<Feedback, FeedbackDto>().ReverseMap();
         }
     }
 }

@@ -38,5 +38,21 @@ namespace RepairCompanyManagement.WebUI.Controllers
 
             return null;
         }
+        [HttpGet]
+        public ActionResult GetReportByOrdersInMonth(int month)
+        {
+            var items = _reportService.GetReportForMonth(month);
+
+            Chart chart = new Chart(width: 700, height: 300)
+                .AddTitle($"Statistics for  for brigades")
+                .AddSeries(
+                    chartType: "StackedBar",
+                    xValue: items.Select(it => it.Brigade).ToArray(),
+                    yValues: items.Select(it => it.OrderAmount).ToArray()
+                )
+                .Write();
+
+            return null;
+        }
     }
 }

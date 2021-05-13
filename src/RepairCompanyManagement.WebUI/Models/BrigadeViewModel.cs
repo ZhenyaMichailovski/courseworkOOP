@@ -14,6 +14,7 @@ namespace RepairCompanyManagement.WebUI.Models
         public string Title { get; set; }
 
         [Required(ErrorMessage = Constants.BrigadeEmptyTitleMessage)]
+        [Display(Name = "Specialization")]
         public int IdSpecialization { get; set; }
 
         public IEnumerable<SpecializationItem> SpecializationItems { get; set; }

@@ -41,8 +41,10 @@ namespace RepairCompanyManagement.WebUI.Controllers
                 var userId = UserManager.FindByNameAsync(User.Identity.Name).Result.Id;
                 var customer = _orderService.GetAllCustomers().FirstOrDefault(x => x.IdentityUserID == userId);
                 model = orders.Where(x => x.IdCustomers == customer.Id).Select(x => new OrderViewModel
-                { Id = x.Id, OrderStatus = (OrderStatus)x.OrderStatus, Requirements = x.Requirements, 
-                    Title = x.Title, Price = _orderService.GetOrderPrice(x.Id) }).ToList();
+                { Id = x.Id, OrderStatus = (OrderStatus)x.OrderStatus, Requirements = x.Requirements,
+                    Title = x.Title, Price = _orderService.GetOrderPrice(x.Id),
+                    Feedback = _orderService.GetAllFeedbacks().Any(y => y.IdOrder == x.Id),
+                }).ToList();
             }
             else
             {
@@ -52,15 +54,16 @@ namespace RepairCompanyManagement.WebUI.Controllers
                     Title = x.Title,
                     CustomerName = GetCustomerNameById(x.IdCustomers),
                     OrderStatus = (OrderStatus)x.OrderStatus,
-                    Requirements = x.Requirements
+                    Requirements = x.Requirements,
+                    
                 }).ToList();
-            }                                                   
-            return View(model.AsReadOnly());                    
-        }                         
+            }
+            return View(model.AsReadOnly());
+        }
         [HttpGet]
         [Authorize]
         public ActionResult Info(int id)
-       {
+        {
 
             var order = _orderService.GetOrderById(id);
             var userId = UserManager.FindByNameAsync(User.Identity.Name).Result.Id;
@@ -88,7 +91,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
                     TotalPrice = _orderService.GetOrderPrice(order.Id),
                     Tasks = GetTasksByOrder(order.Id),
                     CustomerName = customerName,
-                    
+
                 };
                 return View(model);
             }
@@ -106,13 +109,13 @@ namespace RepairCompanyManagement.WebUI.Controllers
             var identityCustomer = _userService.GetCustomerById(order.IdCustomers).IdentityUserID;
             var ct = UserManager.FindByIdAsync(identityCustomer).Result;
             var customerName = ct.FirstName + " " + ct.Surname;
-            return taskDtos.Select(x => new TaskViewModel 
-            { 
+            return taskDtos.Select(x => new TaskViewModel
+            {
                 Id = x.Id,
                 BrigadeName = _brigadeService.GetAllBrigades().FirstOrDefault(y => y.Id == x.IdBrigade).Title,
                 SpecializationName = _brigadeService.GetAllSpecializations()
                                         .FirstOrDefault(y => y.Id == x.IdSpecialization).Name,
-                Title = x.Title, 
+                Title = x.Title,
                 Description = x.Description,
                 Price = x.Price,
                 TaskCompletionDate = orderTasks.FirstOrDefault(y => y.IdTask == x.Id).TaskCompletionDate,
@@ -242,7 +245,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [HttpPost]
         public ActionResult SelectTask(TaskViewModel model)
         {
-            if(model != null && ModelState.IsValid)
+            if (model != null && ModelState.IsValid)
             {
                 return RedirectToAction("Description", new { orderId = model.OrderId, taskId = model.Id, specId = model.IdSpecialization });
             }
@@ -261,10 +264,10 @@ namespace RepairCompanyManagement.WebUI.Controllers
             var dateDiff = currentDayOfWeek - 1;
             var mondayDate = DateTimeOffset.Now.AddDays(-dateDiff);
             var AllowedDays = new List<List<(DateTimeOffset, bool)>>();
-            for(int i = 0; i < weeks; i++)
+            for (int i = 0; i < weeks; i++)
             {
                 AllowedDays.Add(new List<(DateTimeOffset, bool)>());
-                for(int j = 0; j < 7; j++)
+                for (int j = 0; j < 7; j++)
                 {
                     var currentDay = mondayDate.AddDays(7 * i + j);
 
@@ -320,14 +323,14 @@ namespace RepairCompanyManagement.WebUI.Controllers
                 Description = task.Description,
                 Price = task.Price,
                 TaskCompletionDate = orderTasks.FirstOrDefault(y => y.IdTask == idTask).TaskCompletionDate,
-               
+
             };
             return View(model);
         }
         [HttpGet]
         public ActionResult ConfirmDeleteTask(int idTask, int idOrder)
         {
-           _orderService.DeleteOrderTask(_orderService.FindOrderTaskByOrderAndTaskIds(idOrder, idTask));
+            _orderService.DeleteOrderTask(_orderService.FindOrderTaskByOrderAndTaskIds(idOrder, idTask));
 
             return RedirectToAction("Index", "Orders", null);
         }
@@ -335,7 +338,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
         [ExceptionFilter()]
         public ActionResult Pay(int idOrder)
         {
-            var totalPrice = _orderService.GetOrderPrice(idOrder); 
+            var totalPrice = _orderService.GetOrderPrice(idOrder);
             var user = UserManager.FindByNameAsync(User.Identity.Name).Result;
             var order = _orderService.GetOrderById(idOrder);
             if (totalPrice <= user.Balance)
@@ -358,7 +361,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
             order.OrderStatus = (int)OrderStatus.Сanceled;
             _orderService.UpdateOrder(order);
             var orderTasks = _orderService.GetAllOrderTasks().Where(x => x.IdOrder == idOrder).ToList();
-            foreach(var item in orderTasks)
+            foreach (var item in orderTasks)
                 _orderService.DeleteOrderTask(item.Id);
             return RedirectToAction("Info", "Orders", new { id = idOrder });
         }
@@ -393,6 +396,34 @@ namespace RepairCompanyManagement.WebUI.Controllers
         public ActionResult Description(OrderTaskDescriptionViewModel model)
         {
             return RedirectToAction("SelectDateTask", "Orders", new { orderId = model.OrderId, taskId = model.TaskId, specId = model.SpecId, description = model.Description });
+        }
+
+        [HttpGet]
+        public ActionResult CreateFeedback(int id)
+        {
+            var model = new FeedbackViewModel
+            {
+                OrderId = id,
+                Review = "",
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult CreateFeedback(FeedbackViewModel model)
+        {
+            if (model != null && ModelState.IsValid)
+            {
+                _orderService.CreateFeedback(new FeedbackDto
+                {
+                    IdOrder = model.OrderId,
+                    Review = model.Review,
+                });
+
+                return RedirectToAction("Index", "Orders", null);
+            }
+
+            return View(model);
         }
     }
 }

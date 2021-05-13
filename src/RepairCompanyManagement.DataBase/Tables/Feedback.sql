@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[Feedback]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
+	[IdOrder] INT NOT NULL,
+	[Review] NVARCHAR(MAX) NOT NULL, 
+)

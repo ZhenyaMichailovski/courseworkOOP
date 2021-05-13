@@ -85,6 +85,8 @@
     <Build Include="FK\FK_Specialization_Task.sql" />
     <Build Include="FK\FK_Employee_JobPositionController.sql" />
     <Build Include="FK\FK_Task_OrderTask.sql" />
+    <Build Include="Tables\Feedback.sql" />
+    <Build Include="FK\FK_Feedback_Order.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post\Script.PostDeployment.sql" />

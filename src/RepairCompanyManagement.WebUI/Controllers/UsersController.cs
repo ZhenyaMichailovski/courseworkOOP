@@ -103,9 +103,9 @@ namespace RepairCompanyManagement.WebUI.Controllers
                 return RedirectToAction("ChangeSpecialization", new { id, }); // перенос на вьюшку для эмплоера
             }
 
-            UserManager.RemoveFromRolesAsync(id, new string[]{ IdentityConstants.CustomerRole, IdentityConstants.EmployeeRole,
-            IdentityConstants.ManagerRole, IdentityConstants.AdminRole});
-            UserManager.AddToRoleAsync(id, roleName);
+            var remove = UserManager.RemoveFromRolesAsync(id, new string[]{ IdentityConstants.CustomerRole, IdentityConstants.EmployeeRole,
+            IdentityConstants.ManagerRole, IdentityConstants.AdminRole}).Result;
+            var add = UserManager.AddToRoleAsync(id, roleName).Result;
             _userService.RemoveFromRoles(id);
 
             if (roleName == IdentityConstants.CustomerRole)
@@ -146,12 +146,12 @@ namespace RepairCompanyManagement.WebUI.Controllers
         {
             if (model != null && ModelState.IsValid)
             {
-                UserManager.RemoveFromRolesAsync(model.IdentityUserId, new string[]{ IdentityConstants.CustomerRole, IdentityConstants.EmployeeRole,
-                IdentityConstants.ManagerRole, IdentityConstants.AdminRole});
-                UserManager.AddToRoleAsync(model.IdentityUserId, IdentityConstants.EmployeeRole);
+                var remov = UserManager.RemoveFromRolesAsync(model.IdentityUserId, new string[]{ IdentityConstants.CustomerRole, IdentityConstants.EmployeeRole,
+                IdentityConstants.ManagerRole, IdentityConstants.AdminRole}).Result;
+                var add = UserManager.AddToRoleAsync(model.IdentityUserId, IdentityConstants.EmployeeRole).Result;
                 _userService.RemoveFromRoles(model.IdentityUserId);
                 _userService.CreateEmployee(new EmployeeDto { IdBrigade = model.BrigadeId, IdJobPosition = model.JobPositionId , Salary = RepairCompanyManagement.BusinessLogic.Constants.SelaryCoefficient, IdentityUserID = model.IdentityUserId });
-
+               
                 return RedirectToAction("Index", "Users", null);
             }
             return View(model);

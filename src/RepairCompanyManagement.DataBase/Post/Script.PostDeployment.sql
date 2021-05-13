@@ -34,5 +34,6 @@ values('Brigadir', 'Brigadidrit')
 insert into dbo.Employee(IdBrigade, Salary, IdJobPosition, IdentityUserID)
 values(1, 1.5, 1, '88527CB8-A870-4757-AED9-DB0BC51624E5')
 
+
 insert into dbo.Manager(Salary, IdentityUserID)
 values(1000, '88527CB8-A870-4757-AED9-DB0BC51624E2')

@@ -1,0 +1,27 @@
+﻿@model RepairCompanyManagement.WebUI.Models.FeedbackViewModel
+@{
+    ViewBag.Title = "Create a new feedback for order";
+}
+<h2>@ViewBag.Title</h2>
+
+<hr />
+@using (Html.BeginForm("CreateFeedback", "Orders", FormMethod.Post, new { @class = "" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    @Html.HiddenFor(x => x.OrderId)
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group row">
+        @Html.LabelFor(m => m.Review, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Review, new { @class = "form-control", placeholder = "Title" })
+            @Html.ValidationMessageFor(m => m.Review, "", new { @class = "text-danger name" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+}
+<br>
+@Html.ActionLink("Return to Orders", "Index", "Orders", new { @class = "btn btn-outline-secondary" })

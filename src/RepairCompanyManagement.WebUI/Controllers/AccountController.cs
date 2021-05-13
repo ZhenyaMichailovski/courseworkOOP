@@ -14,15 +14,17 @@ namespace RepairCompanyManagement.WebUI.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        private IUserService _userService;
+        
         public AccountController()
             : base()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IUserService userService)
             : base(userManager, signInManager)
         {
+            _userService = userService;
         }
 
         // GET: /Account/Login
@@ -91,6 +93,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
                 {
                     UserManager.AddToRole(user.Id, IdentityConstants.CustomerRole);
                     SignInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
+                    _userService.CreateCustomer(new BusinessLogic.Dtos.CustomerDto { IdentityUserID = user.Id });
                     return RedirectToAction("Index", "Home");
                 }
 

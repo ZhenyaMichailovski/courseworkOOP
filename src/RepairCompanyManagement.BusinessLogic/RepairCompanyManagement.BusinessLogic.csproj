@@ -46,6 +46,7 @@
     <Compile Include="Dtos\BrigadeDto.cs" />
     <Compile Include="Dtos\CustomerDto.cs" />
     <Compile Include="Dtos\EmployeeDto.cs" />
+    <Compile Include="Dtos\FeedbackDto.cs" />
     <Compile Include="Dtos\JobPositionDto.cs" />
     <Compile Include="Dtos\ManagerDto.cs" />
     <Compile Include="Dtos\OrderDto.cs" />

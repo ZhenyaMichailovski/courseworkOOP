@@ -48,5 +48,19 @@ namespace RepairCompanyManagement.BusinessLogic.Services
             var brigade = _brigadeRepository.GetAll().ToList();
             return brigade.Select(x => new ReportYearDto { Brigade = x.Title, OrderAmount = brigadeTask.Count(y => y.IdBrigade == x.Id) }).ToList();
         }
+
+        public IList<ReportYearDto> GetReportForMonth(int month)
+        {
+            var dateStart = new DateTimeOffset(DateTimeOffset.Now.Year, month, 1, 1, 0, 0, 0, DateTimeOffset.Now.Offset);
+            var dateEnd = dateStart.AddMonths(1).AddDays(-1);
+
+            var taskIds = _orderTaskRepository.GetAll()
+                .Where(x => x.TaskCompletionDate >= dateStart && x.TaskCompletionDate < dateEnd)
+                .Select(x => x.IdTask)
+                .ToList();
+            var brigadeTask = taskIds.Select(x => new { _taskRepository.GetById(x).IdBrigade });
+            var brigade = _brigadeRepository.GetAll().ToList();
+            return brigade.Select(x => new ReportYearDto { Brigade = x.Title, OrderAmount = brigadeTask.Count(y => y.IdBrigade == x.Id) }).ToList();
+        }
     }
 }

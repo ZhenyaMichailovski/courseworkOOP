@@ -52,6 +52,10 @@ namespace RepairCompanyManagement.DataAccess
             builder.RegisterType<BrigadeRepository>()
                 .WithParameter("connectionString", _connectionString)
                 .AsImplementedInterfaces().InstancePerLifetimeScope();
+
+            builder.RegisterType<FeedbackRepository>()
+                .WithParameter("connectionString", _connectionString)
+                .AsImplementedInterfaces().InstancePerLifetimeScope();
         }
     }
 }

@@ -219,6 +219,7 @@
     <Compile Include="Models\EditProfileViewModel.cs" />
     <Compile Include="Models\EmployeeFullInfoViewModel.cs" />
     <Compile Include="Models\ErrorViewModel.cs" />
+    <Compile Include="Models\FeedbackViewModel.cs" />
     <Compile Include="Models\IndexProfileViewModel.cs" />
     <Compile Include="Models\JobPositionItem.cs" />
     <Compile Include="Models\JobPositionViewModel.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="Models\OrderInfoViewModel.cs" />
     <Compile Include="Models\OrderTaskDescriptionViewModel.cs" />
     <Compile Include="Models\OrderTaskItem.cs" />
+    <Compile Include="Models\PriceListViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\BrigadeViewModel.cs" />
     <Compile Include="Models\CustomerViewModel.cs" />
@@ -416,6 +418,10 @@
     <Content Include="Views\Shared\_Employee.cshtml" />
     <Content Include="Views\Shared\_Manager.cshtml" />
     <Content Include="Views\Reports\GetReportByOrdersInYear.cshtml" />
+    <Content Include="Views\Orders\CreateFeedback.cshtml" />
+    <Content Include="Views\Home\PriceList.cshtml" />
+    <Content Include="Views\Home\_PriceListTableItem.cshtml" />
+    <Content Include="Views\Reports\GetReportByOrdersInMonth.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace RepairCompanyManagement.WebUI.Controllers
 {
+    [Authorize]
     public class TasksController : Controller
     {
         private IOrderService _orderService { get; set; }
@@ -25,7 +26,7 @@ namespace RepairCompanyManagement.WebUI.Controllers
 
         [HttpGet]
         [ExceptionFilter()]
-        [Authorize(Roles = Identity.IdentityConstants.ManagerRole)]
+        
         public ActionResult Index()
         {
             var specItem = _brigadeService.GetAllSpecializations()

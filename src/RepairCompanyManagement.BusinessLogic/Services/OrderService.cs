@@ -12,7 +12,7 @@ namespace RepairCompanyManagement.BusinessLogic.Services
 {
     public class OrderService : IOrderService
     {
-       
+
         private readonly IRepository<Manager> _managerRepository;
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<Order> _orderRepository;
@@ -20,12 +20,14 @@ namespace RepairCompanyManagement.BusinessLogic.Services
         private readonly IRepository<OrderTask> _orderTaskRepository;
         private readonly IRepository<Specialization> _specializationRepository;
         private readonly IRepository<Task> _taskRepository;
+        private readonly IRepository<Feedback> _feedbackRepository;
 
         private readonly IMapper _mapper;
         public OrderService(IRepository<Order> orderRepository, IRepository<Task> taskRepository, IRepository<Manager> managerRepository, IRepository<Specialization> specializationRepository,
-        IRepository<Customer> customerRepository, IRepository<Brigade> brigadeRepository, IRepository<OrderTask> orderTaskRepository, IMapper mapper)
+        IRepository<Customer> customerRepository, IRepository<Brigade> brigadeRepository, IRepository<OrderTask> orderTaskRepository, IRepository<Feedback> feedbackRepository, IMapper mapper)
 
         {
+            _feedbackRepository = feedbackRepository;
             _customerRepository = customerRepository;
             _managerRepository = managerRepository;
             _orderRepository = orderRepository;
@@ -372,7 +374,7 @@ namespace RepairCompanyManagement.BusinessLogic.Services
             var orderTasks = _orderTaskRepository.GetAll().Where(x => x.IdOrder == id);
             var tasks = _taskRepository.GetAll();
 
-       
+
             var result = from orderTask in orderTasks
                          join t in tasks on orderTask.IdTask equals t.Id
                          select new { value = t.Price };
@@ -404,7 +406,7 @@ namespace RepairCompanyManagement.BusinessLogic.Services
         {
             var orderTask = _orderTaskRepository.GetById(idOrderTask);
             var order = _orderRepository.GetAll().FirstOrDefault(x => x.Id == orderTask.IdOrder);
-           
+
             if ((int)orderTask.Status == (int)DataAccess.Enums.OrderTaskStatus.NotCompleted)
             {
                 orderTask.Status = DataAccess.Enums.OrderTaskStatus.Completed;
@@ -418,7 +420,7 @@ namespace RepairCompanyManagement.BusinessLogic.Services
         public void ChangeOrderStatus(int idOrderTask)
         {
             var orderTask = _orderTaskRepository.GetById(idOrderTask);
-            var order = _orderRepository.GetAll().FirstOrDefault(x => x.Id == orderTask.IdOrder); 
+            var order = _orderRepository.GetAll().FirstOrDefault(x => x.Id == orderTask.IdOrder);
             var allOrderTaskByOrderId = _orderTaskRepository.GetAll().Where(x => x.IdOrder == order.Id).ToList();
 
             if (allOrderTaskByOrderId.All(x => x.Status == DataAccess.Enums.OrderTaskStatus.Completed))
@@ -426,6 +428,41 @@ namespace RepairCompanyManagement.BusinessLogic.Services
                 order.OrderStatus = DataAccess.Enums.OrderStatus.Complited;
                 _orderRepository.Update(order);
             }
+        }
+
+        public int CreateFeedback(FeedbackDto item)
+        {
+
+            return _feedbackRepository.Create(_mapper.Map<Feedback>(item));
+        }
+
+        public FeedbackDto GetFeedbackById(int id)
+        {
+            var response = _feedbackRepository.GetById(id);
+
+            if (response is null)
+            {
+                throw new BusinessLogicException("Feedback not found");
+            }
+
+            return _mapper.Map<FeedbackDto>(response);
+        }
+        public IReadOnlyCollection<FeedbackDto> GetAllFeedbacks()
+        {
+            return _mapper.Map<IEnumerable<FeedbackDto>>(_feedbackRepository.GetAll())
+                .ToList().AsReadOnly();
+        }
+        public void UpdateFeedback(FeedbackDto item)
+        {
+
+            _feedbackRepository.Update(_mapper.Map<Feedback>(item));
+        }
+        public void DeleteFeedback(int id)
+        {
+            if (_feedbackRepository.GetById(id) is null)
+                throw new BusinessLogicException("Feedback not found");
+
+            _feedbackRepository.Delete(id);
         }
     }
 }

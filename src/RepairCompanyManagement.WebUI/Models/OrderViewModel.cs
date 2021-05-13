@@ -24,5 +24,6 @@ namespace RepairCompanyManagement.WebUI.Models
         public OrderStatus OrderStatus { get; set; }
         [Display(Name = "Requirements")]
         public string Requirements { get; set; }
+        public bool Feedback { get; set; }
     }
 }

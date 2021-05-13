@@ -4,4 +4,12 @@
 <td>@Model.Title</td>
 <td>@Model.Price</td>
 <td>@Model.Requirements</td>
-<td> @Html.ActionLink("Info", "Info", "Orders", new { id = Model.Id, }, new { @class = "btn btn-outline-primary" })</td>
+@if (Model.OrderStatus == RepairCompanyManagement.WebUI.Enums.OrderStatus.Completed && Model.Feedback == false)
+{
+    <td>@Html.ActionLink("Create feedback", "CreateFeedback", "Orders", new { id = Model.Id }, new { @class = "btn btn-outline-primary" })</td>
+}
+else
+{
+    <td> @Html.ActionLink("Info", "Info", "Orders", new { id = Model.Id, }, new { @class = "btn btn-outline-primary" })</td>
+}
+

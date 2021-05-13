@@ -1,0 +1,14 @@
+﻿@using (Html.BeginForm("GetReportByOrdersInMonth", "Reports", routeValues: new { month = 1 }, FormMethod.Get, new { }))
+{
+<div class="d-flex">
+    <div class="p-2 w-50">
+        <strong class="text-black">Report: </strong>
+    </div>
+    <form method="get">
+        <input type="date" name="time" />
+        <div class="p-2 flex-fill">
+            <input type="submit" value="Get report" class="btn btn-outline-secondary" />
+        </div>
+    </form>
+</div>}
+<br />

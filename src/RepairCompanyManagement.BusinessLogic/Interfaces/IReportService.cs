@@ -10,5 +10,6 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
     public interface IReportService
     {
         IList<ReportYearDto> GetReportForYear();
+        IList<ReportYearDto> GetReportForMonth(int month);
     }
 }
