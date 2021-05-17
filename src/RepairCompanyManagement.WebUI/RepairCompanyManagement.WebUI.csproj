@@ -225,6 +225,7 @@
     <Compile Include="Models\JobPositionViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\ManagerTaskViewModel.cs" />
+    <Compile Include="Models\Month.cs" />
     <Compile Include="Models\OrderInfoViewModel.cs" />
     <Compile Include="Models\OrderTaskDescriptionViewModel.cs" />
     <Compile Include="Models\OrderTaskItem.cs" />
@@ -236,6 +237,8 @@
     <Compile Include="Models\ManagerViewModel.cs" />
     <Compile Include="Models\OrderTaskViewModel.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
+    <Compile Include="Models\ReportMonthViewModel.cs" />
+    <Compile Include="Models\ReportViewModel.cs" />
     <Compile Include="Models\SetSelaryViewModel.cs" />
     <Compile Include="Models\SpecializationItem.cs" />
     <Compile Include="Models\SpecializationViewModel.cs" />
@@ -422,6 +425,8 @@
     <Content Include="Views\Home\PriceList.cshtml" />
     <Content Include="Views\Home\_PriceListTableItem.cshtml" />
     <Content Include="Views\Reports\GetReportByOrdersInMonth.cshtml" />
+    <Content Include="Views\Reports\Index.cshtml" />
+    <Content Include="Views\Reports\SelectMonth.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

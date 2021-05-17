@@ -62,5 +62,26 @@ namespace RepairCompanyManagement.BusinessLogic.Services
             var brigade = _brigadeRepository.GetAll().ToList();
             return brigade.Select(x => new ReportYearDto { Brigade = x.Title, OrderAmount = brigadeTask.Count(y => y.IdBrigade == x.Id) }).ToList();
         }
+
+        public IList<MonthDto> GetAllMonth()
+        {
+            var model = new List<MonthDto>();
+
+            model.Add(new MonthDto { MonthId = 1, MonthName = "Январь" });
+            model.Add(new MonthDto { MonthId = 2, MonthName = "Февраль" });
+            model.Add(new MonthDto { MonthId = 3, MonthName = "Март" });
+            model.Add(new MonthDto { MonthId = 4, MonthName = "Апрель" });
+            model.Add(new MonthDto { MonthId = 5, MonthName = "Май" });
+            model.Add(new MonthDto { MonthId = 6, MonthName = "Июнь" });
+            model.Add(new MonthDto { MonthId = 7, MonthName = "Июль" });
+            model.Add(new MonthDto { MonthId = 8, MonthName = "Август" });
+            model.Add(new MonthDto { MonthId = 9, MonthName = "Сентябрь" });
+            model.Add(new MonthDto { MonthId = 10, MonthName = "Октябрь" });
+            model.Add(new MonthDto { MonthId = 11, MonthName = "Ноябрь" });
+            model.Add(new MonthDto { MonthId = 12, MonthName = "Декабрь" });
+
+            return model;
+            
+        }
     }
 }

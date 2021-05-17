@@ -11,5 +11,6 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
     {
         IList<ReportYearDto> GetReportForYear();
         IList<ReportYearDto> GetReportForMonth(int month);
+        IList<MonthDto> GetAllMonth();
     }
 }

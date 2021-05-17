@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace RepairCompanyManagement.WebUI.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : IdentityBaseController
     {
         private IOrderService _orderService { get; set; }
         private IBrigadeService _brigadeService { get; set; }
@@ -27,7 +27,13 @@ namespace RepairCompanyManagement.WebUI.Controllers
         }
         public ActionResult Index()
         {
-            return View();
+            var feedback = _orderService.GetAllFeedbacks();
+            var model = feedback.Select(x => new ReportViewModel
+            {
+                Report = x.Review,
+               // CustomerName = UserManager.FindByIdAsync(_orderService.GetCustomerIdentiryByOrder(x.IdOrder)).Result.FirstName,
+            }).ToList().AsReadOnly();
+            return View(model);
         }
 
         [HttpGet]

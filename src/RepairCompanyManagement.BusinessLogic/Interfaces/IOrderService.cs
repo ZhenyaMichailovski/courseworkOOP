@@ -11,7 +11,7 @@ namespace RepairCompanyManagement.BusinessLogic.Interfaces
 
         IReadOnlyCollection<ManagerDto> GetAllManagers();
 
-
+        string GetCustomerIdentiryByOrder(int IdOrder);
         ////////////////////////
         ///
         void ChangeOrderTaskStatus(int idOrderTask);

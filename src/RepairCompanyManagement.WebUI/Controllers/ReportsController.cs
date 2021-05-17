@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace RepairCompanyManagement.WebUI.Controllers
 {
+    [Authorize(Roles =Identity.IdentityConstants.AdminRole)]
     public class ReportsController : Controller
     {
         private readonly IReportService _reportService;
@@ -20,6 +21,34 @@ namespace RepairCompanyManagement.WebUI.Controllers
         {
             _reportService = reportService;
             _mapper = mapper;
+        }
+
+        [HttpGet]
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult SelectMonth()
+        {
+            var model = new ReportMonthViewModel
+            {
+                MonthId = 0,
+                MonthName = "",
+                Months = _mapper.Map<List<Month>>(_reportService.GetAllMonth()),
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult SelectMonth(ReportMonthViewModel model)
+        {
+            if(model != null && ModelState.IsValid)
+            {
+                return RedirectToAction("GetReportByOrdersInMonth", "Reports", new { month = model.MonthId, monthName = model.MonthName });
+            }
+            return View("SelectMonth", "Reports");
         }
 
         [HttpGet]
@@ -39,12 +68,12 @@ namespace RepairCompanyManagement.WebUI.Controllers
             return null;
         }
         [HttpGet]
-        public ActionResult GetReportByOrdersInMonth(int month)
+        public ActionResult GetReportByOrdersInMonth(int month, string monthName )
         {
             var items = _reportService.GetReportForMonth(month);
 
             Chart chart = new Chart(width: 700, height: 300)
-                .AddTitle($"Statistics for  for brigades")
+                .AddTitle($"Statistics for "+ monthName +" for brigades")
                 .AddSeries(
                     chartType: "StackedBar",
                     xValue: items.Select(it => it.Brigade).ToArray(),

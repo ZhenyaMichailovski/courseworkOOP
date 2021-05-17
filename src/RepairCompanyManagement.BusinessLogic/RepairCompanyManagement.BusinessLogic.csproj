@@ -49,6 +49,7 @@
     <Compile Include="Dtos\FeedbackDto.cs" />
     <Compile Include="Dtos\JobPositionDto.cs" />
     <Compile Include="Dtos\ManagerDto.cs" />
+    <Compile Include="Dtos\MonthDto.cs" />
     <Compile Include="Dtos\OrderDto.cs" />
     <Compile Include="Dtos\OrderTaskDto.cs" />
     <Compile Include="Dtos\ReportYearDto.cs" />

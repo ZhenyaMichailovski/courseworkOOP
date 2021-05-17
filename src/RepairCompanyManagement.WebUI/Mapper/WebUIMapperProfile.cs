@@ -13,6 +13,7 @@ namespace RepairCompanyManagement.WebUI.Mapper
             CreateMap<JobPositionDto, JobPositionViewModel>().ReverseMap();
             CreateMap<BrigadeDto, BrigadeViewModel>().ReverseMap();
             CreateMap<EmployeeFullInfoViewModel, User>().ReverseMap();
+            CreateMap<MonthDto, Month>().ReverseMap();
         }
     }
 }

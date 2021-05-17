@@ -1,0 +1,26 @@
+﻿@model RepairCompanyManagement.WebUI.Models.ReportMonthViewModel
+@{ ViewBag.Title = "Select month for report"; }
+<h2>@ViewBag.Title</h2>
+
+<hr />
+@using (Html.BeginForm("SelectMonth", "Reports", FormMethod.Post, new { @class = "" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+   // @Html.HiddenFor(x => x.SpecializationItems)
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.MonthId, new { @class = "control-label col-md-2" })
+        <div class="col-md-10 center justify-content-center" style="width:250px">
+            @Html.DropDownListFor(model => model.MonthId,
+                     new SelectList(Model.Months, "MonthId", "MonthName", Model.MonthName), new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.MonthId, "", new { @class = "text-danger", @id = "error" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Get Report</button>
+    </div>
+}
+<br>
+@Html.Partial("_ReturnToBrigades")

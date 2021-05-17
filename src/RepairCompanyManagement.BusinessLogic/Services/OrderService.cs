@@ -464,5 +464,10 @@ namespace RepairCompanyManagement.BusinessLogic.Services
 
             _feedbackRepository.Delete(id);
         }
+        public string GetCustomerIdentiryByOrder(int IdOrder)
+        {
+            var order = _orderRepository.GetById(IdOrder);
+            return _customerRepository.GetById(order.IdCustomers).IdentityUserID;
+        }
     }
 }

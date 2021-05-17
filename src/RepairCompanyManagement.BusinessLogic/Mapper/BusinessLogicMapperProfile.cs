@@ -8,8 +8,6 @@ namespace RepairCompanyManagement.BusinessLogic.Mapper
     {
         public BusinessLogicMapperProfile()
         {
-            // here we should have all the rules for mapping
-            // between DTOs and simple entities
 
             CreateMap<Specialization, SpecializationDto>().ReverseMap();
 
