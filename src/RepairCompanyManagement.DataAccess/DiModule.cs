@@ -16,7 +16,7 @@ namespace RepairCompanyManagement.DataAccess
         {
             // here we should add our repositories
             // to use them with Dependency Injection Autofac Container
-
+            
             builder.RegisterType<SpecializationRepository>()
                 .WithParameter("connectionString", _connectionString)
                 .AsImplementedInterfaces().InstancePerLifetimeScope();

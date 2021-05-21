@@ -15,7 +15,7 @@ namespace RepairCompanyManagement.BusinessLogic
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterModule(new RepairCompanyManagement.DataAccess.DiModule(_connectionString));
-
+            
             // here we should add our BusinessLogic services
             // to manipulate on repositories
 
