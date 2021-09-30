@@ -23,17 +23,19 @@ insert into dbo.[Customer](IdentityUserID)
 values('88527CB8-A870-4757-AED9-DB0BC51624E3')
 
 insert into dbo.[Specialization](Name, Description)
-values('Electric', 'Electrichat')
+values('Electric', 'Electrichat'),
+('Montagnik', 'Montagat')
 
 insert into dbo.Brigade(Title, IdSpecialization)
-values('Chom', 1)
+values('Chom', 1),
+('Nikel', '2')
 
 insert into dbo.JobPosition(Title, Purpose)
-values('Brigadir', 'Brigadidrit')
+values('Brigadir', 'Brigadidrit'),
+('Admin', 'Adminit')
 
 insert into dbo.Employee(IdBrigade, Salary, IdJobPosition, IdentityUserID)
 values(1, 1.5, 1, '88527CB8-A870-4757-AED9-DB0BC51624E5')
-
 
 insert into dbo.Manager(Salary, IdentityUserID)
 values(1000, '88527CB8-A870-4757-AED9-DB0BC51624E2')
