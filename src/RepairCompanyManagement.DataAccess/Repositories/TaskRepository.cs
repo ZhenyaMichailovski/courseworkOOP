@@ -17,6 +17,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
         }
         public int Create(Task item)
         {
+            
             string sqlExpression = $"INSERT INTO Task (Title, IdSpecialization, Price, Description, IdBrigade)" +
                 " VALUES (@title, @idSpecialization, @price, @description, @idBrigade); SELECT SCOPE_IDENTITY()";
 
@@ -27,18 +28,20 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                 {
                     command.Parameters.AddRange(new SqlParameter[]
                         {
-                            new SqlParameter("@title", item.Title),
-                            new SqlParameter("@idSpecialization", item.IdSpecialization),
-                            new SqlParameter("@price", item.Price),
-                            new SqlParameter("@description", item.Description),
-                            
-                            new SqlParameter("@idBrigade", item.IdBrigade),
-                        
+                    new SqlParameter("@title", item.Title),
+                    new SqlParameter("@idSpecialization", item.IdSpecialization),
+                    new SqlParameter("@price", item.Price),
+                    new SqlParameter("@description", item.Description),
+
+                    new SqlParameter("@idBrigade", item.IdBrigade),
+
                         });
 
                     return command.ExecuteNonQuery();
                 }
             }
+           
+            
         }
         public void Delete(int id)
         {
@@ -53,8 +56,10 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                     command.Parameters.Add(idParam);
 
                     command.ExecuteNonQuery();
+
                 }
             }
+
         }
 
         public IEnumerable<Task> GetAll()
@@ -78,10 +83,10 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                                 IdSpecialization = (int)reader["IdSpecialization"],
                                 Price = Convert.ToDecimal(reader["Price"]),
                                 Description = reader["Description"].ToString(),
-                                
+
                                 IdBrigade = (int)reader["IdBrigade"],
-                     
-                            }) ;
+
+                            });
                         }
                     }
                 }
@@ -111,7 +116,7 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                             Price = Convert.ToDecimal(reader["Price"]),
                             Description = reader["Description"].ToString(),
                             IdBrigade = (int)reader["IdBrigade"],
-                            
+
                         } : null;
                     }
                 }
@@ -144,5 +149,6 @@ namespace RepairCompanyManagement.DataAccess.Repositories
                 }
             }
         }
+    
     }
 }

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepairCompanyManagement.Web
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "RepairCompanyManagement.DataBase", "src\RepairCompanyManagement.DataBase\RepairCompanyManagement.DataBase.sqlproj", "{5C4F64D5-245D-4C25-85AD-BA22A63F163F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepairCompanyManagment.Tests", "RepairCompanyManagment.Tests\RepairCompanyManagment.Tests.csproj", "{A7C63009-E8A8-4847-82E8-E1ACB15585CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{5C4F64D5-245D-4C25-85AD-BA22A63F163F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C4F64D5-245D-4C25-85AD-BA22A63F163F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5C4F64D5-245D-4C25-85AD-BA22A63F163F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{A7C63009-E8A8-4847-82E8-E1ACB15585CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7C63009-E8A8-4847-82E8-E1ACB15585CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7C63009-E8A8-4847-82E8-E1ACB15585CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7C63009-E8A8-4847-82E8-E1ACB15585CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
