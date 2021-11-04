@@ -13,6 +13,8 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "RepairCompanyManagement.Dat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepairCompanyManagment.Tests", "RepairCompanyManagment.Tests\RepairCompanyManagment.Tests.csproj", "{A7C63009-E8A8-4847-82E8-E1ACB15585CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepairCompanyManagement.DataAccessMongoDB", "RepairCompanyManagement.DataAccessMongoDB\RepairCompanyManagement.DataAccessMongoDB.csproj", "{190EC349-0D9A-4EB0-9569-42C3FB592F86}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{A7C63009-E8A8-4847-82E8-E1ACB15585CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7C63009-E8A8-4847-82E8-E1ACB15585CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7C63009-E8A8-4847-82E8-E1ACB15585CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{190EC349-0D9A-4EB0-9569-42C3FB592F86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{190EC349-0D9A-4EB0-9569-42C3FB592F86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{190EC349-0D9A-4EB0-9569-42C3FB592F86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{190EC349-0D9A-4EB0-9569-42C3FB592F86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

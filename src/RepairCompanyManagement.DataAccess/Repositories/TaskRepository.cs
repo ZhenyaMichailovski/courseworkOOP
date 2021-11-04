@@ -1,5 +1,6 @@
 ﻿using RepairCompanyManagement.DataAccess.Entities;
 using RepairCompanyManagement.DataAccess.Enums;
+using RepairCompanyManagement.DataAccess.Exceptions;
 using RepairCompanyManagement.DataAccess.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -17,28 +18,34 @@ namespace RepairCompanyManagement.DataAccess.Repositories
         }
         public int Create(Task item)
         {
-            
-            string sqlExpression = $"INSERT INTO Task (Title, IdSpecialization, Price, Description, IdBrigade)" +
-                " VALUES (@title, @idSpecialization, @price, @description, @idBrigade); SELECT SCOPE_IDENTITY()";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                using (SqlCommand command = new SqlCommand(sqlExpression, connection))
+                string sqlExpression = $"INSERT INTO Task (Title, IdSpecialization, Price, Description, IdBrigade)" +
+                    " VALUES (@title, @idSpecialization, @price, @description, @idBrigade); SELECT CAST(scope_identity() AS int)";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    command.Parameters.AddRange(new SqlParameter[]
-                        {
-                    new SqlParameter("@title", item.Title),
-                    new SqlParameter("@idSpecialization", item.IdSpecialization),
-                    new SqlParameter("@price", item.Price),
-                    new SqlParameter("@description", item.Description),
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(sqlExpression, connection))
+                    {
+                        command.Parameters.AddRange(new SqlParameter[]
+                            {
+                                new SqlParameter("@title", item.Title),
+                                new SqlParameter("@idSpecialization", item.IdSpecialization),
+                                new SqlParameter("@price", item.Price),
+                                new SqlParameter("@description", item.Description),
 
-                    new SqlParameter("@idBrigade", item.IdBrigade),
+                                new SqlParameter("@idBrigade", item.IdBrigade),
 
-                        });
+                            });
 
-                    return command.ExecuteNonQuery();
+                        return (int)command.ExecuteScalar();
+                    }
                 }
+            }
+            catch
+            {
+                throw new DataException("");
             }
            
             
