@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using System;
 
 namespace RepairCompanyManagement.DataAccessMongoDB.Repositories
 {
@@ -32,7 +33,17 @@ namespace RepairCompanyManagement.DataAccessMongoDB.Repositories
                         var customer = doc.AsBsonDocument["Customer"];
                         
                         List<OrderTask> items = new List<OrderTask>();
-                        
+                        var tmp = doc["OrderTask"].AsBsonArray;
+                        foreach(var i in tmp)
+                        {
+                            items.Add(new OrderTask()
+                            {
+                                IdTask = i["IdTask"].AsInt32,
+                                Status = i["Statuc"].AsString,
+                                Decsription = i["Decsription"].AsString,
+                                TaskCompletionDate = Convert.ToDateTime(i["TaskCompletionDate"].AsString)
+                            });
+                        }
                         order.Add(new Order()
                         {
                             Title = doc["Title"].AsString,
@@ -44,50 +55,84 @@ namespace RepairCompanyManagement.DataAccessMongoDB.Repositories
                                 LastName = doc["LastName"].AsString,
                                 Email = doc["Email"].AsString
                             },
+                            OrderTask = items,
                             Requirements = doc["Requirements"].AsString,
                             Review = doc["Review"].AsString
                         });
                     }
                 }
             }
-            return brigade;
+            return order;
         }
 
-        public void Create(Brigade brigade)
+        public void Create(Order order)
         {
             var items = GetAll();
+            BsonArray array = new BsonArray();
+            
+            for(int i = 0; i < order.OrderTask.Count; i++)
+            {
+                array.Add(new BsonDocument
+                {
+                    
+                    { "IdTask", new BsonInt32(order.OrderTask[i].IdTask) },
+                    { "Statuc", new BsonString(order.OrderTask[i].Status) },
+                    { "Decsription", new BsonString(order.OrderTask[i].Decsription) },
+                    { "TaskCompletionDate", new BsonDateTime(order.OrderTask[i].TaskCompletionDate) }
+                });
+            }
             BsonDocument elements = new BsonDocument
             {
-                { "id", new BsonInt32(items.Count() + 1) },
-                { "Title", brigade.Title },
-                { "Specialization", new BsonDocument {
-                    { "id", new BsonInt32(brigade.Specialization.Id) },
-                    { "Name", brigade.Specialization.Name }
-                    }
-                }
+                { "Title", order.Title },
+                { "Customer", new BsonDocument{
+                    { "Id", new BsonInt32(order.Customer.Id) },
+                    { "Surname", new BsonString(order.Customer.Surname) },
+                    { "FirstName", new BsonString(order.Customer.FirstName) },
+                    { "LastName", new BsonString(order.Customer.LastName) },
+                    { "Email", new BsonString(order.Customer.Email) },
+                } },
+                { "Requirements", new BsonString(order.Requirements)},
+                { "Review", new BsonString(order.Review) },
+                { "OrderTask", new BsonArray(array) }
             };
 
             collection.InsertOne(elements);
 
         }
-        public Brigade GetById(int id)
+        public Order GetById(int id)
         {
             var filter = new BsonDocument("id", id);
             var doc = collection.Find(filter).FirstOrDefault();
-
-            var spec = doc.AsBsonDocument["Specialization"];
-            var specialization = new Brigade()
+            List<OrderTask> items = new List<OrderTask>();
+            var tmp = doc["OrderTask"].AsBsonArray;
+            
+            foreach (var i in tmp)
             {
-                Id = doc["id"].AsInt32,
-                Title = doc["Title"].AsString,
-                Specialization = new Specialization()
+                items.Add(new OrderTask()
                 {
-                    Id = spec["id"].AsInt32,
-                    Name = spec["Name"].AsString,
-                }
+                    IdTask = i["IdTask"].AsInt32,
+                    Status = i["Statuc"].AsString,
+                    Decsription = i["Decsription"].AsString,
+                    TaskCompletionDate = Convert.ToDateTime(i["TaskCompletionDate"].AsString)
+                });
+            }
+            var order = new Order()
+            {
+                Title = doc["Title"].AsString,
+                Customer = new Customer()
+                {
+                    Id = doc["id"].AsInt32,
+                    Surname = doc["Surname"].AsString,
+                    FirstName = doc["FirstName"].AsString,
+                    LastName = doc["LastName"].AsString,
+                    Email = doc["Email"].AsString
+                },
+                OrderTask = items,
+                Requirements = doc["Requirements"].AsString,
+                Review = doc["Review"].AsString
             };
 
-            return specialization;
+            return order;
         }
         public void Delete(int id)
         {
